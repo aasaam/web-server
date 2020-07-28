@@ -1,0 +1,189 @@
+############
+# Upstream #
+############
+upstream upstream_test {
+  server 192.168.1.1;
+}
+
+########
+# HTTP #
+########
+server {
+  listen 80;
+
+  server_name test.tld www.test.tld;
+
+  return 301 https://$host$request_uri;
+}
+
+#########
+# HTTPS #
+#########
+server {
+  listen 443 ssl http2;
+
+  server_name test.tld www.test.tld;
+
+  ################
+  # Auth Request #
+  ################
+  # http://nginx.org/en/docs/http/ngx_http_auth_request_module.html
+  # disable
+  set $enabled_auth_request '';
+  # enable
+  # set $enabled_auth_request '1';
+  # set $auth_server 'https://auth.server.tld';
+  # auth_request /validate;
+  # location /.well-known/aasaam/auth_request {
+  #   proxy_pass http://127.0.0.1:9090/validate;
+  #   proxy_set_header Host $http_host;
+  #   proxy_pass_request_body off;
+  #   proxy_set_header Content-Length "";
+  #   auth_request_set $auth_user_id $upstream_http_x_user_id;
+  #   auth_request_set $auth_user_token $upstream_http_x_user_token;
+  # }
+  # error_page 401 = @error401;
+  # location @error401 {
+  #   return 302 $auth_server?url=$scheme://$http_host$request_uri;
+  # }
+
+  # essential server defaults
+  include /usr/local/openresty/nginx/defaults/server_include_defaults.conf;
+
+  ###########
+  # Browser #
+  ###########
+  # block not modern browser
+  # if ($agent_is_modern = '0') {
+  #   return 437;
+  # }
+  # or block not modern browser or not crawler
+  # if ($agent_is_modern_or_crawler = '0') {
+  #   return 437;
+  # }
+
+  #######
+  # SSL #
+  #######
+  # A: security recommended
+  include /usr/local/openresty/nginx/defaults/server_http2_modern.conf;
+  # for backward tls versions
+  # B: include /usr/local/openresty/nginx/defaults/server_http2_intermediate.conf;
+  # for ancient clients and applications (not recommended)
+  # C: include /usr/local/openresty/nginx/defaults/server_http2_legacy.conf;
+
+  ssl_certificate /usr/local/openresty/nginx/addon/ssl/fullchain.pem;
+  ssl_certificate_key /usr/local/openresty/nginx/addon/ssl/privkey.pem;
+  ssl_trusted_certificate /usr/local/openresty/nginx/addon/ssl/chain.pem;
+  ssl_stapling on;
+  ssl_stapling_verify on;
+
+  # comment out if you sure want to serve always https
+  # add_header Strict-Transport-Security "max-age=63072000" always;
+
+  # client-side certificate authentication
+  # ssl_verify_client on;
+
+  ##########
+  # Sentry #
+  ##########
+  # set $sentry_project '0';
+  # set $sentry_key '00000000000000000000000000000000';
+  # set $sentry_host 'sentry.tld';
+
+  # sentry certificate transparency
+  # add_header 'Expect-CT' 'report-uri="https://$sentry_host/api/$sentry_project/security/?sentry_key=$sentry_key"';
+
+  # catch console.* to sentry for front debugging if backend not implemented
+  # include /usr/local/openresty/nginx/defaults/server_sentry.conf;
+
+  #############
+  # PageSpeed #
+  #############
+
+  # A: disable
+  set $pagespeed_is_enable '';
+  pagespeed off;
+
+  # B: enable via
+  # set $pagespeed_is_enable '1';
+  # pagespeed on;
+  # pagespeed Domain $http_host;
+  # B1:
+  # include /usr/local/openresty/nginx/defaults/page_speed_profile_1.conf;
+  # B2:
+  # include /usr/local/openresty/nginx/defaults/page_speed_profile_2.conf;
+
+  #########
+  # naxsi #
+  #########
+  # for apply waf
+  include /usr/local/openresty/nginx/defaults/server_naxsi_apply.conf;
+  # for testing
+  # include /usr/local/openresty/nginx/defaults/server_naxsi_debug.conf;
+
+  #########
+  # Proxy #
+  #########
+  location / {
+    # pass headers to proxy backend
+    include /usr/local/openresty/nginx/defaults/location_proxy_headers.conf;
+
+    #########
+    # Cache #
+    #########
+    # proxy_buffering on;
+    # proxy_cache PROXYCACHE;
+    # proxy_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504;
+    # proxy_cache_background_update on;
+    # proxy_cache_bypass $http_cookie_admin;
+    # proxy_cache_valid 200 302 10m;
+    # proxy_cache_valid 404 1m;
+    # add_header 'X-Cache-Status' $upstream_cache_status;
+
+    # # upload size
+    # client_max_body_size 10M;
+
+    # # A: proxy http
+    include /usr/local/openresty/nginx/defaults/location_proxy_http.conf;
+    proxy_pass http://upstream_test;
+
+    # # B: proxy https insecure (LAN or trusted network)
+    # include /usr/local/openresty/nginx/defaults/location_proxy_https_insecure.conf;
+    # proxy_pass https://upstream_test;
+
+    # # C: proxy https secure (WAN or untrusted network)
+    # include /usr/local/openresty/nginx/defaults/location_proxy_https_secure.conf;
+    # proxy_ssl_certificate /usr/local/openresty/nginx/addon/ssl/client.pem;
+    # proxy_ssl_certificate_key /usr/local/openresty/nginx/addon/ssl/client.key;
+    # proxy_ssl_trusted_certificate /etc/nginx/trusted_ca_cert.crt;
+    # proxy_pass https://upstream_test;
+  }
+
+  ###########
+  # FastCGI #
+  ###########
+  # location / {
+    # pass headers to proxy backend
+    # include /usr/local/openresty/nginx/defaults/fastcgi_params.conf;
+
+    #########
+    # Cache #
+    #########
+    # fastcgi_buffering on;
+    # fastcgi_cache PROXYCACHE;
+    # fastcgi_cache_valid 200 1h;
+    # fastcgi_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504;
+    # fastcgi_cache_background_update on;
+    # fastcgi_cache_bypass $http_cookie_admin;
+    # fastcgi_cache_valid 200 302 10m;
+    # fastcgi_cache_valid 404 1m;
+    # add_header 'X-Cache-Status' $upstream_cache_status;
+
+    # # upload size
+    # client_max_body_size 10M;
+
+    # address
+    # fastcgi_pass 127.0.0.1:9000;
+  # }
+}

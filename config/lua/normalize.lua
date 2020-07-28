@@ -1,0 +1,115 @@
+local _M = { _VERSION = '0.0.1' }
+
+function _M.parse(
+  request_ip,
+  client_uid,
+  uid_set,
+  geo_country_code,
+  http_user_agent,
+  http_host,
+  http_referrer
+)
+  local uid = client_uid or ''
+  local country_code = geo_country_code or ''
+  local host = http_host or ''
+  local referrer = http_referrer or ''
+  local user_agent = http_user_agent or ''
+
+  local parsed_data = {
+    ip_class='',
+    client_new='',
+    foreign_referrer_host='',
+    client_uid='',
+
+    agent_all='',
+    agent_category='',
+    agent_hash='',
+    agent_is_modern_or_crawler='0',
+    agent_is_modern='0',
+    agent_name='',
+    agent_os_version_major='',
+    agent_os_version='',
+    agent_os='',
+    agent_vendor='',
+    agent_version_major='',
+    agent_version='',
+
+    geo_country_currency='',
+    geo_country_flag='',
+    geo_default_lang_direction='',
+    geo_default_lang='',
+  }
+
+  -- ip classification
+  parsed_data.ip_class = utils.ip_class(request_ip)
+
+  -- client uid
+  parsed_data.client_uid = utils.md5(uid)
+
+  -- countries helper
+  parsed_data.geo_country_currency = locales.get_country_currency(country_code)
+  parsed_data.geo_country_flag = locales.get_country_flag(country_code)
+  parsed_data.geo_default_lang = locales.get_default_lang(country_code)
+  parsed_data.geo_default_lang_direction = locales.get_default_direction(country_code)
+
+  -- client new
+  if utils.is_empty(uid_set) then
+    parsed_data.client_new = '0'
+  else
+    parsed_data.client_new = '1'
+  end
+
+  -- agent
+  local r = resty_woothee.parse(user_agent)
+
+  -- names
+  parsed_data.agent_name = utils.normalize(r.name)
+  parsed_data.agent_os = utils.normalize(r.os)
+  parsed_data.agent_category = utils.normalize(r.category)
+  parsed_data.agent_vendor = utils.normalize(r.vendor)
+
+  -- versions
+  parsed_data.agent_version = utils.normalize_version(r.version)
+  parsed_data.agent_version_major = utils.normalize_version_major(r.version)
+  parsed_data.agent_os_version = utils.normalize_version(r.os_version)
+  parsed_data.agent_os_version_major = utils.normalize_version_major(r.os_version)
+
+  -- modern
+  parsed_data.agent_is_modern = browsers.is_modern(
+    parsed_data.agent_name,
+    parsed_data.agent_version_major
+  )
+  parsed_data.agent_is_modern_or_crawler = browsers.is_modern_or_crawler(
+    parsed_data.agent_category,
+    parsed_data.agent_name,
+    parsed_data.agent_version_major
+  )
+
+  -- all
+  parsed_data.agent_all = utils.one_space(string.format(
+    "%s %s %s %s %s %s",
+    parsed_data.agent_name,
+    parsed_data.agent_version_major,
+    parsed_data.agent_os,
+    parsed_data.agent_os_version_major,
+    parsed_data.agent_category,
+    parsed_data.agent_vendor
+  ))
+
+  -- hash
+  parsed_data.agent_hash = utils.md5(parsed_data.agent_all)
+
+  -- foreign_referrer_host
+  if utils.is_empty(referrer) == false then
+    local referrer_url_parsed = resty_url.parse(referrer)
+    if referrer_url_parsed and utils.is_empty(referrer_url_parsed.host) == false then
+      if utils.strpos(referrer_url_parsed.host, host) == false and utils.strpos(host, referrer_url_parsed.host) == false then
+        parsed_data.foreign_referrer_host = referrer_url_parsed.host
+      end
+    end
+  end
+
+  return parsed_data
+end
+
+return _M

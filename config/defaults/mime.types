@@ -1,0 +1,133 @@
+types {
+
+  # essentials
+  application/xml                       xml;
+  text/plain                            txt;
+  text/html                             htm html shtml;
+  text/css                              css;
+  text/calendar                         ics;
+  text/csv                              csv;
+  text/markdown                         md markdown;
+  text/mathml                           mml;
+  application/xhtml+xml                 xhtml;
+  application/xslt+xml                  xsl;
+
+  # xml
+  application/atom+xml                  atom;
+  application/rss+xml                   rss;
+  application/rdf+xml                   rdf;
+
+  # json
+  application/json                      json map topojson;
+  application/ld+json                   jsonld;
+  application/geo+json                  geojson;
+  application/manifest+json             webmanifest;
+  application/x-web-app-manifest+json   webapp;
+  application/x-ndjson                  ndjson;
+
+  # javascript
+  application/javascript                js mjs;
+  application/wasm                      wasm;
+
+  # multimedia:images
+  application/dicom                     dcm;
+  application/postscript                ai eps ps;
+  image/bmp                             bmp;
+  image/gif                             gif;
+  image/heif                            avif heif heic hif;
+  image/heif-sequence                   avifs heifs heics;
+  image/jpeg                            jpeg jpg;
+  image/jxr                             jxr hdp wdp;
+  image/png                             png;
+  image/apng                            apng;
+  image/svg+xml                         svg svgz;
+  image/tiff                            tif tiff;
+  image/vnd.wap.wbmp                    wbmp;
+  image/webp                            webp;
+  image/x-icon                          cur ico;
+  image/x-jng                           jng;
+  image/x-jng                           mng;
+
+  # multimedia:audio
+  audio/midi                            mid midi kar;
+  audio/mp4                             aac f4a f4b m4a;
+  audio/mpeg                            mp3;
+  audio/ogg                             oga ogg opus;
+  audio/x-realaudio                     ra;
+  audio/x-wav                           wav;
+  audio/x-matroska                      mka;
+  audio/flac                            flac;
+
+  # multimedia:video
+  video/3gpp                            3gp 3gpp;
+  video/mp4                             f4p f4v m4v mp4;
+  video/mpeg                            mpeg mpg;
+  video/ogg                             ogv;
+  video/quicktime                       mov;
+  video/webm                            webm;
+  video/x-flv                           flv;
+  video/x-ms-asf                        asf asx;
+  video/x-ms-wmv                        wmv;
+  video/x-msvideo                       avi;
+  video/x-matroska                      mkv mk3d;
+  application/vnd.apple.mpegurl         m3u8;
+  application/dash+xml                  mpd;
+  video/mp2t                            ts tsv;
+  audio/mp2t                            tsa;
+
+  # documents
+  application/epub+zip                                                        epub;
+  application/x-mobipocket-ebook                                              prc mobi;
+  application/msword                                                          doc;
+  application/vnd.ms-excel                                                    xls;
+  application/vnd.ms-powerpoint                                               ppt;
+  application/vnd.openxmlformats-officedocument.wordprocessingml.document     docx;
+  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet           xlsx;
+  application/vnd.openxmlformats-officedocument.presentationml.presentation   pptx;
+  application/pdf                                                             pdf;
+  application/rtf                                                             rtf;
+
+  # fonts
+  font/woff                             woff;
+  font/woff2                            woff2;
+  application/vnd.ms-fontobject         eot;
+  font/ttf                              ttf;
+  font/collection                       ttc;
+  font/otf                              otf;
+
+  # archive
+  application/x-7z-compressed           7z;
+  application/x-rar-compressed          rar;
+  application/zip                       zip;
+
+  # misc
+  text/cache-manifest                   appcache;
+  application/java-archive              ear jar war;
+  application/mac-binhex40              hqx;
+  application/vnd.debian.binary-package deb;
+  application/vnd.google-earth.kml+xml  kml;
+  application/vnd.google-earth.kmz      kmz;
+  application/vnd.wap.wmlc              wmlc;
+  application/x-bb-appworld             bbaw;
+  application/x-bittorrent              torrent;
+  application/x-chrome-extension        crx;
+  application/x-cocoa                   cco;
+  application/x-java-archive-diff       jardiff;
+  application/x-java-jnlp-file          jnlp;
+  application/x-makeself                run;
+  application/x-opera-extension         oex;
+  application/x-perl                    pl pm;
+  application/x-redhat-package-manager  rpm;
+  application/x-sea                     sea;
+  application/x-shockwave-flash         swf;
+  application/x-stuffit                 sit;
+  application/x-tcl                     tcl tk;
+  application/x-x509-ca-cert            crt der pem;
+  application/x-xpinstall               xpi;
+  text/vcard                            vcard vcf;
+  text/vnd.rim.location.xloc            xloc;
+  text/vnd.sun.j2me.app-descriptor      jad;
+  text/vnd.wap.wml                      wml;
+  text/vtt                              vtt;
+  text/x-component                      htc;
+}

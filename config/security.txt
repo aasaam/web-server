@@ -1,0 +1,4 @@
+Contact: https://aasaam.com/en/report?mode=security
+Preferred-Languages: en,fa
+Policy: https://aasaam.com/en/privacy-policy
+Hiring: https://aasaam.com/en/jobs

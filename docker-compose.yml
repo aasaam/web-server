@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  aasaam-web-server:
+    container_name: aasaam-web-server
+    image: aasaam/web-server
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    volumes:
+      - ./tmp/log:/log
+      - ./tmp/cache:/cache
+      - ./tmp/GeoIP2:/GeoIP2
+      - ./addon:/usr/local/openresty/nginx/addon:ro
+    restart: unless-stopped
