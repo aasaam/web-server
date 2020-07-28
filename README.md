@@ -22,14 +22,14 @@ Improved [Nginx](http://nginx.org/)/[OpenResty](https://openresty.org/en/) via:
 
 ## Requirement
 
-* Mount `/cache`, `/log` and `/GeoIP2` and for store cache, logs and read geo location ip data:
+* Mount `/cache`, `/log` and `/GeoIP2` and for store cache, logs and read MaxMind GeoIP2 data:
   * Error log `/log/nginx.error.log`
   * Access log `/log/nginx.access.ndjson`
   * PageSpeed log `/log/nginx-pagespeed`
   * Proxy cache `/cache/nginx-proxy`
   * FastCGI cache `/cache/nginx-fastcgi`
   * PageSpeed cache `/cache/nginx-pagespeed`
-  * For location data file `/GeoIP2/City.mmdb` and `/GeoIP2/ASN.mmdb` must be exist.
+  * For MaxMind GeoIP2 data file `/GeoIP2/City.mmdb` and `/GeoIP2/ASN.mmdb` must be exist.
 
 ## Usage
 

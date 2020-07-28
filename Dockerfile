@@ -12,6 +12,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   export LC_ALL=C.UTF-8 ; \
   apt-get update -y \
   && apt-get -y upgrade \
+  && apt install -y software-properties-common \
   && add-apt-repository ppa:maxmind/ppa -y \
   && apt-get update -y \
   && apt-get install -y build-essential bzr-builddeb ca-certificates curl dh-make dh-systemd gnupg gnupg2 jq \
@@ -142,6 +143,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   export LC_ALL=C.UTF-8 ; \
   apt-get update -y \
   && apt-get -y upgrade \
+  && apt install -y software-properties-common \
   && add-apt-repository ppa:maxmind/ppa -y \
   && apt-get update -y \
   && apt-get install --no-install-recommends -y libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates \
