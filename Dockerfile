@@ -12,6 +12,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   export LC_ALL=C.UTF-8 ; \
   apt-get update -y \
   && apt-get -y upgrade \
+  && apt-get install --no-install-recommends -y gnupg \
   && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F44B38CE3DB1BF64B61DBD28DE1997DCDE742AFA \
   && echo 'deb http://ppa.launchpad.net/maxmind/ppa/ubuntu focal main' > /etc/apt/sources.list.d/maxmind.list \
   && add-apt-repository ppa:maxmind/ppa -y \
@@ -144,6 +145,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   export LC_ALL=C.UTF-8 ; \
   apt-get update -y \
   && apt-get -y upgrade \
+  && apt-get install --no-install-recommends -y gnupg \
   && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F44B38CE3DB1BF64B61DBD28DE1997DCDE742AFA \
   && echo 'deb http://ppa.launchpad.net/maxmind/ppa/ubuntu focal main' > /etc/apt/sources.list.d/maxmind.list \
   && apt-get update -y \
