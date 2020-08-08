@@ -23,8 +23,11 @@ SOFTWARE.
 Additional licenses available on:
   nginx: https://nginx.org/LICENSE
   openresty: https://github.com/openresty/openresty
+  incubator-pagespeed-ngx: https://github.com/apache/incubator-pagespeed-ngx
   naxsi: https://github.com/nbs-system/naxsi
+  nginx-module-stream-sts: https://github.com/vozlt/nginx-module-stream-sts
+  nginx-module-sts: https://github.com/vozlt/nginx-module-sts
+  nginx-module-vts: https://github.com/vozlt/nginx-module-vts
   ngx_brotli: https://github.com/google/ngx_brotli
   ngx_http_geoip2_module: https://github.com/leev/ngx_http_geoip2_module
-  incubator-pagespeed-ngx: https://github.com/apache/incubator-pagespeed-ngx
   lua-resty-woothee: https://github.com/woothee/lua-resty-woothee

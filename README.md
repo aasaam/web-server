@@ -10,20 +10,21 @@
 
 Improved [Nginx](http://nginx.org/)/[OpenResty](https://openresty.org/en/) via:
 
-* [geoip2](https://github.com/leev/ngx_http_geoip2_module)
 * [incubator-pagespeed-ngx](https://github.com/apache/incubator-pagespeed-ngx)
 * [naxsi](https://github.com/nbs-system/naxsi)
+* [nginx-module-stream-sts](https://github.com/vozlt/nginx-module-stream-sts)
+* [nginx-module-sts](https://github.com/vozlt/nginx-module-sts)
+* [nginx-module-vts](https://github.com/vozlt/nginx-module-vts)
 * [ngx_brotli](https://github.com/google/ngx_brotli)
-* [stream-sts](https://github.com/vozlt/nginx-module-stream-sts)
-* [sts](https://github.com/vozlt/nginx-module-sts)
-* [vts](https://github.com/vozlt/nginx-module-vts)
+* [ngx_http_geoip2_module](https://github.com/leev/ngx_http_geoip2_module)
 * [woothee](http://woothee.github.io)
 * [custom error pages](https://aasaam.github.io/error-pages)
 
 ## Requirement
 
 * Mount `/cache`, `/log` and `/GeoIP2` and for store cache, logs and read MaxMind GeoIP2 data:
-  * Error log `/log/nginx.error.log`
+  * Main error log `/log/nginx.main.error.log`
+  * HTTP error log `/log/nginx.http.error.log`
   * Access log `/log/nginx.access.ndjson`
   * PageSpeed log `/log/nginx-pagespeed`
   * Proxy cache `/cache/nginx-proxy`

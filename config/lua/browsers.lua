@@ -1,6 +1,6 @@
 local _M = {_VERSION = '0.0.1' }
 
-local firefox_latest = 78
+local firefox_latest = 79
 local chrome_latest = 84
 
 function _M.is_modern(agent_name, agent_version_major)

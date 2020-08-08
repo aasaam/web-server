@@ -97,6 +97,17 @@ server {
   # catch console.* to sentry for front debugging if backend not implemented
   # include /usr/local/openresty/nginx/defaults/server_sentry.conf;
 
+  #################
+  # Refresh Token #
+  #################
+  # this will send GET request to this endpoint and cookie will be update
+  # set $auto_refresh_token_uri '/path/to/refresh/token';
+  # how long to intervally send request to
+  # set $auto_refresh_token_interval '10000';
+
+  # catch console.* to sentry for front debugging if backend not implemented
+  # include /usr/local/openresty/nginx/defaults/server_auto_refresh_token.conf;
+
   #############
   # PageSpeed #
   #############
@@ -118,7 +129,7 @@ server {
   # naxsi #
   #########
   # for apply waf
-  include /usr/local/openresty/nginx/defaults/server_naxsi_apply.conf;
+  # include /usr/local/openresty/nginx/defaults/server_naxsi_apply.conf;
   # for testing
   # include /usr/local/openresty/nginx/defaults/server_naxsi_debug.conf;
 
@@ -164,26 +175,26 @@ server {
   # FastCGI #
   ###########
   # location / {
-    # pass headers to proxy backend
-    # include /usr/local/openresty/nginx/defaults/fastcgi_params.conf;
+  #   # pass headers to proxy backend
+  #   include /usr/local/openresty/nginx/defaults/fastcgi_params.conf;
 
-    #########
-    # Cache #
-    #########
-    # fastcgi_buffering on;
-    # fastcgi_cache PROXYCACHE;
-    # fastcgi_cache_valid 200 1h;
-    # fastcgi_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504;
-    # fastcgi_cache_background_update on;
-    # fastcgi_cache_bypass $http_cookie_admin;
-    # fastcgi_cache_valid 200 302 10m;
-    # fastcgi_cache_valid 404 1m;
-    # add_header 'X-Cache-Status' $upstream_cache_status;
+  #   #########
+  #   # Cache #
+  #   #########
+  #   fastcgi_buffering on;
+  #   fastcgi_cache PROXYCACHE;
+  #   fastcgi_cache_valid 200 1h;
+  #   fastcgi_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504;
+  #   fastcgi_cache_background_update on;
+  #   fastcgi_cache_bypass $http_cookie_admin;
+  #   fastcgi_cache_valid 200 302 10m;
+  #   fastcgi_cache_valid 404 1m;
+  #   add_header 'X-Cache-Status' $upstream_cache_status;
 
-    # # upload size
-    # client_max_body_size 10M;
+  #   # upload size
+  #   client_max_body_size 10M;
 
-    # address
-    # fastcgi_pass 127.0.0.1:9000;
+  #   # address
+  #   fastcgi_pass 127.0.0.1:9000;
   # }
 }
