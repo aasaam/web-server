@@ -177,7 +177,10 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && rm -rf /usr/share/man \
   && rm -rf /usr/share/locale \
   && rm -rf /root/.op* \
-  && rm -r /var/lib/apt/lists/* && rm -rf /tmp && mkdir /tmp && chmod 777 /tmp && truncate -s 0 /var/log/*.log
+  && rm -r /var/lib/apt/lists/* && rm -rf /tmp && mkdir /tmp && chmod 777 /tmp && truncate -s 0 /var/log/*.log \
+  && find /usr/local/openresty/nginx/error-pages -type f -print0 | xargs -0 chmod 0644 \
+  && find /usr/local/openresty/lualib -type d -print0 | xargs -0 chmod 0755 \
+  && find /usr/local/openresty/lualib -type f -print0 | xargs -0 chmod 0644
 
 # defaults config
 COPY config/defaults /usr/local/openresty/nginx/defaults
