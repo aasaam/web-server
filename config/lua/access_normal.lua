@@ -21,6 +21,7 @@ ngx.var.agent_is_modern_or_crawler  = parsed.agent_is_modern_or_crawler
 ngx.var.agent_name                  = parsed.agent_name
 ngx.var.agent_os                    = parsed.agent_os
 ngx.var.agent_os_version            = parsed.agent_os_version
+ngx.var.agent_os_version_major      = parsed.agent_os_version_major
 ngx.var.agent_vendor                = parsed.agent_vendor
 ngx.var.agent_version               = parsed.agent_version
 ngx.var.agent_version_major         = parsed.agent_version_major
