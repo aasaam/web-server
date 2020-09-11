@@ -5,13 +5,13 @@ local parsed = normalize.parse(
   ngx.var.geo_country_code,
   ngx.var.http_user_agent,
   ngx.var.http_host,
-  ngx.var.http_referrer
+  ngx.var.http_referer
 )
 
 ngx.var.ip_class                    = parsed.ip_class
 ngx.var.client_new                  = parsed.client_new
 ngx.var.client_uid                  = parsed.client_uid
-ngx.var.foreign_referrer_host       = parsed.foreign_referrer_host
+ngx.var.foreign_referer_host        = parsed.foreign_referer_host
 
 ngx.var.agent_all                   = parsed.agent_all
 ngx.var.agent_category              = parsed.agent_category

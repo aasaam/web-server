@@ -7,18 +7,18 @@ function _M.parse(
   geo_country_code,
   http_user_agent,
   http_host,
-  http_referrer
+  http_referer
 )
   local uid = client_uid or ''
   local country_code = geo_country_code or ''
   local host = http_host or ''
-  local referrer = http_referrer or ''
+  local referer = http_referer or ''
   local user_agent = http_user_agent or ''
 
   local parsed_data = {
     ip_class='',
     client_new='',
-    foreign_referrer_host='',
+    foreign_referer_host='',
     client_uid='',
 
     agent_all='',
@@ -99,12 +99,12 @@ function _M.parse(
   -- hash
   parsed_data.agent_hash = utils.md5(parsed_data.agent_all)
 
-  -- foreign_referrer_host
-  if utils.is_empty(referrer) == false then
-    local referrer_url_parsed = resty_url.parse(referrer)
-    if referrer_url_parsed and utils.is_empty(referrer_url_parsed.host) == false then
-      if utils.strpos(referrer_url_parsed.host, host) == false and utils.strpos(host, referrer_url_parsed.host) == false then
-        parsed_data.foreign_referrer_host = referrer_url_parsed.host
+  -- foreign_referer_host
+  if utils.is_empty(referer) == false then
+    local referer_url_parsed = resty_url.parse(referer)
+    if referer_url_parsed and utils.is_empty(referer_url_parsed.host) == false then
+      if utils.strpos(referer_url_parsed.host, host) == false and utils.strpos(host, referer_url_parsed.host) == false then
+        parsed_data.foreign_referer_host = referer_url_parsed.host
       end
     end
   end
