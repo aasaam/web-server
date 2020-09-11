@@ -13,7 +13,11 @@ server {
 
   server_name test.tld www.test.tld;
 
-  return 301 https://$host$request_uri;
+  include /usr/local/openresty/nginx/defaults/server_include_defaults.conf;
+
+  location / {
+    return 301 https://$host$request_uri;
+  }
 }
 
 #########
@@ -47,6 +51,7 @@ server {
 
   # > Protection Directive
   # set $protection_config_unauthorized_status 488; # or 401 default
+  # include /usr/local/openresty/nginx/addon/protection.rules_001.inc;
   # include /usr/local/openresty/nginx/defaults/server_protection.conf;
 
   # > 401: standard nginx auth request
@@ -110,7 +115,7 @@ server {
   # > sentry certificate transparency
   # add_header 'Expect-CT' 'report-uri="https://$sentry_host/api/$sentry_project/security/?sentry_key=$sentry_key"';
 
-  # > catch console.* to sentry for front debugging if backend not implemented
+  # > catch console.* to sentry for front debugging if upstream not implemented
   # include /usr/local/openresty/nginx/defaults/server_sentry.conf;
 
   #################
@@ -121,7 +126,7 @@ server {
   # > how long to intervally send request to
   # set $auto_refresh_token_interval '10000';
 
-  # > catch console.* to sentry for front debugging if backend not implemented
+  # > catch console.* to sentry for front debugging if upstream not implemented
   # include /usr/local/openresty/nginx/defaults/server_auto_refresh_token.conf;
 
   #############
@@ -142,21 +147,23 @@ server {
   # include /usr/local/openresty/nginx/defaults/page_speed_profile_2.conf;
 
   #########
-  # naxsi #
-  #########
-  # > for apply waf
-  # include /usr/local/openresty/nginx/defaults/server_naxsi_apply.conf;
-  # > for testing
-  # include /usr/local/openresty/nginx/defaults/server_naxsi_debug.conf;
-  # > for learning
-  # include /usr/local/openresty/nginx/defaults/server_naxsi_learning.conf;
-
-  #########
   # Proxy #
   #########
   location / {
     # > pass headers to proxy backend
     include /usr/local/openresty/nginx/defaults/location_proxy_headers.conf;
+
+    #########
+    # naxsi #
+    #########
+    # > for apply waf
+    # include /usr/local/openresty/nginx/defaults/server_naxsi_apply.conf;
+    # > for testing
+    # include /usr/local/openresty/nginx/defaults/server_naxsi_debug.conf;
+    # > for learning
+    # include /usr/local/openresty/nginx/defaults/server_naxsi_learning.conf;
+    # > extra rules
+    # include /usr/local/openresty/nginx/addon/naxi/rules_000.conf;
 
     #########
     # Cache #
