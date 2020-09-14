@@ -2,7 +2,7 @@
 
 import re
 
-print("naxsi_id_to_msg = {")
+print("local naxsi_id_to_msg = {")
 with open("./config/defaults/naxsi_core.rules") as file_in:
     lines = []
     for line in file_in:
@@ -10,5 +10,5 @@ with open("./config/defaults/naxsi_core.rules") as file_in:
       if m:
         id = m.group(2)
         message = m.group(1)
-        print("  [{id}] = \"{message}\",".format(id=id, message=message))
+        print("  [\"{id}\"] = \"{message}\",".format(id=id, message=message))
 print("}")

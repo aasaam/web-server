@@ -2,7 +2,7 @@
 # Upstream #
 ############
 upstream upstream_test {
-  server 192.168.1.1;
+  server 192.168.1.128:8080;
 }
 
 ########
@@ -51,7 +51,7 @@ server {
 
   # > Protection Directive
   # set $protection_config_unauthorized_status 488; # or 401 default
-  # include /usr/local/openresty/nginx/addon/protection.rules_001.inc;
+  # include /usr/local/openresty/nginx/addon/protection/rule.profile.conf;
   # include /usr/local/openresty/nginx/defaults/server_protection.conf;
 
   # > 401: standard nginx auth request
@@ -66,8 +66,27 @@ server {
   # include /usr/local/openresty/nginx/defaults/server_protection_488_js.conf;
   # include /usr/local/openresty/nginx/defaults/server_protection_488_redirect.conf;
 
-  # essential server defaults
+  # > essential server defaults
   include /usr/local/openresty/nginx/defaults/server_include_defaults.conf;
+
+  # > or with custom access lua you will need
+  # include /usr/local/openresty/nginx/defaults/server_include_defaults_no_lua.conf;
+  # access_by_lua {
+  #   -- essential access check
+  #   require "access_normal"
+  # }
+
+
+  #########
+  # naxsi #
+  #########
+  # > for apply waf
+  # include /usr/local/openresty/nginx/defaults/server_naxsi_apply.conf;
+  # > for testing using cookie setup
+  # include /usr/local/openresty/nginx/defaults/server_naxsi_debug.conf;
+  # > for learning
+  # include /usr/local/openresty/nginx/defaults/server_naxsi_learning.conf;
+  # > extra rules
 
   ###########
   # Browser #
@@ -134,11 +153,9 @@ server {
   #############
 
   # > A: disable
-  set $pagespeed_is_enable '';
   pagespeed off;
 
   # > B: enable via
-  # set $pagespeed_is_enable '1';
   # pagespeed on;
   # pagespeed Domain $http_host;
   # > B1:
@@ -153,15 +170,10 @@ server {
     # > pass headers to proxy backend
     include /usr/local/openresty/nginx/defaults/location_proxy_headers.conf;
 
-    #########
-    # naxsi #
-    #########
-    # > for apply waf
-    # include /usr/local/openresty/nginx/defaults/server_naxsi_apply.conf;
-    # > for testing
-    # include /usr/local/openresty/nginx/defaults/server_naxsi_debug.conf;
-    # > for learning
-    # include /usr/local/openresty/nginx/defaults/server_naxsi_learning.conf;
+    # > without page speed
+    # include /usr/local/openresty/nginx/defaults/location_naxsi.conf;
+    # > with page speed
+    # include /usr/local/openresty/nginx/defaults/location_naxsi_page_speed.conf;
     # > extra rules
     # include /usr/local/openresty/nginx/addon/naxi/rules_000.conf;
 
@@ -179,6 +191,7 @@ server {
 
     # > upload size
     # client_max_body_size 10M;
+    # client_body_buffer_size 10M;
 
     # > A: proxy http
     include /usr/local/openresty/nginx/defaults/location_proxy_http.conf;
@@ -216,8 +229,9 @@ server {
   #   fastcgi_cache_valid 404 1m;
   #   add_header 'X-Cache-Status' $upstream_cache_status;
 
-  #   # upload size
-  #   client_max_body_size 10M;
+  # > upload size
+  # client_max_body_size 10M;
+  # client_body_buffer_size 10M;
 
   #   # address
   #   fastcgi_pass 127.0.0.1:9000;
