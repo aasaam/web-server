@@ -11,7 +11,7 @@ function _M.is_modern(agent_name, agent_os, agent_version_major)
   if agent_name == 'firefox' then
     if (agent_os == 'iphone' or agent_os == 'ipad') and agent_version_major >= firefox_ios_latest  then
       return '1'
-    elseif and agent_version_major >= firefox_latest
+    elseif and agent_version_major >= firefox_latest then
       return '1'
     end
   end
