@@ -80,8 +80,8 @@ MainRule "str:%U" "msg:M$ encoding" "mz:ARGS|BODY|URL|$HEADERS_VAR:Cookie" "s:$E
 #############################
 ## File uploads: 1500-1600 ##
 #############################
-MainRule "rx:\.ph|\.py|\.php|\.phtml|\.php3|\.php4|\.php5|\.asp|\.aspx|\.htaccess|\.htpasswd" "msg:script/programming language file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1500;
-MainRule "rx:\.bash|\.deb|\.rpm|\.so|\.sh" "msg:linux malware file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1501;
-MainRule "rx:\.application|\.bat|\.cmd|\.com|\.cpl|\.dll|\.exe|\.gadget|\.hta|\.inf|\.jar|\.js|\.jse|\.lnk|\.msc|\.msh|\.msh1|\.msh1xml|\.msh2|\.msh2xml|\.mshxml|\.msi|\.msp|\.pif|\.ps1|\.ps1xml|\.ps2|\.ps2xml|\.psc1|\.psc2|\.psd1|\.psm1|\.reg|\.scf|\.scr|\.vb|\.vbe|\.vbs|\.ws|\.wsc|\.wsf|\.wsh" "msg:windows malware file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1502;
-MainRule "rx:\.doc|\.xls|\.ppt|\.docm|\.dotm|\.xlsm|\.xltm|\.xlam|\.pptm|\.potm|\.ppam|\.ppsm|\.sldm" "msg:document malware file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1503;
-MainRule "rx:\.pem|\.crt|\.ca-bundle|\.p7b|\.p7s|\.der|\.cer|\.pfx|\.p12" "msg:security file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1504;
+MainRule "rx:\.ph|\.py|\.php|\.phtml|\.php3|\.php4|\.php5|\.asp|\.aspx|\.htaccess|\.htpasswd" "msg:possible script/programming language file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1500;
+MainRule "rx:\.bash|\.deb|\.rpm|\.so|\.sh" "msg:possible linux malware file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1501;
+MainRule "rx:\.application|\.bat|\.cmd|\.com|\.cpl|\.dll|\.exe|\.gadget|\.hta|\.inf|\.jar|\.js|\.jse|\.lnk|\.msc|\.msh|\.msh1|\.msh1xml|\.msh2|\.msh2xml|\.mshxml|\.msi|\.msp|\.pif|\.ps1|\.ps1xml|\.ps2|\.ps2xml|\.psc1|\.psc2|\.psd1|\.psm1|\.reg|\.scf|\.scr|\.vb|\.vbe|\.vbs|\.ws|\.wsc|\.wsf|\.wsh" "msg:possible windows malware file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1502;
+MainRule "rx:\.doc|\.xls|\.ppt|\.docm|\.dotm|\.xlsm|\.xltm|\.xlam|\.pptm|\.potm|\.ppam|\.ppsm|\.sldm" "msg:possible document malware file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1503;
+MainRule "rx:\.pem|\.crt|\.ca-bundle|\.p7b|\.p7s|\.der|\.cer|\.pfx|\.p12" "msg:possible security file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1504;
