@@ -25,7 +25,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cd /tmp \
   && wget https://github.com/slact/nchan/archive/v1.2.7.tar.gz -O nchan.tgz \
   && tar -xf nchan.tgz \
-  && export NGINX_MODULE_NCHAN=`realpath nchan-1.*/src` \
+  && export NGINX_MODULE_NCHAN=`realpath nchan-1.*/` \
   ## naxsi
   && cd /tmp \
   && wget https://github.com/nbs-system/naxsi/archive/1.1a.tar.gz -O naxsi.tgz \
