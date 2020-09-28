@@ -21,11 +21,16 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   ## python patch
   && cd /tmp \
   && chmod +x /tmp/patch-source.py \
+  ## nchan
+  && cd /tmp \
+  && wget https://github.com/slact/nchan/archive/v1.2.7.tar.gz -O nchan.tgz \
+  && tar -xf nchan.tgz \
+  && export NGINX_MODULE_NCHAN=`realpath nchan-1.*/src` \
   ## naxsi
   && cd /tmp \
-  && wget https://github.com/nbs-system/naxsi/archive/0.56.tar.gz -O naxsi.tgz \
+  && wget https://github.com/nbs-system/naxsi/archive/1.1a.tar.gz -O naxsi.tgz \
   && tar -xf naxsi.tgz \
-  && export NGINX_MODULE_NAXI=`realpath naxsi-0*/naxsi_src` \
+  && export NGINX_MODULE_NAXI=`realpath naxsi-1.*/naxsi_src` \
   ## page speed
   && cd /tmp \
   && export NPS_VERSION=1.13.35.2-stable \
@@ -75,7 +80,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && grep -v "debsigs" Makefile > temp && cat temp > Makefile \
   && sed -i 's#OPTS=#OPTS=-b -uc -us#g' Makefile \
   && sed -i 's#tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty#tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty \&\& /tmp/patch-source.py `realpath openresty/bundle/nginx-1*/` #g' Makefile \
-  && sed -i "s#--with-threads#--with-threads --with-ld-opt=\"-Wl,-rpath,$PHP_LIB\" --add-module=$NGINX_MODULE_STS --add-module=$NGINX_MODULE_STREAM_STS --add-module=$NGINX_MODULE_VTS --add-module=$NGINX_MODULE_BROTLI --add-module=$NGINX_MODULE_NAXI --add-module=$NGINX_MODULE_PS --add-module=$NGINX_MODULE_GEOIP2#g" openresty/debian/rules \
+  && sed -i "s#--with-threads#--with-threads --with-ld-opt=\"-Wl,-rpath,$PHP_LIB\" --add-module=$NGINX_MODULE_NCHAN --add-module=$NGINX_MODULE_STS --add-module=$NGINX_MODULE_STREAM_STS --add-module=$NGINX_MODULE_VTS --add-module=$NGINX_MODULE_BROTLI --add-module=$NGINX_MODULE_NAXI --add-module=$NGINX_MODULE_PS --add-module=$NGINX_MODULE_GEOIP2#g" openresty/debian/rules \
   && make zlib-build \
   && export DEB_TO_INSTALL=`realpath openresty-zlib_1.*.deb` \
   && export DEB_DEV_TO_INSTALL=`realpath openresty-zlib-dev_1.*.deb` \
@@ -130,7 +135,9 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && export SENTRY_VERSION=$(curl -s https://api.github.com/repos/getsentry/sentry-javascript/releases/latest | jq -r '.assets[].browser_download_url' | grep sentry-browser | grep -o -P '(?<=download\/).*(?=\/)') \
   && export SENTRY_URL="https://browser.sentry-cdn.com/$SENTRY_VERSION/bundle.min.js" \
   && wget -O /tmp/builder/sentry.js $SENTRY_URL \
+  && wget -O /tmp/builder/nchan.js 'https://cdn.jsdelivr.net/gh/slact/nchan.js/NchanSubscriber.min.js' \
   && sed -i '/sourceMappingURL/d' /tmp/builder/sentry.js \
+  && sed -i '/sourceMappingURL/d' /tmp/builder/nchan.js \
   && wget -O /tmp/builder/favicon.ico https://raw.githubusercontent.com/aasaam/information/master/logo/icons/favicon.ico \
   && wget -O /tmp/builder/humans.txt https://raw.githubusercontent.com/aasaam/information/master/info/humans.txt \
   && cd /tmp \
@@ -167,6 +174,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cp /tmp/builder/favicon.ico /usr/local/openresty/nginx/favicon.ico \
   && cp /tmp/builder/humans.txt /usr/local/openresty/nginx/humans.txt \
   && cp /tmp/builder/sentry.js /usr/local/openresty/nginx/sentry.js \
+  && cp /tmp/builder/nchan.js /usr/local/openresty/nginx/nchan.js \
   && echo "======== VERSION ==========" \
   && /usr/bin/openresty -V 2>&1 | tee /tmp/VERSION \
   && cat /tmp/VERSION \
