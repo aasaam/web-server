@@ -104,10 +104,10 @@ server {
   # SSL #
   #######
   # > A: security recommended
-  include /usr/local/openresty/nginx/defaults/server_http2_modern.conf;
+  # include /usr/local/openresty/nginx/defaults/server_http2_modern.conf;
   # > for backward tls versions
   # > B:
-  # include /usr/local/openresty/nginx/defaults/server_http2_intermediate.conf;
+  include /usr/local/openresty/nginx/defaults/server_http2_intermediate.conf;
   # > for ancient clients and applications (not recommended)
   # > C:
   # include /usr/local/openresty/nginx/defaults/server_http2_legacy.conf;

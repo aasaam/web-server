@@ -12,6 +12,7 @@ Improved [Nginx](http://nginx.org/)/[OpenResty](https://openresty.org/en/) via:
 
 * [incubator-pagespeed-ngx](https://github.com/apache/incubator-pagespeed-ngx)
 * [naxsi](https://github.com/nbs-system/naxsi)
+* [nchan](https://github.com/slact/nchan)
 * [nginx-module-stream-sts](https://github.com/vozlt/nginx-module-stream-sts)
 * [nginx-module-sts](https://github.com/vozlt/nginx-module-sts)
 * [nginx-module-vts](https://github.com/vozlt/nginx-module-vts)
