@@ -183,10 +183,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cp /tmp/builder/humans.txt /usr/local/openresty/nginx/humans.txt \
   && cp /tmp/builder/sentry.js /usr/local/openresty/nginx/sentry.js \
   && cp /tmp/builder/nchan.js /usr/local/openresty/nginx/nchan.js \
-  && echo "======== VERSION ==========" \
-  && /usr/bin/openresty -V 2>&1 | tee /tmp/VERSION \
-  && cat /tmp/VERSION \
-  && echo "======== /VERSION ==========" \
+  # luarocks
   && cd /tmp/ \
   && wget https://luarocks.github.io/luarocks/releases/luarocks-3.4.0.tar.gz -O luarocks.tgz \
   && tar -xf luarocks.tgz \
@@ -196,9 +193,12 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
     --lua-suffix=jit \
     --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1 \
   && make && make install \
-  # luarocks
   && sudo /usr/local/openresty/luajit/luarocks install lua-resty-ntlm \
   && sudo /usr/local/openresty/luajit/luarocks install lua-http-parser \
+  && echo "======== VERSION ==========" \
+  && /usr/bin/openresty -V 2>&1 | tee /tmp/VERSION \
+  && cat /tmp/VERSION \
+  && echo "======== /VERSION ==========" \
   && apt-get purge wget build-essential \
   && apt-get autoremove -y \
   && apt-get clean \
