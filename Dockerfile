@@ -165,17 +165,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-get update -y \
   && apt-get install --no-install-recommends -y libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential \
   && cd /tmp/ \
-  && wget https://luarocks.github.io/luarocks/releases/luarocks-3.4.0.tar.gz -O luarocks.tgz \
-  && tar -xf luarocks.tgz \
-  && cd luarocks-3* \
-  && ./configure --prefix=/usr/local/openresty/luajit \
-    --with-lua=/usr/local/openresty/luajit/ \
-    --lua-suffix=jit \
-    --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1 \
-  && make && make install \
-  # luarocks
-  && sudo /usr/local/openresty/luajit/luarocks install lua-resty-ntlm \
-  && sudo /usr/local/openresty/luajit/luarocks install lua-http-parser \
   && tar -xf builder.tgz \
   && dpkg -i /tmp/builder/openresty-zlib.deb \
   && dpkg -i /tmp/builder/openresty-pcre.deb \
@@ -198,6 +187,18 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && /usr/bin/openresty -V 2>&1 | tee /tmp/VERSION \
   && cat /tmp/VERSION \
   && echo "======== /VERSION ==========" \
+  && cd /tmp/ \
+  && wget https://luarocks.github.io/luarocks/releases/luarocks-3.4.0.tar.gz -O luarocks.tgz \
+  && tar -xf luarocks.tgz \
+  && cd luarocks-3* \
+  && ./configure --prefix=/usr/local/openresty/luajit \
+    --with-lua=/usr/local/openresty/luajit/ \
+    --lua-suffix=jit \
+    --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1 \
+  && make && make install \
+  # luarocks
+  && sudo /usr/local/openresty/luajit/luarocks install lua-resty-ntlm \
+  && sudo /usr/local/openresty/luajit/luarocks install lua-http-parser \
   && apt-get purge wget build-essential \
   && apt-get autoremove -y \
   && apt-get clean \
