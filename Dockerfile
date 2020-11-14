@@ -125,6 +125,9 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && rm -rf /tmp/builder/error-pages \
   && mv error-pages /tmp/builder/ \
   && cd /tmp \
+  && wget -O /tmp/icons.tgz https://github.com/aasaam/brand-icons/archive/master.tar.gz \
+  && tar -xf /tmp/icons.tgz \
+  && mv brand-icons-master/svg /tmp/builder/error-pages/ \
   && wget -O dl_woothee.tgz https://github.com/woothee/lua-resty-woothee/archive/v1.11.0-1.tar.gz \
   && tar -xf dl_woothee.tgz \
   && export WOOTHEE_PATH=`realpath /tmp/lua-resty-woothee-1*/lib` \
