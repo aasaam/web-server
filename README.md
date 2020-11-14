@@ -16,6 +16,7 @@ Improved [Nginx](http://nginx.org/)/[OpenResty](https://openresty.org/en/) via:
 * [nginx-module-stream-sts](https://github.com/vozlt/nginx-module-stream-sts)
 * [nginx-module-sts](https://github.com/vozlt/nginx-module-sts)
 * [nginx-module-vts](https://github.com/vozlt/nginx-module-vts)
+* [nginx-vod-module](https://github.com/kaltura/nginx-vod-module)
 * [ngx_brotli](https://github.com/google/ngx_brotli)
 * [ngx_http_geoip2_module](https://github.com/leev/ngx_http_geoip2_module)
 * [woothee](http://woothee.github.io)

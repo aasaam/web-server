@@ -28,9 +28,14 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && export NGINX_MODULE_NCHAN=`realpath nchan-1.*/` \
   ## naxsi
   && cd /tmp \
-  && wget https://github.com/nbs-system/naxsi/archive/1.1a.tar.gz -O naxsi.tgz \
+  && wget https://github.com/nbs-system/naxsi/archive/1.2.tar.gz -O naxsi.tgz \
   && tar -xf naxsi.tgz \
   && export NGINX_MODULE_NAXI=`realpath naxsi-1.*/naxsi_src` \
+  ## nginx-vod-module
+  && cd /tmp \
+  && wget https://github.com/kaltura/nginx-vod-module/archive/1.27.tar.gz -O nginx-vod-module.tgz \
+  && tar -xf nginx-vod-module.tgz \
+  && export NGINX_MODULE_VOD=`realpath nginx-vod-module-1*` \
   ## page speed
   && cd /tmp \
   && export NPS_VERSION=1.13.35.2-stable \
@@ -155,8 +160,19 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F44B38CE3DB1BF64B61DBD28DE1997DCDE742AFA \
   && echo 'deb http://ppa.launchpad.net/maxmind/ppa/ubuntu focal main' > /etc/apt/sources.list.d/maxmind.list \
   && apt-get update -y \
-  && apt-get install --no-install-recommends -y libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates \
+  && apt-get install --no-install-recommends -y libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential \
   && cd /tmp/ \
+  && wget https://luarocks.github.io/luarocks/releases/luarocks-3.4.0.tar.gz -O luarocks.tgz \
+  && tar -xf luarocks.tgz \
+  && cd luarocks-3* \
+  && ./configure --prefix=/usr/local/openresty/luajit \
+    --with-lua=/usr/local/openresty/luajit/ \
+    --lua-suffix=jit \
+    --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1 \
+  && make && make install \
+  # luarocks
+  && sudo /usr/local/openresty/luajit/luarocks install lua-resty-ntlm \
+  && sudo /usr/local/openresty/luajit/luarocks install lua-http-parser \
   && tar -xf builder.tgz \
   && dpkg -i /tmp/builder/openresty-zlib.deb \
   && dpkg -i /tmp/builder/openresty-pcre.deb \
@@ -179,6 +195,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && /usr/bin/openresty -V 2>&1 | tee /tmp/VERSION \
   && cat /tmp/VERSION \
   && echo "======== /VERSION ==========" \
+  && apt-get purge wget build-essential \
   && apt-get autoremove -y \
   && apt-get clean \
   && rm -rf /usr/share/doc \
