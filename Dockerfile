@@ -163,7 +163,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F44B38CE3DB1BF64B61DBD28DE1997DCDE742AFA \
   && echo 'deb http://ppa.launchpad.net/maxmind/ppa/ubuntu focal main' > /etc/apt/sources.list.d/maxmind.list \
   && apt-get update -y \
-  && apt-get install --no-install-recommends -y libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential \
+  && apt-get install --no-install-recommends -y libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential unzip \
   && cd /tmp/ \
   && tar -xf builder.tgz \
   && dpkg -i /tmp/builder/openresty-zlib.deb \
@@ -199,7 +199,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && /usr/bin/openresty -V 2>&1 | tee /tmp/VERSION \
   && cat /tmp/VERSION \
   && echo "======== /VERSION ==========" \
-  && apt-get purge wget build-essential \
+  && apt-get purge wget build-essential unzip \
   && apt-get autoremove -y \
   && apt-get clean \
   && rm -rf /usr/share/doc \
