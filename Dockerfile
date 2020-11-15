@@ -199,7 +199,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && /usr/bin/openresty -V 2>&1 | tee /tmp/VERSION \
   && cat /tmp/VERSION \
   && echo "======== /VERSION ==========" \
-  && apt-get purge wget build-essential unzip git \
+  && apt-get purge -y wget build-essential unzip git \
   && apt-get autoremove -y \
   && apt-get clean \
   && rm -rf /usr/share/doc \
