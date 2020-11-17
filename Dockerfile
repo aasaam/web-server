@@ -28,7 +28,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && export NGINX_MODULE_NCHAN=`realpath nchan-1.*/` \
   ## naxsi
   && cd /tmp \
-  && wget https://github.com/nbs-system/naxsi/archive/1.2.tar.gz -O naxsi.tgz \
+  && wget https://github.com/nbs-system/naxsi/archive/1.3.tar.gz -O naxsi.tgz \
   && tar -xf naxsi.tgz \
   && export NGINX_MODULE_NAXI=`realpath naxsi-1.*/naxsi_src` \
   ## nginx-vod-module
