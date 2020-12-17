@@ -139,13 +139,16 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && export LUA_RESTY_URL_PATH=`realpath /tmp/lua-resty-url*/src/` \
   && cd $LUA_RESTY_URL_PATH \
   && cp -rf resty/* /tmp/builder/resty/ \
+  && cd /tmp \
+  && wget -O minify.tgz 'https://github.com/tdewolff/minify/releases/download/v2.9.10/minify_linux_amd64.tar.gz' \
+  && tar -xf minify.tgz \
   && cd /tmp/builder \
   && export SENTRY_VERSION=$(curl -s https://api.github.com/repos/getsentry/sentry-javascript/releases/latest | jq -r '.assets[].browser_download_url' | grep sentry-browser | grep -o -P '(?<=download\/).*(?=\/)') \
-  && export SENTRY_URL="https://browser.sentry-cdn.com/$SENTRY_VERSION/bundle.min.js" \
-  && wget -O /tmp/builder/sentry.js $SENTRY_URL \
-  && wget -O /tmp/builder/nchan.js 'https://cdn.jsdelivr.net/gh/slact/nchan.js/NchanSubscriber.min.js' \
-  && sed -i '/sourceMappingURL/d' /tmp/builder/sentry.js \
-  && sed -i '/sourceMappingURL/d' /tmp/builder/nchan.js \
+  && export SENTRY_URL="https://browser.sentry-cdn.com/$SENTRY_VERSION/bundle.js" \
+  && wget -O /tmp/sentry.js $SENTRY_URL \
+  && wget -O /tmp/nchan.js 'https://cdn.jsdelivr.net/gh/slact/nchan.js/NchanSubscriber.js' \
+  && /tmp/minify /tmp/sentry.js > /tmp/builder/sentry.js \
+  && /tmp/minify /tmp/nchan.js > /tmp/builder/nchan.js \
   && wget -O /tmp/builder/favicon.ico https://raw.githubusercontent.com/aasaam/information/master/logo/icons/favicon.ico \
   && wget -O /tmp/builder/humans.txt https://raw.githubusercontent.com/aasaam/information/master/info/humans.txt \
   && cd /tmp \
@@ -163,7 +166,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F44B38CE3DB1BF64B61DBD28DE1997DCDE742AFA \
   && echo 'deb http://ppa.launchpad.net/maxmind/ppa/ubuntu focal main' > /etc/apt/sources.list.d/maxmind.list \
   && apt-get update -y \
-  && apt-get install --no-install-recommends -y libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential unzip git \
+  && apt-get install --no-install-recommends -y ffmpeg libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential unzip git \
   && cd /tmp/ \
   && tar -xf builder.tgz \
   && dpkg -i /tmp/builder/openresty-zlib.deb \
@@ -185,7 +188,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cp /tmp/builder/nchan.js /usr/local/openresty/nginx/nchan.js \
   # luarocks
   && cd /tmp/ \
-  && wget https://luarocks.github.io/luarocks/releases/luarocks-3.4.0.tar.gz -O luarocks.tgz \
+  && wget https://luarocks.org/releases/luarocks-3.5.0.tar.gz -O luarocks.tgz \
   && tar -xf luarocks.tgz \
   && cd luarocks-3* \
   && ./configure --prefix=/usr/local/openresty/luajit \
@@ -220,7 +223,6 @@ COPY config/robots.txt /usr/local/openresty/nginx/robots.txt
 COPY config/lua/access_normal.lua /usr/local/openresty/lualib/access_normal.lua
 COPY config/lua/normalize.lua /usr/local/openresty/lualib/normalize.lua
 COPY config/lua/locales.lua /usr/local/openresty/lualib/locales.lua
-COPY config/lua/browsers.lua /usr/local/openresty/lualib/browsers.lua
 COPY config/lua/utils.lua /usr/local/openresty/lualib/utils.lua
 
 # nginx.conf

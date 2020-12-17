@@ -20,6 +20,7 @@ types {
   # json
   application/json                      json map topojson;
   application/ld+json                   jsonld;
+  application/x-ndjson                  ndjson;
   application/geo+json                  geojson;
   application/manifest+json             webmanifest;
   application/x-web-app-manifest+json   webapp;
@@ -57,6 +58,7 @@ types {
   audio/x-wav                           wav;
   audio/x-matroska                      mka;
   audio/flac                            flac;
+  audio/mp2t                            tsa;
 
   # multimedia:video
   video/3gpp                            3gp 3gpp;
@@ -70,10 +72,12 @@ types {
   video/x-ms-wmv                        wmv;
   video/x-msvideo                       avi;
   video/x-matroska                      mkv mk3d;
+  video/mp2t                            ts tsv;
+
+  # multimedia:manifest
   application/vnd.apple.mpegurl         m3u8;
   application/dash+xml                  mpd;
-  video/mp2t                            ts tsv;
-  audio/mp2t                            tsa;
+  text/vtt                              vtt;
 
   # documents
   application/epub+zip                                                        epub;
@@ -98,9 +102,15 @@ types {
   # archive
   application/x-7z-compressed           7z;
   application/x-rar-compressed          rar;
-  application/zip                       zip;
+  application/zip                       zip zipx;
+  application/x-tar                     tar;
+  application/vnd.ms-cab-compressed     cab;
+  application/x-gtar                    tar.gz tgz tar.z tar.bz2 tbz2 tar.lz tlz tar.xz txz;
+  application/x-ms-wim                  wim;
 
   # misc
+  application/x-dosexec                 exe;
+  application/x-apple-diskimage         dmg;
   text/cache-manifest                   appcache;
   application/java-archive              ear jar war;
   application/mac-binhex40              hqx;
@@ -128,6 +138,5 @@ types {
   text/vnd.rim.location.xloc            xloc;
   text/vnd.sun.j2me.app-descriptor      jad;
   text/vnd.wap.wml                      wml;
-  text/vtt                              vtt;
   text/x-component                      htc;
 }

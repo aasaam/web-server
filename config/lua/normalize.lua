@@ -24,8 +24,6 @@ function _M.parse(
     agent_all='',
     agent_category='',
     agent_hash='',
-    agent_is_modern_or_crawler='0',
-    agent_is_modern='0',
     agent_name='',
     agent_os_version_major='',
     agent_os_version='',
@@ -73,17 +71,6 @@ function _M.parse(
   parsed_data.agent_version_major = utils.normalize_version_major(r.version)
   parsed_data.agent_os_version = utils.normalize_version(r.os_version)
   parsed_data.agent_os_version_major = utils.normalize_version_major(r.os_version)
-
-  -- modern
-  parsed_data.agent_is_modern = browsers.is_modern(
-    parsed_data.agent_name,
-    parsed_data.agent_version_major
-  )
-  parsed_data.agent_is_modern_or_crawler = browsers.is_modern_or_crawler(
-    parsed_data.agent_category,
-    parsed_data.agent_name,
-    parsed_data.agent_version_major
-  )
 
   -- all
   parsed_data.agent_all = utils.one_space(string.format(
