@@ -18,7 +18,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-get update -y \
   && apt-get install -y build-essential bzr-builddeb ca-certificates curl dh-make dh-systemd gnupg gnupg2 jq \
     libmaxminddb0 libmaxminddb-dev mmdb-bin libpcre3 libpcre3-dev libtemplate-perl lsb-release make perl python sudo systemtap-sdt-dev unzip uuid-dev wget zlib1g-dev \
-    libxml2 libxml2-dev \
   ## python patch
   && cd /tmp \
   && chmod +x /tmp/patch-source.py \
