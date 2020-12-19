@@ -18,6 +18,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-get update -y \
   && apt-get install -y build-essential bzr-builddeb ca-certificates curl dh-make dh-systemd gnupg gnupg2 jq \
     libmaxminddb0 libmaxminddb-dev mmdb-bin libpcre3 libpcre3-dev libtemplate-perl lsb-release make perl python sudo systemtap-sdt-dev unzip uuid-dev wget zlib1g-dev \
+    libxml2 libxml2-dev \
   ## python patch
   && cd /tmp \
   && chmod +x /tmp/patch-source.py \
@@ -166,7 +167,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F44B38CE3DB1BF64B61DBD28DE1997DCDE742AFA \
   && echo 'deb http://ppa.launchpad.net/maxmind/ppa/ubuntu focal main' > /etc/apt/sources.list.d/maxmind.list \
   && apt-get update -y \
-  && apt-get install --no-install-recommends -y ffmpeg libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential unzip git \
+  && apt-get install --no-install-recommends -y libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential unzip git \
   && cd /tmp/ \
   && tar -xf builder.tgz \
   && dpkg -i /tmp/builder/openresty-zlib.deb \
