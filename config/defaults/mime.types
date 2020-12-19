@@ -24,7 +24,6 @@ types {
   application/geo+json                  geojson;
   application/manifest+json             webmanifest;
   application/x-web-app-manifest+json   webapp;
-  application/x-ndjson                  ndjson;
 
   # javascript
   application/javascript                js mjs;
