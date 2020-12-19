@@ -8,7 +8,9 @@
 [![open-issues](https://flat.badgen.net/github/open-issues/aasaam/web-server)](https://github.com/aasaam/web-server/issues)
 [![open-pull-requests](https://flat.badgen.net/github/open-prs/aasaam/web-server)](https://github.com/aasaam/web-server/pulls)
 
-Improved [Nginx](http://nginx.org/)/[OpenResty](https://openresty.org/en/) via:
+Improved [Nginx](http://nginx.org/)/[OpenResty](https://openresty.org/en/).
+
+List of modifications:
 
 * [incubator-pagespeed-ngx](https://github.com/apache/incubator-pagespeed-ngx)
 * [naxsi](https://github.com/nbs-system/naxsi)
