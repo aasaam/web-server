@@ -30,7 +30,7 @@ server {
 
   set $organization_title 'Sample Organization';
   # select file name without extension in https://aasaam.github.io/brand-icons/ for example ir_aasaam.svg will be ir_aasaam
-  set $organization_brand_icon 'ir_aasaam';
+  set $organization_brand_icon 'si_linux';
 
   ################
   # Auth Request #
