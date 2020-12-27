@@ -28,6 +28,8 @@ server {
 
   server_name localhost;
 
+  set $organization_title 'Sample Organization';
+
   ################
   # Auth Request #
   ################
