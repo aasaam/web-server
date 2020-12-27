@@ -7,6 +7,7 @@ LABEL org.label-schema.name="web-server" \
       maintainer="Muhammad Hussein Fattahizadeh <m@mhf.ir>"
 
 ADD tools/patch-source.py /tmp/patch-source.py
+ADD tools/geoip-finder.py /tmp/geoip-finder.py
 RUN export DEBIAN_FRONTEND=noninteractive ; \
   export LANG=en_US.utf8 ; \
   export LC_ALL=C.UTF-8 ; \
@@ -16,11 +17,18 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F44B38CE3DB1BF64B61DBD28DE1997DCDE742AFA \
   && echo 'deb http://ppa.launchpad.net/maxmind/ppa/ubuntu focal main' > /etc/apt/sources.list.d/maxmind.list \
   && apt-get update -y \
-  && apt-get install -y build-essential bzr-builddeb ca-certificates curl dh-make dh-systemd gnupg gnupg2 jq \
+  && apt-get install -y build-essential bzr-builddeb ca-certificates curl dh-make dh-systemd gnupg gnupg2 jq gzip \
     libmaxminddb0 libmaxminddb-dev mmdb-bin libpcre3 libpcre3-dev libtemplate-perl lsb-release make perl python sudo systemtap-sdt-dev unzip uuid-dev wget zlib1g-dev \
   ## python patch
   && cd /tmp \
   && chmod +x /tmp/patch-source.py \
+  && chmod +x /tmp/geoip-finder.py \
+  && curl -Ls 'https://db-ip.com/db/download/ip-to-city-lite' -o /tmp/ip-to-city-lite.html \
+  && curl -Ls 'https://db-ip.com/db/download/ip-to-asn-lite' -o /tmp/ip-to-asn-lite.html \
+  && wget -O /tmp/ip-to-city-lite.gz $(/tmp/geoip-finder.py /tmp/ip-to-city-lite.html) \
+  && wget -O /tmp/ip-to-asn-lite.gz $(/tmp/geoip-finder.py /tmp/ip-to-asn-lite.html) \
+  && gunzip /tmp/ip-to-city-lite.gz \
+  && gunzip /tmp/ip-to-asn-lite.gz \
   ## nchan
   && cd /tmp \
   && wget https://github.com/slact/nchan/archive/v1.2.7.tar.gz -O nchan.tgz \
@@ -80,6 +88,9 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && tar -xf openresty.tgz \
   && rm -rf /tmp/builder/resty \
   && mkdir -p /tmp/builder/resty \
+  ## geo ip db
+  && mv /tmp/ip-to-asn-lite /tmp/builder/ASN.mmdb \
+  && mv /tmp/ip-to-city-lite /tmp/builder/City.mmdb \
   ## openresty
   && cd /tmp/openresty-packaging-master/deb \
   && grep -v "debsigs" Makefile > temp && cat temp > Makefile \
@@ -157,6 +168,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
 FROM ubuntu:focal
 
 COPY --from=builder /tmp/builder.tgz /tmp/builder.tgz
+COPY entrypoint.sh /entrypoint.sh
 RUN export DEBIAN_FRONTEND=noninteractive ; \
   export LANG=en_US.utf8 ; \
   export LC_ALL=C.UTF-8 ; \
@@ -166,7 +178,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F44B38CE3DB1BF64B61DBD28DE1997DCDE742AFA \
   && echo 'deb http://ppa.launchpad.net/maxmind/ppa/ubuntu focal main' > /etc/apt/sources.list.d/maxmind.list \
   && apt-get update -y \
-  && apt-get install --no-install-recommends -y libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential unzip git \
+  && apt-get install --no-install-recommends -y gettext-base libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential unzip git \
   && cd /tmp/ \
   && tar -xf builder.tgz \
   && dpkg -i /tmp/builder/openresty-zlib.deb \
@@ -186,6 +198,9 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cp /tmp/builder/humans.txt /usr/local/openresty/nginx/humans.txt \
   && cp /tmp/builder/sentry.js /usr/local/openresty/nginx/sentry.js \
   && cp /tmp/builder/nchan.js /usr/local/openresty/nginx/nchan.js \
+  # geoip
+  && mkdir /GeoIP2 \
+  && cp /tmp/builder/*.mmdb /GeoIP2/ \
   # luarocks
   && cd /tmp/ \
   && wget https://luarocks.org/releases/luarocks-3.5.0.tar.gz -O luarocks.tgz \
@@ -205,6 +220,8 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-get purge -y wget build-essential unzip git \
   && apt-get autoremove -y \
   && apt-get clean \
+  && mkdir /templates \
+  && mkdir /usr/local/openresty/addon-generated \
   && rm -rf /usr/share/doc \
   && rm -rf /usr/share/man \
   && rm -rf /usr/share/locale \
@@ -212,7 +229,8 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && rm -r /var/lib/apt/lists/* && rm -rf /tmp && mkdir /tmp && chmod 777 /tmp && truncate -s 0 /var/log/*.log \
   && find /usr/local/openresty/nginx/error-pages -type f -print0 | xargs -0 chmod 0644 \
   && find /usr/local/openresty/lualib -type d -print0 | xargs -0 chmod 0755 \
-  && find /usr/local/openresty/lualib -type f -print0 | xargs -0 chmod 0644
+  && find /usr/local/openresty/lualib -type f -print0 | xargs -0 chmod 0644 \
+  && chmod +x /entrypoint.sh
 
 # defaults config
 COPY config/defaults /usr/local/openresty/nginx/defaults
@@ -232,4 +250,5 @@ COPY config/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 EXPOSE 80/tcp 443/tcp
 
 STOPSIGNAL SIGTERM
-CMD ["openresty", "-g", "daemon off;"]
+
+CMD [ "/entrypoint.sh" ]

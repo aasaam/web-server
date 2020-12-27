@@ -36,6 +36,10 @@ List of modifications:
   * PageSpeed cache `/cache/nginx-pagespeed`
   * For MaxMind GeoIP2 data file `/GeoIP2/City.mmdb` and `/GeoIP2/ASN.mmdb` must be exist.
 
+## Embedded GeoIP database
+
+We using free version of [DB-IP](https://db-ip.com/) for embedded db of MaxMind GeoIP2 database.
+
 ## Usage
 
 You can use docker-compose for creating container.

@@ -1,8 +1,8 @@
 ############
 # Upstream #
 ############
-upstream upstream_test {
-  server 192.168.1.128:8080;
+upstream upstream_localhost {
+  server 127.0.0.1:8080;
 }
 
 ########
@@ -11,7 +11,7 @@ upstream upstream_test {
 server {
   listen 80;
 
-  server_name test.tld www.test.tld;
+  server_name localhost;
 
   include /usr/local/openresty/nginx/defaults/server_include_defaults.conf;
 
@@ -26,7 +26,7 @@ server {
 server {
   listen 443 ssl http2;
 
-  server_name test.tld www.test.tld;
+  server_name localhost;
 
   ################
   # Auth Request #
@@ -88,18 +88,6 @@ server {
   # include /usr/local/openresty/nginx/defaults/server_naxsi_learning.conf;
   # > extra rules
 
-  ###########
-  # Browser #
-  ###########
-  # > block not modern browser
-  # if ($agent_is_modern = '0') {
-  #   return 437;
-  # }
-  # > or block not modern browser or not crawler
-  # if ($agent_is_modern_or_crawler = '0') {
-  #   return 437;
-  # }
-
   #######
   # SSL #
   #######
@@ -112,9 +100,9 @@ server {
   # > C:
   # include /usr/local/openresty/nginx/defaults/server_http2_legacy.conf;
 
-  ssl_certificate /usr/local/openresty/nginx/addon/ssl/fullchain.pem;
-  ssl_certificate_key /usr/local/openresty/nginx/addon/ssl/privkey.pem;
-  ssl_trusted_certificate /usr/local/openresty/nginx/addon/ssl/chain.pem;
+  ssl_certificate /usr/local/openresty/nginx/addon/ssl/localhost/fullchain.pem;
+  ssl_certificate_key /usr/local/openresty/nginx/addon/ssl/localhost/privkey.pem;
+  ssl_trusted_certificate /usr/local/openresty/nginx/addon/ssl/localhost/chain.pem;
   ssl_stapling off;
   ssl_stapling_verify off;
 
@@ -195,18 +183,18 @@ server {
 
     # > A: proxy http
     include /usr/local/openresty/nginx/defaults/location_proxy_http.conf;
-    proxy_pass http://upstream_test;
+    proxy_pass http://upstream_localhost;
 
-    # > B: proxy https insecure (LAN or trusted network)
+    # > B: proxy https insecure (LAN or trusted network) [Bad practice]
     # include /usr/local/openresty/nginx/defaults/location_proxy_https_insecure.conf;
-    # proxy_pass https://upstream_test;
+    # proxy_pass https://upstream_localhost;
 
     # > C: proxy https secure (WAN or untrusted network)
     # include /usr/local/openresty/nginx/defaults/location_proxy_https_secure.conf;
     # proxy_ssl_certificate /usr/local/openresty/nginx/addon/ssl/client.pem;
     # proxy_ssl_certificate_key /usr/local/openresty/nginx/addon/ssl/client.key;
     # proxy_ssl_trusted_certificate /etc/nginx/trusted_ca_cert.crt;
-    # proxy_pass https://upstream_test;
+    # proxy_pass https://upstream_localhost;
   }
 
   ###########

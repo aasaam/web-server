@@ -9,7 +9,6 @@ services:
       - 443:443/tcp
     volumes:
       - ./tmp/log:/log
-      - ./tmp/cache:/cache
-      - ./tmp/GeoIP2:/GeoIP2
+      - ./tmp/cache:/cache # use tmpfs or high speed storage like SSD or NVMe
       - ./addon:/usr/local/openresty/nginx/addon:ro
     restart: unless-stopped
