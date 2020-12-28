@@ -25,4 +25,4 @@ if [[ ! -z "$ADDON_TEMPLATES" ]]; then
   done
 fi
 
-/usr/bin/openresty -g 'daemon off;'
+exec "$@"

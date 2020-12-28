@@ -251,4 +251,5 @@ EXPOSE 80/tcp 443/tcp
 
 STOPSIGNAL SIGTERM
 
-CMD [ "/entrypoint.sh" ]
+CMD ['/usr/bin/openresty' '-g' 'daemon off;']
+ENTRYPOINT [ "/entrypoint.sh" ]

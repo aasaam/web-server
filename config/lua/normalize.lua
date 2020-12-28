@@ -86,6 +86,19 @@ function _M.parse(
   -- hash
   parsed_data.agent_hash = utils.md5(parsed_data.agent_all)
 
+  -- modern
+  parsed_data.agent_is_modern = browsers.is_modern(
+    parsed_data.agent_name,
+    parsed_data.agent_os,
+    parsed_data.agent_version_major
+  )
+  parsed_data.agent_is_modern_or_crawler = browsers.is_modern_or_crawler(
+    parsed_data.agent_category,
+    parsed_data.agent_name,
+    parsed_data.agent_os,
+    parsed_data.agent_version_major
+  )
+
   -- foreign_referer_host
   if utils.is_empty(referer) == false then
     local referer_url_parsed = resty_url.parse(referer)
