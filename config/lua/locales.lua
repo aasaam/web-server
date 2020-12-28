@@ -801,7 +801,7 @@ function _M.get_default_lang(country_code)
   if utils.is_empty(country_code) == false and country_lang[country_code] then
     return country_lang[country_code]
   end
-  return ''
+  return 'en'
 end
 
 function _M.get_default_direction(language_code)
