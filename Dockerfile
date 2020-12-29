@@ -82,6 +82,10 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cd /tmp \
   && git clone https://github.com/vozlt/nginx-module-vts /tmp/nginx-module-vts \
   && export NGINX_MODULE_VTS=`realpath /tmp/nginx-module-vts` \
+  ## nginx-ntlm-module
+  && cd /tmp \
+  && git clone https://github.com/gabihodoroaga/nginx-ntlm-module /tmp/nginx-ntlm-module \
+  && export NGINX_MODULE_NTLM=`realpath /tmp/nginx-ntlm-module` \
   ## openresty download
   && cd /tmp \
   && wget -O openresty.tgz https://github.com/openresty/openresty-packaging/archive/master.tar.gz \
@@ -96,7 +100,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && grep -v "debsigs" Makefile > temp && cat temp > Makefile \
   && sed -i 's#OPTS=#OPTS=-b -uc -us#g' Makefile \
   && sed -i 's#tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty#tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty \&\& /tmp/patch-source.py `realpath openresty/bundle/nginx-1*/` #g' Makefile \
-  && sed -i "s#--with-threads#--with-threads --with-ld-opt=\"-Wl,-rpath,$PHP_LIB\" --add-module=$NGINX_MODULE_NCHAN --add-module=$NGINX_MODULE_VOD --add-module=$NGINX_MODULE_STS --add-module=$NGINX_MODULE_STREAM_STS --add-module=$NGINX_MODULE_VTS --add-module=$NGINX_MODULE_BROTLI --add-module=$NGINX_MODULE_NAXI --add-module=$NGINX_MODULE_PS --add-module=$NGINX_MODULE_GEOIP2#g" openresty/debian/rules \
+  && sed -i "s#--with-threads#--with-threads --with-ld-opt=\"-Wl,-rpath,$PHP_LIB\" --add-module=$NGINX_MODULE_NTLM --add-module=$NGINX_MODULE_NCHAN --add-module=$NGINX_MODULE_VOD --add-module=$NGINX_MODULE_STS --add-module=$NGINX_MODULE_STREAM_STS --add-module=$NGINX_MODULE_VTS --add-module=$NGINX_MODULE_BROTLI --add-module=$NGINX_MODULE_NAXI --add-module=$NGINX_MODULE_PS --add-module=$NGINX_MODULE_GEOIP2#g" openresty/debian/rules \
   && make zlib-build \
   && export DEB_TO_INSTALL=`realpath openresty-zlib_1.*.deb` \
   && export DEB_DEV_TO_INSTALL=`realpath openresty-zlib-dev_1.*.deb` \
@@ -242,6 +246,7 @@ COPY config/lua/access_normal.lua /usr/local/openresty/lualib/access_normal.lua
 COPY config/lua/normalize.lua /usr/local/openresty/lualib/normalize.lua
 COPY config/lua/locales.lua /usr/local/openresty/lualib/locales.lua
 COPY config/lua/utils.lua /usr/local/openresty/lualib/utils.lua
+COPY config/lua/browsers.lua /usr/local/openresty/lualib/browsers.lua
 
 # nginx.conf
 COPY addon /usr/local/openresty/nginx/addon
@@ -249,7 +254,7 @@ COPY config/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 
 EXPOSE 80/tcp 443/tcp
 
-STOPSIGNAL SIGTERM
-
-CMD ['/usr/bin/openresty' '-g' 'daemon off;']
+STOPSIGNAL SIGQUIT
 ENTRYPOINT [ "/entrypoint.sh" ]
+CMD ['openresty' '-g' 'daemon off;']
+

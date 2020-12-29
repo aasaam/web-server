@@ -29,6 +29,7 @@ Additional licenses available on:
   nginx-module-stream-sts: https://github.com/vozlt/nginx-module-stream-sts
   nginx-module-sts: https://github.com/vozlt/nginx-module-sts
   nginx-module-vts: https://github.com/vozlt/nginx-module-vts
+  nginx-ntlm-module: https://github.com/gabihodoroaga/nginx-ntlm-module
   nginx-vod-module: https://github.com/kaltura/nginx-vod-module
   ngx_brotli: https://github.com/google/ngx_brotli
   ngx_http_geoip2_module: https://github.com/leev/ngx_http_geoip2_module
