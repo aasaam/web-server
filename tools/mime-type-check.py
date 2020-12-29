@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import re
+import re, json
 
 found_extensions = {}
 
@@ -17,3 +17,5 @@ with open("./config/defaults/mime.types") as file_in:
           else:
             print(extension)
             raise Exception('Duplicate extension')
+
+print(json.dumps(found_extensions, indent=2, sort_keys=True))

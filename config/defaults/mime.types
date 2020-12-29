@@ -99,13 +99,17 @@ types {
   font/otf                              otf;
 
   # archive
-  application/x-7z-compressed           7z;
-  application/x-rar-compressed          rar;
-  application/zip                       zip zipx;
-  application/x-tar                     tar;
   application/vnd.ms-cab-compressed     cab;
+  application/x-7z-compressed           7z;
+  application/x-cfs-compressed          cfs;
+  application/x-dar                     dar;
   application/x-gtar                    tar.gz tgz tar.z tar.bz2 tbz2 tar.lz tlz tar.xz txz;
+  application/x-lzip                    lzip;
   application/x-ms-wim                  wim;
+  application/x-rar-compressed          rar;
+  application/x-tar                     tar;
+  application/zip                       zip zipx;
+  application/zstd                      zst;
 
   # misc
   application/x-dosexec                 exe;

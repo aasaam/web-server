@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2020 aasaam software development group
+Copyright (c) 2021 aasaam software development group
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,3 +34,4 @@ Additional licenses available on:
   ngx_brotli: https://github.com/google/ngx_brotli
   ngx_http_geoip2_module: https://github.com/leev/ngx_http_geoip2_module
   lua-resty-woothee: https://github.com/woothee/lua-resty-woothee
+  gomplate: https://github.com/hairyhenderson/gomplate

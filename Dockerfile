@@ -172,6 +172,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
 FROM ubuntu:focal
 
 COPY --from=builder /tmp/builder.tgz /tmp/builder.tgz
+COPY --from=hairyhenderson/gomplate /gomplate /bin/gomplate
 COPY entrypoint.sh /entrypoint.sh
 RUN export DEBIAN_FRONTEND=noninteractive ; \
   export LANG=en_US.utf8 ; \
@@ -256,5 +257,5 @@ EXPOSE 80/tcp 443/tcp
 
 STOPSIGNAL SIGQUIT
 ENTRYPOINT [ "/entrypoint.sh" ]
-CMD ['openresty' '-g' 'daemon off;']
+CMD ['/usr/bin/openresty' '-g' '"daemon off;"']
 
