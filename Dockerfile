@@ -256,6 +256,6 @@ COPY config/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 EXPOSE 80/tcp 443/tcp
 
 STOPSIGNAL SIGQUIT
-ENTRYPOINT [ "/entrypoint.sh" ]
-CMD ['/usr/bin/openresty' '-g' '"daemon off;"']
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["openresty", "-g", "daemon off;"]
 

@@ -8,7 +8,7 @@
 [![open-issues](https://flat.badgen.net/github/open-issues/aasaam/web-server)](https://github.com/aasaam/web-server/issues)
 [![open-pull-requests](https://flat.badgen.net/github/open-prs/aasaam/web-server)](https://github.com/aasaam/web-server/pulls)
 
-Improved [Nginx](http://nginx.org/)/[OpenResty](https://openresty.org/en/).
+Improved version of [Nginx](http://nginx.org/)/[OpenResty](https://openresty.org/en/).
 
 List of modifications:
 
@@ -23,6 +23,7 @@ List of modifications:
 * [ngx_brotli](https://github.com/google/ngx_brotli)
 * [ngx_http_geoip2_module](https://github.com/leev/ngx_http_geoip2_module)
 * [woothee](http://woothee.github.io)
+* [gomplate](https://github.com/hairyhenderson/gomplate)
 * [custom error pages](https://aasaam.github.io/error-pages)
 
 ## Requirement
