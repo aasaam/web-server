@@ -1,0 +1,5 @@
+[[hosts]]
+  server_names = [ "exmaple.com", "www.exmaple.com" ]
+
+[[hosts]]
+  server_names = [ "exmaple.net", "www.exmaple.net" ]

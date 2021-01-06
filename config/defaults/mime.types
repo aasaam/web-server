@@ -1,28 +1,28 @@
 types {
 
   # essentials
+  application/xhtml+xml                 xhtml;
   application/xml                       xml;
-  text/plain                            txt;
-  text/html                             htm html shtml;
-  text/css                              css;
+  application/xslt+xml                  xsl;
   text/calendar                         ics;
+  text/css                              css;
   text/csv                              csv;
+  text/html                             htm html shtml;
   text/markdown                         md markdown;
   text/mathml                           mml;
-  application/xhtml+xml                 xhtml;
-  application/xslt+xml                  xsl;
+  text/plain                            txt;
 
   # xml
   application/atom+xml                  atom;
-  application/rss+xml                   rss;
   application/rdf+xml                   rdf;
+  application/rss+xml                   rss;
 
   # json
   application/json                      json map topojson;
-  application/ld+json                   jsonld;
-  application/x-ndjson                  ndjson;
   application/geo+json                  geojson;
+  application/ld+json                   jsonld;
   application/manifest+json             webmanifest;
+  application/x-ndjson                  ndjson;
   application/x-web-app-manifest+json   webapp;
 
   # javascript
@@ -32,6 +32,7 @@ types {
   # multimedia:images
   application/dicom                     dcm;
   application/postscript                ai eps ps;
+  image/apng                            apng;
   image/bmp                             bmp;
   image/gif                             gif;
   image/heif                            avif heif heic hif;
@@ -39,7 +40,6 @@ types {
   image/jpeg                            jpeg jpg;
   image/jxr                             jxr hdp wdp;
   image/png                             png;
-  image/apng                            apng;
   image/svg+xml                         svg svgz;
   image/tiff                            tif tiff;
   image/vnd.wap.wbmp                    wbmp;
@@ -49,54 +49,78 @@ types {
   image/x-jng                           mng;
 
   # multimedia:audio
+  audio/flac                            flac;
   audio/midi                            mid midi kar;
+  audio/mp2t                            tsa;
   audio/mp4                             aac f4a f4b m4a;
   audio/mpeg                            mp3;
   audio/ogg                             oga ogg opus;
+  audio/x-matroska                      mka;
   audio/x-realaudio                     ra;
   audio/x-wav                           wav;
-  audio/x-matroska                      mka;
-  audio/flac                            flac;
-  audio/mp2t                            tsa;
 
   # multimedia:video
   video/3gpp                            3gp 3gpp;
+  video/mp2t                            ts tsv;
   video/mp4                             f4p f4v m4v mp4;
   video/mpeg                            mpeg mpg;
   video/ogg                             ogv;
   video/quicktime                       mov;
   video/webm                            webm;
   video/x-flv                           flv;
+  video/x-matroska                      mkv mk3d;
   video/x-ms-asf                        asf asx;
   video/x-ms-wmv                        wmv;
   video/x-msvideo                       avi;
-  video/x-matroska                      mkv mk3d;
-  video/mp2t                            ts tsv;
 
   # multimedia:manifest
-  application/vnd.apple.mpegurl         m3u8;
   application/dash+xml                  mpd;
+  application/vnd.apple.mpegurl         m3u8;
   text/vtt                              vtt;
 
   # documents
   application/epub+zip                                                        epub;
-  application/x-mobipocket-ebook                                              prc mobi;
-  application/msword                                                          doc;
-  application/vnd.ms-excel                                                    xls;
-  application/vnd.ms-powerpoint                                               ppt;
-  application/vnd.openxmlformats-officedocument.wordprocessingml.document     docx;
-  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet           xlsx;
-  application/vnd.openxmlformats-officedocument.presentationml.presentation   pptx;
+  application/msonenote                                                       one onepkg onetmp onetoc2;
+  application/msword                                                          doc psw pwd wbk mcw;
+  application/oebps-package+xml                                               opf;
   application/pdf                                                             pdf;
   application/rtf                                                             rtf;
+  application/vnd.amazon.mobi8-ebook                                          azw azw3 kfx;
+  application/vnd.ms-excel                                                    xls;
+  application/vnd.ms-excel.addin.macroEnabled.12                              xlam;
+  application/vnd.ms-excel.sheet.binary.macroEnabled.12                       xlsb;
+  application/vnd.ms-excel.sheet.macroEnabled.12                              xlsm;
+  application/vnd.ms-excel.template.macroEnabled.12                           xltm;
+  application/vnd.ms-officetheme                                              thmx;
+  application/vnd.ms-powerpoint                                               ppt;
+  application/vnd.ms-powerpoint.addin.macroEnabled.12                         ppam;
+  application/vnd.ms-powerpoint.presentation.macroEnabled.12                  pptm;
+  application/vnd.ms-powerpoint.slide.macroEnabled.12                         sldm;
+  application/vnd.ms-powerpoint.slideshow.macroEnabled.12                     ppsm;
+  application/vnd.ms-powerpoint.template.macroEnabled.12                      potm;
+  application/vnd.ms-word.document.macroEnabled.12                            docm;
+  application/vnd.ms-word.template.macroEnabled.12                            dotm;
+  application/vnd.oasis.opendocument.presentation                             odp;
+  application/vnd.oasis.opendocument.spreadsheet                              ods;
+  application/vnd.oasis.opendocument.text                                     odt;
+  application/vnd.openxmlformats-officedocument.presentationml.presentation   pptx;
+  application/vnd.openxmlformats-officedocument.presentationml.slide          sldx;
+  application/vnd.openxmlformats-officedocument.presentationml.slideshow      ppsx;
+  application/vnd.openxmlformats-officedocument.presentationml.template       potx;
+  application/vnd.openxmlformats-officedocument.spreadsheetml.sheet           xlsx;
+  application/vnd.openxmlformats-officedocument.spreadsheetml.template        xltx;
+  application/vnd.openxmlformats-officedocument.wordprocessingml.document     docx;
+  application/vnd.openxmlformats-officedocument.wordprocessingml.template     dotx;
+  application/x-mobipocket-ebook                                              prc mobi;
+  image/vnd.djvu                                                              djvu djv;
 
   # fonts
-  font/woff                             woff;
-  font/woff2                            woff2;
   application/vnd.ms-fontobject         eot;
-  font/ttf                              ttf;
   font/collection                       ttc;
   font/otf                              otf;
+  font/ttf                              ttf;
+  font/woff                             woff;
+  font/woff2                            woff2;
 
   # archive
   application/vnd.ms-cab-compressed     cab;
@@ -112,19 +136,18 @@ types {
   application/zstd                      zst;
 
   # misc
-  application/x-dosexec                 exe;
-  application/x-apple-diskimage         dmg;
-  text/cache-manifest                   appcache;
   application/java-archive              ear jar war;
   application/mac-binhex40              hqx;
   application/vnd.debian.binary-package deb;
   application/vnd.google-earth.kml+xml  kml;
   application/vnd.google-earth.kmz      kmz;
   application/vnd.wap.wmlc              wmlc;
+  application/x-apple-diskimage         dmg;
   application/x-bb-appworld             bbaw;
   application/x-bittorrent              torrent;
   application/x-chrome-extension        crx;
   application/x-cocoa                   cco;
+  application/x-dosexec                 exe;
   application/x-java-archive-diff       jardiff;
   application/x-java-jnlp-file          jnlp;
   application/x-makeself                run;
@@ -137,6 +160,7 @@ types {
   application/x-tcl                     tcl tk;
   application/x-x509-ca-cert            crt der pem;
   application/x-xpinstall               xpi;
+  text/cache-manifest                   appcache;
   text/vcard                            vcard vcf;
   text/vnd.rim.location.xloc            xloc;
   text/vnd.sun.j2me.app-descriptor      jad;

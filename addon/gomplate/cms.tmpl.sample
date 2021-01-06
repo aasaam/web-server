@@ -1,0 +1,9 @@
+{{ range $h := .config.hosts }}
+server {
+  server_name{{ range $sn := $h.server_names }} {{ $sn }}{{ end }};
+
+  location / {
+    return 501;
+  }
+}
+{{ end }}

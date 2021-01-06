@@ -248,6 +248,7 @@ COPY config/lua/normalize.lua /usr/local/openresty/lualib/normalize.lua
 COPY config/lua/locales.lua /usr/local/openresty/lualib/locales.lua
 COPY config/lua/utils.lua /usr/local/openresty/lualib/utils.lua
 COPY config/lua/browsers.lua /usr/local/openresty/lualib/browsers.lua
+COPY config/lua/loading_page.lua /usr/local/openresty/lualib/loading_page.lua
 
 # nginx.conf
 COPY addon /usr/local/openresty/nginx/addon
