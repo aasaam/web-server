@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# define variables
+# defined env variables
 DEFINED_ENVS=$(printf '${%s} ' $(env | cut -d= -f1))
 
 ADDON_TEMPLATE_PATH=/usr/local/openresty/nginx/addon/templates

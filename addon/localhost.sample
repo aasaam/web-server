@@ -29,7 +29,7 @@ server {
   server_name localhost;
 
   set $organization_title 'Sample Organization';
-  # select file name without extension in https://aasaam.github.io/brand-icons/ for example ir_aasaam.svg will be ir_aasaam
+  # select file name without extension in https://aasaam.github.io/brand-icons/ for example ir_aasaam.svg must be ir_aasaam
   set $organization_brand_icon 'si_linux';
 
   ########################
@@ -193,11 +193,11 @@ server {
     # client_max_body_size 10M;
     # client_body_buffer_size 10M;
 
-    # > A: proxy http
+    # > A: proxy http (LAN or trusted network)
     include /usr/local/openresty/nginx/defaults/location_proxy_http.conf;
     proxy_pass http://upstream_localhost;
 
-    # > B: proxy https insecure (LAN or trusted network) [Bad practice]
+    # > B: proxy https insecure [Bad practice]
     # include /usr/local/openresty/nginx/defaults/location_proxy_https_insecure.conf;
     # proxy_pass https://upstream_localhost;
 

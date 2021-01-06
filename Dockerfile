@@ -25,29 +25,29 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && chmod +x /tmp/geoip-finder.py \
   && curl -Ls 'https://db-ip.com/db/download/ip-to-city-lite' -o /tmp/ip-to-city-lite.html \
   && curl -Ls 'https://db-ip.com/db/download/ip-to-asn-lite' -o /tmp/ip-to-asn-lite.html \
-  && wget -O /tmp/ip-to-city-lite.gz $(/tmp/geoip-finder.py /tmp/ip-to-city-lite.html) \
-  && wget -O /tmp/ip-to-asn-lite.gz $(/tmp/geoip-finder.py /tmp/ip-to-asn-lite.html) \
+  && wget -q -O /tmp/ip-to-city-lite.gz $(/tmp/geoip-finder.py /tmp/ip-to-city-lite.html) \
+  && wget -q -O /tmp/ip-to-asn-lite.gz $(/tmp/geoip-finder.py /tmp/ip-to-asn-lite.html) \
   && gunzip /tmp/ip-to-city-lite.gz \
   && gunzip /tmp/ip-to-asn-lite.gz \
   ## nchan
   && cd /tmp \
-  && wget https://github.com/slact/nchan/archive/v1.2.7.tar.gz -O nchan.tgz \
+  && wget -q -O nchan.tgz https://github.com/slact/nchan/archive/v1.2.7.tar.gz \
   && tar -xf nchan.tgz \
   && export NGINX_MODULE_NCHAN=`realpath nchan-1.*/` \
   ## naxsi
   && cd /tmp \
-  && wget https://github.com/nbs-system/naxsi/archive/1.3.tar.gz -O naxsi.tgz \
+  && wget -q -O naxsi.tgz https://github.com/nbs-system/naxsi/archive/1.3.tar.gz \
   && tar -xf naxsi.tgz \
   && export NGINX_MODULE_NAXI=`realpath naxsi-1.*/naxsi_src` \
   ## nginx-vod-module
   && cd /tmp \
-  && wget https://github.com/kaltura/nginx-vod-module/archive/1.27.tar.gz -O nginx-vod-module.tgz \
+  && wget -q -O nginx-vod-module.tgz https://github.com/kaltura/nginx-vod-module/archive/1.27.tar.gz \
   && tar -xf nginx-vod-module.tgz \
   && export NGINX_MODULE_VOD=`realpath nginx-vod-module-1*` \
   ## page speed
   && cd /tmp \
   && export NPS_VERSION=1.13.35.2-stable \
-  && wget -c https://github.com/apache/incubator-pagespeed-ngx/archive/v${NPS_VERSION}.zip \
+  && wget -q -c https://github.com/apache/incubator-pagespeed-ngx/archive/v${NPS_VERSION}.zip \
   && unzip v${NPS_VERSION}.zip \
   && export nps_dir=`realpath *pagespeed-ngx*` \
   && cd $nps_dir \
@@ -56,12 +56,12 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && export psol_url="https://dl.google.com/dl/page-speed/psol/$NPS_RELEASE_NUMBER.tar.gz" \
   && ls -laF scripts/ \
   && [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL) \
-  && wget -c ${psol_url} \
+  && wget -q -c ${psol_url} \
   && tar -xzvf $(basename ${psol_url}) \
   && export NGINX_MODULE_PS=`realpath "$nps_dir"` \
   ## geoip2
   && cd /tmp \
-  && wget -O ngx_http_geoip2_module.tgz https://github.com/leev/ngx_http_geoip2_module/archive/3.3.tar.gz \
+  && wget -q -O ngx_http_geoip2_module.tgz https://github.com/leev/ngx_http_geoip2_module/archive/3.3.tar.gz \
   && tar -xf ngx_http_geoip2_module.tgz \
   && export NGINX_MODULE_GEOIP2=`realpath /tmp/ngx_http_geoip2_module-*` \
   ## brotli
@@ -88,7 +88,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && export NGINX_MODULE_NTLM=`realpath /tmp/nginx-ntlm-module` \
   ## openresty download
   && cd /tmp \
-  && wget -O openresty.tgz https://github.com/openresty/openresty-packaging/archive/master.tar.gz \
+  && wget -q -O openresty.tgz https://github.com/openresty/openresty-packaging/archive/master.tar.gz \
   && tar -xf openresty.tgz \
   && rm -rf /tmp/builder/resty \
   && mkdir -p /tmp/builder/resty \
@@ -134,38 +134,38 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && export DEB_TO_INSTALL=`realpath openresty-opm_1*focal1_amd64.deb` \
   && cp $DEB_TO_INSTALL /tmp/builder/openresty-opm.deb \
   && cd /tmp \
-  && wget -O error-pages.tgz https://github.com/aasaam/error-pages/archive/master.tar.gz \
+  && wget -q -O error-pages.tgz https://github.com/aasaam/error-pages/archive/master.tar.gz \
   && tar -xf error-pages.tgz \
   && cd /tmp/error-pages-master/dist/nginx \
   && rm -rf /tmp/builder/error-pages \
   && mv error-pages /tmp/builder/ \
   && cd /tmp \
-  && wget -O /tmp/icons.tgz https://github.com/aasaam/brand-icons/archive/master.tar.gz \
+  && wget -q -O /tmp/icons.tgz https://github.com/aasaam/brand-icons/archive/master.tar.gz \
   && tar -xf /tmp/icons.tgz \
   && mv brand-icons-master/svg /tmp/builder/error-pages/ \
-  && wget -O dl_woothee.tgz https://github.com/woothee/lua-resty-woothee/archive/v1.11.0-1.tar.gz \
+  && wget -q -O dl_woothee.tgz https://github.com/woothee/lua-resty-woothee/archive/v1.11.0-1.tar.gz \
   && tar -xf dl_woothee.tgz \
   && export WOOTHEE_PATH=`realpath /tmp/lua-resty-woothee-1*/lib` \
   && cd $WOOTHEE_PATH \
   && cp -rf resty/* /tmp/builder/resty/ \
   && cd /tmp \
-  && wget -O lua_resty_url.tgz https://github.com/3scale/lua-resty-url/archive/v0.3.5.tar.gz \
+  && wget -q -O lua_resty_url.tgz https://github.com/3scale/lua-resty-url/archive/v0.3.5.tar.gz \
   && tar -xf lua_resty_url.tgz \
   && export LUA_RESTY_URL_PATH=`realpath /tmp/lua-resty-url*/src/` \
   && cd $LUA_RESTY_URL_PATH \
   && cp -rf resty/* /tmp/builder/resty/ \
   && cd /tmp \
-  && wget -O minify.tgz 'https://github.com/tdewolff/minify/releases/download/v2.9.10/minify_linux_amd64.tar.gz' \
+  && wget -q -O minify.tgz 'https://github.com/tdewolff/minify/releases/download/v2.9.10/minify_linux_amd64.tar.gz' \
   && tar -xf minify.tgz \
   && cd /tmp/builder \
   && export SENTRY_VERSION=$(curl -s https://api.github.com/repos/getsentry/sentry-javascript/releases/latest | jq -r '.assets[].browser_download_url' | grep sentry-browser | grep -o -P '(?<=download\/).*(?=\/)') \
   && export SENTRY_URL="https://browser.sentry-cdn.com/$SENTRY_VERSION/bundle.js" \
-  && wget -O /tmp/sentry.js $SENTRY_URL \
-  && wget -O /tmp/nchan.js 'https://cdn.jsdelivr.net/gh/slact/nchan.js/NchanSubscriber.js' \
+  && wget -q -O /tmp/sentry.js $SENTRY_URL \
+  && wget -q -O /tmp/nchan.js 'https://cdn.jsdelivr.net/gh/slact/nchan.js/NchanSubscriber.js' \
   && /tmp/minify /tmp/sentry.js > /tmp/builder/sentry.js \
   && /tmp/minify /tmp/nchan.js > /tmp/builder/nchan.js \
-  && wget -O /tmp/builder/favicon.ico https://raw.githubusercontent.com/aasaam/information/master/logo/icons/favicon.ico \
-  && wget -O /tmp/builder/humans.txt https://raw.githubusercontent.com/aasaam/information/master/info/humans.txt \
+  && wget -q -O /tmp/builder/favicon.ico https://raw.githubusercontent.com/aasaam/information/master/logo/icons/favicon.ico \
+  && wget -q -O /tmp/builder/humans.txt https://raw.githubusercontent.com/aasaam/information/master/info/humans.txt \
   && cd /tmp \
   && tar -czf builder.tgz builder
 
@@ -208,7 +208,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cp /tmp/builder/*.mmdb /GeoIP2/ \
   # luarocks
   && cd /tmp/ \
-  && wget https://luarocks.org/releases/luarocks-3.5.0.tar.gz -O luarocks.tgz \
+  && wget -q  -O luarocks.tgz https://luarocks.org/releases/luarocks-3.5.0.tar.gz \
   && tar -xf luarocks.tgz \
   && cd luarocks-3* \
   && ./configure --prefix=/usr/local/openresty/luajit \
@@ -225,7 +225,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-get purge -y wget build-essential unzip git \
   && apt-get autoremove -y \
   && apt-get clean \
-  && mkdir /templates \
   && mkdir /usr/local/openresty/addon-generated \
   && rm -rf /usr/share/doc \
   && rm -rf /usr/share/man \
