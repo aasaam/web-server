@@ -1,4 +1,6 @@
 #!/bin/bash
+# Copyright (c) 2021 aasaam software development group
+
 set -e
 
 # defined env variables
@@ -13,7 +15,7 @@ NGINX_DOT_CONF_TEMPLATE=$ADDON_TEMPLATE_PATH/nginx.conf
 NGINX_DOT_CONF_GOMPLATE=/usr/local/openresty/nginx/addon/gomplates/nginx.tmpl
 ADDON_TEMPLATES=$(find $ADDON_TEMPLATE_PATH -type f -name "*.nginx.conf")
 GOMPLATE_TEMPLATES=$(find $GOMPLATE_PATH -type f -name "*.tmpl")
-GOMPLATE_CONFIGS=$(find $GOMPLATE_PATH -type f -name "*.yml")
+GOMPLATE_CONFIGS=$(find $GOMPLATE_PATH -type f -name "*.toml")
 
 if [ -f "$NGINX_DOT_CONF_TEMPLATE" ]; then
   echo "Using template for $NGINX_DOT_CONF_PATH"

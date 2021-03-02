@@ -53,7 +53,7 @@ http {
   userid_name aasaam_cid;
   userid_path /;
   userid_flags samesite=lax;
-  userid_expires 90d;
+  userid_expires 365d;
 
   stream_server_traffic_status_zone;
   vhost_traffic_status_zone;
@@ -84,6 +84,7 @@ http {
     '"request_id":"$request_id",'
     '"client_uid":"$uid_got$uid_set",'
     '"client_new":"$uid_set",'
+    '"client_reset":"$uid_reset",'
     '"client_cn":"$ssl_client_s_dn_cn",'
     '"user_id":"$user_id",'
     '"waf_mode":"$waf_mode",'
@@ -241,8 +242,13 @@ http {
     text/x-component
     text/xml;
 
+
+  #
+  # Total cache size {{ env.Getenv "ASM_CACHE_SIZE_MB" "1024" }}
+  #
+
   proxy_http_version 1.1;
-  proxy_cache_path /cache/nginx-proxy levels=1:2 keys_zone=PROXYCACHE:{{ env.Getenv "ASM_PROXY_CACHE_PATH_KEYS_ZONE" "32m" }} max_size={{ env.Getenv "ASM_PROXY_CACHE_PATH_KEYS_MAX_SIZE" "1g" }} inactive={{ env.Getenv "ASM_PROXY_CACHE_PATH_KEYS_INACTIVE" "60m" }};
+  proxy_cache_path /cache/nginx-proxy levels=1:2 keys_zone=PROXYCACHE:{{ env.Getenv "ASM_PROXY_CACHE_PATH_KEYS_ZONE" "32m" }} max_size={{ env.Getenv "ASM_PROXY_CACHE_PATH_KEYS_MAX_SIZE_MB" "512" }}m inactive={{ env.Getenv "ASM_PROXY_CACHE_PATH_KEYS_INACTIVE" "60m" }};
   proxy_cache_key {{ env.Getenv "ASM_PROXY_CACHE_KEY" "$scheme$request_method$host$request_uri" }};
   proxy_cache_methods {{ env.Getenv "ASM_PROXY_CACHE_METHODS" "GET HEAD" }};
   proxy_buffers {{ env.Getenv "ASM_PROXY_BUFFERS" "32" }} {{ env.Getenv "ASM_PROXY_BUFFERS_SIZE" "128k" }};

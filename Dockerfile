@@ -1,3 +1,4 @@
+# Copyright (c) 2021 aasaam software development group
 FROM ubuntu:focal AS builder
 
 LABEL org.label-schema.name="web-server" \
@@ -198,7 +199,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && mkdir -p /usr/local/openresty/nginx/conf \
   && mkdir -p /usr/local/openresty/nginx/addon \
   && export OPENSSL_BIN=`find /usr/local/openresty -type f -executable -name openssl` \
-  && $OPENSSL_BIN dhparam -out /usr/local/openresty/nginx/dhparams.pem 2048 \
   && cp /tmp/builder/favicon.ico /usr/local/openresty/nginx/favicon.ico \
   && cp /tmp/builder/humans.txt /usr/local/openresty/nginx/humans.txt \
   && cp /tmp/builder/sentry.js /usr/local/openresty/nginx/sentry.js \
