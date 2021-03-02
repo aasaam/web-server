@@ -6,10 +6,10 @@
     Improved version of Nginx/OpenResty
   </p>
   <p>
-    <a href="https://gitlab.com/aasaam/web-server/-/pipelines"><img alt="CI Pipeline" src="https://gitlab.com/aasaam/web-server/badges/main/pipeline.svg"></a>
+    <a href="https://gitlab.com/aasaam/web-server/-/pipelines"><img alt="CI Pipeline" src="https://gitlab.com/aasaam/web-server/badges/master/pipeline.svg"></a>
     <a href="https://hub.docker.com/r/aasaam/web-server" target="_blank"><img src="https://img.shields.io/docker/image-size/aasaam/web-server?label=docker%20image" alt="docker" /></a>
     <a href="https://quay.io/repository/aasaam/web-server" target="_blank"><img src="https://img.shields.io/badge/docker%20image-quay.io-blue" alt="quay.io" /></a>
-    <a href="https://github.com/aasaam/web-server/actions/workflows/docs.yml" target="_blank"><img src="https://github.com/aasaam/web-server/actions/workflows/docs.yml/badge.svg" alt="docs" /></a>
+    <a href="https://aasaam.github.io/web-server/" target="_blank"><img src="https://github.com/aasaam/web-server/actions/workflows/docs.yml/badge.svg" alt="docs" /></a>
   </p>
 </div>
 
