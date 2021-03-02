@@ -2,14 +2,11 @@ local _M = { _VERSION = '0.0.1' }
 
 function _M.parse(
   request_ip,
-  client_uid,
-  uid_set,
   geo_country_code,
   http_user_agent,
   http_host,
   http_referer
 )
-  local uid = client_uid or ''
   local country_code = geo_country_code or ''
   local host = http_host or ''
   local referer = http_referer or ''
@@ -17,9 +14,7 @@ function _M.parse(
 
   local parsed_data = {
     ip_class='',
-    client_new='',
     foreign_referer_host='',
-    client_uid='',
 
     agent_all='',
     agent_category='',
@@ -41,21 +36,11 @@ function _M.parse(
   -- ip classification
   parsed_data.ip_class = utils.ip_class(request_ip)
 
-  -- client uid
-  parsed_data.client_uid = utils.md5(uid)
-
   -- countries helper
   parsed_data.geo_country_currency = locales.get_country_currency(country_code)
   parsed_data.geo_country_flag = locales.get_country_flag(country_code)
   parsed_data.geo_default_lang = locales.get_default_lang(country_code)
   parsed_data.geo_default_lang_direction = locales.get_default_direction(country_code)
-
-  -- client new
-  if utils.is_empty(uid_set) then
-    parsed_data.client_new = '0'
-  else
-    parsed_data.client_new = '1'
-  end
 
   -- agent
   local r = resty_woothee.parse(user_agent)

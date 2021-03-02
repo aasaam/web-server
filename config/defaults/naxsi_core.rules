@@ -86,21 +86,24 @@ MainRule "str:%U" "msg:M$ encoding" "mz:ARGS|BODY|URL|$HEADERS_VAR:Cookie" "s:$E
 #############################
 ## File uploads: 1500-1600 ##
 #############################
-MainRule "rx:\.ipa|\.hqx" "msg:ios extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1500;
-MainRule "rx:\.apk|\.apkm|\.apks|\.xapk" "msg:android extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1501;
+MainRule "rx:\.hqx|\.ipa" "msg:ios extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1500;
+MainRule "rx:\.aab|\.apk|\.apkm|\.apks|\.obb|\.xapk" "msg:android extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1501;
 MainRule "rx:\.xap" "msg:windows phone extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1502;
-MainRule "rx:\.ca-bundle|\.cer|\.crt|\.der|\.p12|\.p7b|\.p7s|\.pem|\.pfx|\.yara" "msg:security extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1503;
-MainRule "rx:\.htaccess|\.htpasswd" "msg:apache httpd extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1504;
-MainRule "rx:\.conf|\.ini|\.json|\.toml|\.yml|\.xml" "msg:configuration extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1505;
-MainRule "rx:\.application|\.appx|\.appxbundle|\.bat|\.bin|\.cmd|\.com|\.cpl|\.dll|\.exe|\.gadget|\.hta|\.inf|\.inf1|\.ins|\.inx|\.isu|\.job|\.jse|\.lnk|\.msc|\.msh|\.msh1|\.msh1xml|\.msh2|\.msh2xml|\.mshxml|\.msi|\.msp|\.mst|\.paf|\.pif|\.ps1|\.ps1xml|\.ps2|\.ps2xml|\.psc1|\.psc2|\.psd1|\.psm1|\.reg|\.rgs|\.run|\.scf|\.scr|\.sct|\.sfx|\.shb|\.shs|\.u3p|\.vb|\.vbe|\.vbs|\.vbscript|\.ws|\.wsc|\.wsf|\.wsh" "msg:windows extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1506;
-MainRule "rx:\.bash|\.deb|\.rpm|\.sh|\.so" "msg:linux extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1507;
-MainRule "rx:\.ctp|\.php|\.php3|\.php4|\.php5|\.php6|\.php7|\.php8|\.phtml|\.twig" "msg:php extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1508;
-MainRule "rx:\.asa|\.asax|\.ascx|\.ashx|\.asmx|\.asp|\.aspx|\.axd|\.browser|\.cd|\.cdx|\.compile|\.config|\.cs|\.csproj|\.disco|\.dsdgm|\.dsprototype|\.idc|\.jsl|\.ldb|\.licx|\.master|\.mdb|\.mdf|\.msgx|\.rem|\.resources|\.resx|\.sdm|\.sdmdocument|\.shtm|\.shtml|\.sitemap|\.skin|\.sln|\.soap|\.stm|\.svc|\.vbproj|\.vjsproj|\.vsdisco|\.webinfo" "msg:asp extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1509;
-MainRule "rx:\.ear|\.jad|\.jar|\.war" "msg:java extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1510;
-MainRule "rx:\.py|\.py3|\.pyc|\.pyo|\.pyw" "msg:python extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1511;
-MainRule "rx:\.pl|\.pm" "msg:perl extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1512;
-MainRule "rx:\.rb" "msg:ruby extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1513;
-MainRule "rx:\.docm|\.dotm|\.potm|\.ppam|\.ppsm|\.pptm|\.sldm|\.xlam|\.xlsm|\.xltm" "msg:documents contain macro extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1514;
-MainRule "rx:\.eps|\.pdf|\.ps" "msg:documents pdf extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1515;
-MainRule "rx:\.doc|\.ppt|\.xls" "msg:legacy documents extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1516;
-MainRule "rx:\.appcache|\.css|\.eot|\.htm|\.html|\.js|\.otf|\.swf|\.ttf|\.ttc|\.wasm|\.mjs|\.woff|\.woff2|\.webmanifest|\.webapp" "msg:web asset extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1517;
+MainRule "rx:\.arm|\.ca-bundle|\.cer|\.crt|\.der|\.jks|\.key|\.keystore|\.p12|\.p7b|\.p7s|\.pem|\.pfx|\.pvb|\.pvc|\.pvr|\.pvs|\.spc|\.yara" "msg:security extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1503;
+MainRule "rx:\.xsb" "msg:apache xmlbeans extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1504;
+MainRule "rx:\.htaccess|\.htpasswd" "msg:apache  extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1505;
+MainRule "rx:\.conf|\.ini|\.json|\.toml|\.xml|\.yaml|\.yml" "msg:configuration extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1506;
+MainRule "rx:\.ade|\.adp|\.app|\.application|\.appx|\.appxbundle|\.bat|\.bin|\.btm|\.cab|\.cmd|\.cnt|\.com|\.cpl|\.dll|\.drv|\.exe|\.gadget|\.hlp|\.hpj|\.hta|\.icl|\.inf|\.inf1|\.ins|\.inx|\.isp|\.isu|\.job|\.jse|\.jst|\.lib|\.lnk|\.mad|\.maf|\.mag|\.mam|\.maq|\.mar|\.mas|\.mat|\.mau|\.mav|\.maw|\.mda|\.msc|\.msh|\.msh1|\.msh1xml|\.msh2|\.msh2xml|\.mshxml|\.msi|\.msp|\.mst|\.ocx|\.ops|\.osd|\.paf|\.pcd|\.pif|\.plg|\.prf|\.prg|\.ps1|\.ps1xml|\.ps2|\.ps2xml|\.psc1|\.psc2|\.psd1|\.psm1|\.pst|\.reg|\.rgs|\.run|\.scf|\.scr|\.sct|\.sfx|\.shb|\.shs|\.tmp|\.u3p|\.vb|\.vbe|\.vbscript|\.ws|\.wsc|\.wsf|\.wsh|\.xgs|\.xnk|\.xwb" "msg:windows extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1507;
+MainRule "rx:\.a|\.ash|\.bash|\.csh|\.deb|\.ksh|\.psh|\.rpm|\.rsh|\.sh|\.so|\.ssh|\.tcsh|\.zsh" "msg:linux extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1508;
+MainRule "rx:\.ctp|\.php|\.php3|\.php4|\.php5|\.php6|\.php7|\.php8|\.phtml|\.twig" "msg:php extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1509;
+MainRule "rx:\.bas" "msg:basic extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1510;
+MainRule "rx:\.asa|\.asax|\.ascx|\.ashx|\.asmx|\.asp|\.aspx|\.axd|\.browser|\.cd|\.cdx|\.compile|\.config|\.cs|\.csproj|\.disco|\.dsdgm|\.dsprototype|\.grp|\.idc|\.jsl|\.ldb|\.licx|\.master|\.mcf|\.mdb|\.mde|\.mdf|\.mdt|\.mdw|\.mdz|\.msgx|\.rem|\.resources|\.resx|\.sdm|\.sdmdocument|\.shtm|\.shtml|\.sitemap|\.skin|\.sln|\.soap|\.stm|\.svc|\.vbp|\.vbproj|\.vbs|\.vjsproj|\.vsdisco|\.vsmacros|\.vsw|\.webinfo|\.xact|\.xaml|\.xbap" "msg:asp extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1511;
+MainRule "rx:\.cla|\.class|\.ear|\.jad|\.jar|\.war" "msg:java extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1512;
+MainRule "rx:\.t" "msg:turing extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1513;
+MainRule "rx:\.py|\.py3|\.pyc|\.pyd|\.pyo|\.pyw" "msg:python extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1514;
+MainRule "rx:\.pl|\.pm|\.pod" "msg:perl extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1515;
+MainRule "rx:\.rb" "msg:ruby extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1516;
+MainRule "rx:\.docm|\.docx|\.dotm|\.potm|\.ppam|\.ppsm|\.pptm|\.pptx|\.sldm|\.xlam|\.xlsm|\.xlsx|\.xltm" "msg:modern documents extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1517;
+MainRule "rx:\.eps|\.msg|\.pdf|\.ps" "msg:documents pdf extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1518;
+MainRule "rx:\.doc|\.ppt|\.xls|\.xlx" "msg:legacy documents extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1519;
+MainRule "rx:\.appcache|\.chm|\.css|\.eot|\.fon|\.fot|\.fxp|\.htm|\.html|\.its|\.js|\.mjs|\.otf|\.swf|\.ttc|\.ttf|\.url|\.wasm|\.webapp|\.webmanifest|\.woff|\.woff2" "msg:web asset extensions" "mz:FILE_EXT" "s:$UPLOAD:8" id:1520;

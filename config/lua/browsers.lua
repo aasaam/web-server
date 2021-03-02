@@ -1,8 +1,8 @@
 local _M = {_VERSION = '0.0.1' }
 
-local firefox_latest = 84
-local firefox_ios_latest = 29
-local chrome_latest = 87
+local firefox_latest = 86
+local firefox_ios_latest = 32
+local chrome_latest = 88
 
 function _M.is_modern(agent_name, agent_os, agent_version_major)
   if agent_name and agent_version_major and agent_version_major then

@@ -5,11 +5,12 @@ set -e
 DEFINED_ENVS=$(printf '${%s} ' $(env | cut -d= -f1))
 
 ADDON_TEMPLATE_PATH=/usr/local/openresty/nginx/addon/templates
-ADDON_OUTPUT=/usr/local/openresty/addon-generated
+ADDON_OUTPUT=/usr/local/openresty/addon-generated/sites-enabled
 NGINX_DOT_CONF_PATH=/usr/local/openresty/nginx/conf/nginx.conf
-GOMPLATE_PATH=/usr/local/openresty/nginx/addon/gomplates
+GOMPLATE_PATH=/usr/local/openresty/nginx/addon/gomplates/sites-enabled
 
 NGINX_DOT_CONF_TEMPLATE=$ADDON_TEMPLATE_PATH/nginx.conf
+NGINX_DOT_CONF_GOMPLATE=/usr/local/openresty/nginx/addon/gomplates/nginx.tmpl
 ADDON_TEMPLATES=$(find $ADDON_TEMPLATE_PATH -type f -name "*.nginx.conf")
 GOMPLATE_TEMPLATES=$(find $GOMPLATE_PATH -type f -name "*.tmpl")
 GOMPLATE_CONFIGS=$(find $GOMPLATE_PATH -type f -name "*.yml")
@@ -17,6 +18,11 @@ GOMPLATE_CONFIGS=$(find $GOMPLATE_PATH -type f -name "*.yml")
 if [ -f "$NGINX_DOT_CONF_TEMPLATE" ]; then
   echo "Using template for $NGINX_DOT_CONF_PATH"
   envsubst "$DEFINED_ENVS" < "$NGINX_DOT_CONF_TEMPLATE" > $NGINX_DOT_CONF_PATH
+fi
+
+if [ -f "$NGINX_DOT_CONF_GOMPLATE" ]; then
+  echo "Using gomplate for $NGINX_DOT_CONF_GOMPLATE"
+  gomplate -f > $NGINX_DOT_CONF_PATH
 fi
 
 if [[ ! -z "$ADDON_TEMPLATES" ]]; then

@@ -2,6 +2,9 @@
 # Upstream #
 ############
 upstream upstream_localhost {
+  # > A: For cookie hash base
+  # hash $uid_got$uid_set consistent;
+
   server 127.0.0.1:8080;
 }
 
@@ -49,6 +52,7 @@ server {
   ############################
   # Auth Request: Protection #
   ############################
+  # set $protection_enable '1';
   # > If OTP:
   # set $protection_config_challenge 'otp';
   # set $protection_config_otp_secret 'XXXXXXXXXXXXXXXX';
@@ -115,8 +119,8 @@ server {
   ssl_certificate /usr/local/openresty/nginx/addon/ssl/localhost/fullchain.pem;
   ssl_certificate_key /usr/local/openresty/nginx/addon/ssl/localhost/privkey.pem;
   ssl_trusted_certificate /usr/local/openresty/nginx/addon/ssl/localhost/chain.pem;
-  ssl_stapling off;
-  ssl_stapling_verify off;
+  ssl_stapling on;
+  ssl_stapling_verify on;
 
   # > comment out if you sure want to serve always https
   # add_header Strict-Transport-Security "max-age=63072000" always;
@@ -187,7 +191,7 @@ server {
     # proxy_cache_bypass $http_cookie_admin;
     # proxy_cache_valid 200 302 10m;
     # proxy_cache_valid 404 1m;
-    # add_header 'X-Cache-Status' $upstream_cache_status;
+    # add_header 'X-Aasaam-Cache-Status' $upstream_cache_status;
 
     # > upload size
     # client_max_body_size 10M;
@@ -208,32 +212,4 @@ server {
     # proxy_ssl_trusted_certificate /etc/nginx/trusted_ca_cert.crt;
     # proxy_pass https://upstream_localhost;
   }
-
-  ###########
-  # FastCGI #
-  ###########
-  # location / {
-  #   # pass headers to proxy backend
-  #   include /usr/local/openresty/nginx/defaults/fastcgi_params.conf;
-
-  #   #########
-  #   # Cache #
-  #   #########
-  #   fastcgi_buffering on;
-  #   fastcgi_cache PROXYCACHE;
-  #   fastcgi_cache_valid 200 1h;
-  #   fastcgi_cache_use_stale error timeout invalid_header updating http_500 http_502 http_503 http_504;
-  #   fastcgi_cache_background_update on;
-  #   fastcgi_cache_bypass $http_cookie_admin;
-  #   fastcgi_cache_valid 200 302 10m;
-  #   fastcgi_cache_valid 404 1m;
-  #   add_header 'X-Cache-Status' $upstream_cache_status;
-
-  # > upload size
-  # client_max_body_size 10M;
-  # client_body_buffer_size 10M;
-
-  #   # address
-  #   fastcgi_pass 127.0.0.1:9000;
-  # }
 }

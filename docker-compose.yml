@@ -4,9 +4,9 @@ services:
   aasaam-web-server:
     container_name: aasaam-web-server
     image: aasaam/web-server
-    ports:
-      - 80:80/tcp
-      - 443:443/tcp
+    network_mode: host
+    environment:
+      A: ${A:-q}
     volumes:
       - ./tmp/log:/log
       - ./tmp/cache:/cache # use tmpfs or high speed storage like SSD or NVMe

@@ -1,7 +1,7 @@
 FROM ubuntu:focal AS builder
 
 LABEL org.label-schema.name="web-server" \
-      org.label-schema.description="web-server" \
+      org.label-schema.description="Improved version of Nginx/OpenResty" \
       org.label-schema.url=https://github.com/aasaam/web-server \
       org.label-schema.vendor="aasaam" \
       maintainer="Muhammad Hussein Fattahizadeh <m@mhf.ir>"
@@ -225,7 +225,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-get purge -y wget build-essential unzip git \
   && apt-get autoremove -y \
   && apt-get clean \
-  && mkdir /usr/local/openresty/addon-generated \
+  && mkdir -p /usr/local/openresty/addon-generated/sites-enabled \
   && rm -rf /usr/share/doc \
   && rm -rf /usr/share/man \
   && rm -rf /usr/share/locale \

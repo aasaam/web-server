@@ -1,7 +1,5 @@
 local parsed = normalize.parse(
   ngx.var.request_ip,
-  ngx.var.client_uid,
-  ngx.var.uid_set,
   ngx.var.geo_country_code,
   ngx.var.http_user_agent,
   ngx.var.http_host,
@@ -9,8 +7,6 @@ local parsed = normalize.parse(
 )
 
 ngx.var.ip_class                    = parsed.ip_class
-ngx.var.client_new                  = parsed.client_new
-ngx.var.client_uid                  = parsed.client_uid
 ngx.var.foreign_referer_host        = parsed.foreign_referer_host
 
 ngx.var.agent_all                   = parsed.agent_all
