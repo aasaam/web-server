@@ -24,7 +24,7 @@ fi
 
 if [ -f "$NGINX_DOT_CONF_GOMPLATE" ]; then
   echo "Using gomplate for $NGINX_DOT_CONF_GOMPLATE"
-  gomplate -f > $NGINX_DOT_CONF_PATH
+  gomplate -f $NGINX_DOT_CONF_GOMPLATE > $NGINX_DOT_CONF_PATH
 fi
 
 if [[ ! -z "$ADDON_TEMPLATES" ]]; then

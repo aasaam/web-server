@@ -57,7 +57,7 @@ http {
 
   stream_server_traffic_status_zone;
   vhost_traffic_status_zone;
-  vhost_traffic_status_zone shared:vhost_traffic_status:16m;
+  vhost_traffic_status_zone shared:vhost_traffic_status:{{ env.Getenv "ASM_VHOST_TRAFFIC_STATUS" "16m" }};
 
   geoip2 /GeoIP2/City.mmdb {
     $geo_continent_code source=$request_ip continent code;
@@ -145,7 +145,7 @@ http {
   client_max_body_size {{ env.Getenv "ASM_CLIENT_MAX_BODY_SIZE" "10M" }};
   client_body_buffer_size {{ env.Getenv "ASM_CLIENT_MAX_BODY_SIZE" "10M" }};
   client_body_timeout {{ env.Getenv "ASM_CLIENT_BODY_TIMEOUT" "15" }};
-  keepalive_requests {{ env.Getenv "ASM_KEEPALIVE_REQUESTS" "1024" }};;
+  keepalive_requests {{ env.Getenv "ASM_KEEPALIVE_REQUESTS" "1024" }};
   keepalive_timeout {{ env.Getenv "ASM_KEEPALIVE_TIMEOUT" "10" }};
   reset_timedout_connection on;
   send_timeout {{ env.Getenv "ASM_SEND_TIMEOUT" "10" }};

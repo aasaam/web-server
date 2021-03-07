@@ -48,7 +48,7 @@ services:
     volumes:
       # - ./tmp/log:/log # for file log method
       - ./addon:/usr/local/openresty/nginx/addon:ro
-      - ./tmp/dhparams.pem:/usr/local/openresty/nginx/dhparams.pem:ro
+      - ./tmp/dhparams.pem:/usr/local/openresty/nginx/defaults/selfsigned/dhparam.pem:ro
       # - ./tmp/cache:/cache # use tmpfs or high speed storage like SSD, NVMe
     tmpfs:
       - /cache:rw,nodev,nosuid,noexec,noatime,size=${ASM_CACHE_SIZE_MB:-1024}m
