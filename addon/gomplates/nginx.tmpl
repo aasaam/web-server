@@ -1,9 +1,13 @@
 user www-data www-data;
-worker_processes {{ env.Getenv "ASM_NGINX_WORKER_PROCESSES" "auto" }};
-worker_rlimit_nofile {{ env.Getenv "ASM_NGINX_WORKER_RLIMIT_NOFILE" "20480" }};
+worker_processes {{ env.Getenv "ASM_WORKER_PROCESSES" "auto" }};
+worker_rlimit_nofile {{ env.Getenv "ASM_WORKER_RLIMIT_NOFILE" "20480" }};
+worker_priority {{ env.Getenv "ASM_WORKER_PRIORITY" "0" }};
+thread_pool default threads={{ env.Getenv "ASM_THREAD_POOL_THREADS" "32" }} max_queue={{ env.Getenv "ASM_THREAD_POOL_MAX_QUEUE" "65536" }};
 
 events {
-  worker_connections {{ env.Getenv "ASM_NGINX_WORKER_CONNECTIONS" "8192" }};
+  worker_connections {{ env.Getenv "ASM_WORKER_CONNECTIONS" "8192" }};
+  accept_mutex_delay {{ env.Getenv "ASM_ACCEPT_MUTEX_DELAY" "500ms" }};
+  accept_mutex {{ env.Getenv "ASM_ACCEPT_MUTEX" "off" }};
   use epoll;
   multi_accept on;
 }
@@ -11,7 +15,7 @@ events {
 {{ $logMethod := env.Getenv "ASM_LOG_METHOD" "syslog" }}
 {{ $nodeId := env.Getenv "ASM_NODE_ID" "0" }}
 {{ $syslogServer := env.Getenv "ASM_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5140" }}
-{{ $errorLogLevel := env.Getenv "ASM_NGINX_MAIN_LOG_LEVEL" "warn" }}
+{{ $errorLogLevel := env.Getenv "ASM_MAIN_LOG_LEVEL" "warn" }}
 
 {{ if eq $errorLogLevel "file" }}
 error_log /log/nginx.main.error.log {{ $errorLogLevel }};
@@ -24,6 +28,7 @@ error_log /dev/stdout {{ $errorLogLevel }};
 http {
 
   resolver {{ env.Getenv "ASM_RESOLVER_ADDR" "127.0.0.1" }} valid={{ env.Getenv "ASM_RESOLVER_VALID" "10m" }};
+  resolver_timeout {{ env.Getenv "ASM_RESOLVER_TIMEOUT" "30s" }};
 
 {{ if eq $logMethod "file" }}
   error_log /log/nginx.main.error.log {{ $errorLogLevel }};
@@ -50,10 +55,10 @@ http {
   include /usr/local/openresty/nginx/defaults/http_init_variables.conf;
 
   userid v1;
-  userid_name aasaam_cid;
-  userid_path /;
-  userid_flags samesite=lax;
-  userid_expires 365d;
+  userid_name {{ env.Getenv "ASM_USERID_NAME" "aasaam_cid" }};
+  userid_path {{ env.Getenv "ASM_USERID_PATH" "/" }};
+  userid_flags {{ env.Getenv "ASM_USERID_FLAGS" "httponly samesite=lax" }};
+  userid_expires {{ env.Getenv "ASM_USERID_EXPIRES" "365d" }};
 
   stream_server_traffic_status_zone;
   vhost_traffic_status_zone;
@@ -141,17 +146,17 @@ http {
   access_log /dev/stdout jsonlog;
 {{ end -}}
 
-  server_tokens off;
+  server_tokens {{ env.Getenv "ASM_SERVER_TOKENS" "off" }};
   client_max_body_size {{ env.Getenv "ASM_CLIENT_MAX_BODY_SIZE" "10M" }};
   client_body_buffer_size {{ env.Getenv "ASM_CLIENT_MAX_BODY_SIZE" "10M" }};
   client_body_timeout {{ env.Getenv "ASM_CLIENT_BODY_TIMEOUT" "15" }};
   keepalive_requests {{ env.Getenv "ASM_KEEPALIVE_REQUESTS" "1024" }};
   keepalive_timeout {{ env.Getenv "ASM_KEEPALIVE_TIMEOUT" "10" }};
-  reset_timedout_connection on;
+  reset_timedout_connection {{ env.Getenv "ASM_RESET_TIMEDOUT_CONNECTION" "on" }};
   send_timeout {{ env.Getenv "ASM_SEND_TIMEOUT" "10" }};
-  sendfile on;
-  tcp_nodelay on;
-  tcp_nopush on;
+  sendfile {{ env.Getenv "ASM_SENDFILE" "on" }};
+  tcp_nodelay {{ env.Getenv "ASM_TCP_NODELAY" "on" }};
+  tcp_nopush {{ env.Getenv "ASM_TCP_NOPUSH" "on" }};
 
   charset utf-8;
   charset_types
@@ -172,12 +177,12 @@ http {
     text/plain
     text/xml;
 
-  gzip on;
-  gzip_static on;
-  gzip_min_length 16;
-  gzip_comp_level 6;
-  gzip_vary on;
-  gzip_proxied any;
+  gzip {{ env.Getenv "ASM_GZIP" "on" }};
+  gzip_static {{ env.Getenv "ASM_GZIP_STATIC" "on" }};
+  gzip_min_length {{ env.Getenv "ASM_GZIP_MIN_LENGTH" "16" }};
+  gzip_comp_level {{ env.Getenv "ASM_GZIP_COMP_LEVEL" "6" }};
+  gzip_vary {{ env.Getenv "ASM_GZIP_VARY" "on" }};
+  gzip_proxied {{ env.Getenv "ASM_GZIP_PROXIED" "any" }};
   gzip_types
     audio/mpegurl
     video/mpegurl
@@ -208,10 +213,10 @@ http {
     text/x-component
     text/xml;
 
-  brotli_static on;
-  brotli on;
-  brotli_comp_level 6;
-  brotli_min_length 16;
+  brotli {{ env.Getenv "ASM_BROTLI" "on" }};
+  brotli_static {{ env.Getenv "ASM_BROTLI_STATIC" "on" }};
+  brotli_comp_level {{ env.Getenv "ASM_BROTLI_COMP_LEVEL" "6" }};
+  brotli_min_length {{ env.Getenv "ASM_BROTLI_MIN_LENGTH" "16" }};
   brotli_types
     audio/mpegurl
     video/mpegurl
@@ -267,29 +272,31 @@ http {
     loading_page = require "loading_page"
   }
 
-  http2_push_preload on;
+  http2_push_preload {{ env.Getenv "ASM_HTTP2_PUSH_PRELOAD" "on" }};
 
   more_set_headers "Server: aasaam";
   more_set_headers "X-Aasaam-Node-ID: {{ $nodeId }}";
 
-  # pagespeed
-  pagespeed standby;
-  pagespeed UsePerVhostStatistics on;
-  pagespeed HttpCacheCompressionLevel 0;
-  pagespeed FetchWithGzip on;
-  pagespeed Statistics on;
-  pagespeed StatisticsLogging off;
-  pagespeed StatisticsLoggingIntervalMs 60000;
-  pagespeed StatisticsLoggingMaxFileSizeKb 8192;
-  pagespeed MessageBufferSize 100000;
+  #############
+  # pagespeed #
+  #############
+  pagespeed {{ env.Getenv "ASM_PAGESPEED" "standby" }};
+  pagespeed UsePerVhostStatistics {{ env.Getenv "ASM_PAGESPEED_USE_PER_VHOST_STATISTICS" "on" }};
+  pagespeed HttpCacheCompressionLevel {{ env.Getenv "ASM_PAGESPEED_HTTP_CACHE_COMPRESSION_LEVEL" "0" }};
+  pagespeed FetchWithGzip {{ env.Getenv "ASM_PAGESPEED_FETCH_WITH_GZIP" "on" }};
+  pagespeed Statistics {{ env.Getenv "ASM_PAGESPEED_STATISTICS" "on" }};
+  pagespeed StatisticsLogging {{ env.Getenv "ASM_PAGESPEED_STATISTICS_LOGGING" "off" }};
+  pagespeed StatisticsLoggingIntervalMs {{ env.Getenv "ASM_PAGESPEED_STATISTICS_LOGGING_INTERVAL_MS" "60000" }};
+  pagespeed StatisticsLoggingMaxFileSizeKb {{ env.Getenv "ASM_PAGESPEED_STATISTICS_LOGGING_MAX_FILE_SIZE_KB" "8192" }};
+  pagespeed MessageBufferSize {{ env.Getenv "ASM_PAGESPEED_MESSAGE_BUFFER_SIZE" "100000" }};
+  pagespeed FileCacheSizeKb {{ env.Getenv "ASM_PAGESPEED_FILE_CACHE_SIZE_KB" "102400" }};
+  pagespeed FileCacheCleanIntervalMs {{ env.Getenv "ASM_PAGESPEED_FILE_CACHE_CLEAN_INTERVAL_MS" "600000" }};
+  pagespeed FileCacheInodeLimit {{ env.Getenv "ASM_PAGESPEED_FILE_CACHE_INODE_LIMIT" "262144" }};
+  pagespeed LRUCacheKbPerProcess {{ env.Getenv "ASM_PAGESPEED_LRU_CACHE_KB_PER_PROCESS" "2048" }};
+  pagespeed LRUCacheByteLimit {{ env.Getenv "ASM_PAGESPEED_LRU_CACHE_BYTE_LIMIT" "32768" }};
+
   pagespeed LogDir /log/nginx-pagespeed;
   pagespeed FileCachePath /cache/nginx-pagespeed;
-  pagespeed FileCacheSizeKb 102400;
-  pagespeed FileCacheCleanIntervalMs 3600000;
-  pagespeed FileCacheInodeLimit 500000;
-  pagespeed LRUCacheKbPerProcess 1024;
-  pagespeed LRUCacheByteLimit 16384;
-
   pagespeed StatisticsPath /.well-known/pagespeed/statistics;
   pagespeed GlobalStatisticsPath /.well-known/pagespeed/global_statistics;
   pagespeed MessagesPath /.well-known/pagespeed/message;
@@ -297,8 +304,8 @@ http {
   pagespeed AdminPath /.well-known/pagespeed/admin;
   pagespeed GlobalAdminPath /.well-known/pagespeed/global_admin;
   pagespeed BeaconUrl /.well-known/beacon-pagespeed;
-
   pagespeed XHeaderValue "1";
+  # pagespeed
 
   include /usr/local/openresty/nginx/defaults/naxsi_core.rules;
 

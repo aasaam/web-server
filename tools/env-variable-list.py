@@ -3,7 +3,7 @@
 import re, json
 
 markdown_table = """| {name} | `{default}` |"""
-docker_compose = """      {name}: ${{{name}:-'{default}'}}"""
+docker_compose = """      {name}: ${{{name}:-{default}}}"""
 env_file = """# {name}={default}"""
 
 markdowns = []
