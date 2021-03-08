@@ -9,11 +9,11 @@ events {
   accept_mutex_delay {{ env.Getenv "ASM_ACCEPT_MUTEX_DELAY" "500ms" }};
   accept_mutex {{ env.Getenv "ASM_ACCEPT_MUTEX" "off" }};
   use epoll;
-  multi_accept on;
+  multi_accept {{ env.Getenv "ASM_MULTI_ACCEPT" "on" }};
 }
 
 {{ $logMethod := env.Getenv "ASM_LOG_METHOD" "syslog" }}
-{{ $nodeId := env.Getenv "ASM_NODE_ID" "0" }}
+{{ $nodeID := env.Getenv "ASM_NODE_ID" "0" }}
 {{ $syslogServer := env.Getenv "ASM_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5140" }}
 {{ $errorLogLevel := env.Getenv "ASM_MAIN_LOG_LEVEL" "warn" }}
 
@@ -52,6 +52,7 @@ http {
 
   map $host $organization_title { default '{{ env.Getenv "ASM_ORGANIZATION_TITLE" "aasaam software development group" }}'; }
   map $host $organization_brand_icon { default '{{ env.Getenv "ASM_ORGANIZATION_BRAND_ICON" "ir_aasaam" }}'; }
+  map $host $node_id { default '{{ $nodeID }}'; }
   include /usr/local/openresty/nginx/defaults/http_init_variables.conf;
 
   userid v1;
@@ -65,26 +66,26 @@ http {
   vhost_traffic_status_zone shared:vhost_traffic_status:{{ env.Getenv "ASM_VHOST_TRAFFIC_STATUS" "16m" }};
 
   geoip2 /GeoIP2/City.mmdb {
-    $geo_continent_code source=$request_ip continent code;
-    $geo_continent_name source=$request_ip continent names en;
-    $geo_country_code source=$request_ip country iso_code;
-    $geo_country_geocode source=$request_ip country geoname_id;
-    $geo_country_name source=$request_ip country names en;
-    $geo_city source=$request_ip city names en;
-    $geo_timezone source=$request_ip location time_zone;
-    $geo_latitude source=$request_ip location latitude;
-    $geo_longitude source=$request_ip location longitude;
-    $geo_accuracy_radius source=$request_ip location longitude;
+    $geo_continent_code source=$remote_addr continent code;
+    $geo_continent_name source=$remote_addr continent names en;
+    $geo_country_code source=$remote_addr country iso_code;
+    $geo_country_geocode source=$remote_addr country geoname_id;
+    $geo_country_name source=$remote_addr country names en;
+    $geo_city source=$remote_addr city names en;
+    $geo_timezone source=$remote_addr location time_zone;
+    $geo_latitude source=$remote_addr location latitude;
+    $geo_longitude source=$remote_addr location longitude;
+    $geo_accuracy_radius source=$remote_addr location longitude;
   }
 
   geoip2 /GeoIP2/ASN.mmdb {
-    $geo_isp_number source=$request_ip autonomous_system_number;
-    $geo_isp source=$request_ip autonomous_system_organization;
+    $geo_isp_number source=$remote_addr autonomous_system_number;
+    $geo_isp source=$remote_addr autonomous_system_organization;
   }
 
   log_format jsonlog escape=json '{"time":"$time_iso8601",'
-    '"node":"{{ $nodeId }}",'
-    '"ip":"$request_ip",'
+    '"node":"{{ $nodeID }}",'
+    '"ip":"$remote_addr",'
     '"ip_class":"$ip_class",'
     '"request_id":"$request_id",'
     '"client_uid":"$uid_got$uid_set",'
@@ -275,7 +276,7 @@ http {
   http2_push_preload {{ env.Getenv "ASM_HTTP2_PUSH_PRELOAD" "on" }};
 
   more_set_headers "Server: aasaam";
-  more_set_headers "X-Aasaam-Node-ID: {{ $nodeId }}";
+  more_set_headers "X-Aasaam-Node-ID: {{ $nodeID }}";
 
   #############
   # pagespeed #

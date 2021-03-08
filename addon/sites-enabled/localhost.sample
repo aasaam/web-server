@@ -63,7 +63,7 @@ server {
 
   # > If Captcha:
   # set $protection_config_challenge 'captcha';
-  # set $protection_config_farsi_captcha '1';
+  # set $protection_config_captcha_lang 'fa';
 
   # > Protection Directive
   # set $protection_config_unauthorized_status 488; # or 401 default

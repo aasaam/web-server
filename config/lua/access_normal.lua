@@ -1,5 +1,5 @@
 local parsed = normalize.parse(
-  ngx.var.request_ip,
+  ngx.var.remote_addr,
   ngx.var.geo_country_code,
   ngx.var.http_user_agent,
   ngx.var.http_host,

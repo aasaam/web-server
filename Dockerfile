@@ -218,6 +218,9 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && make && make install \
   ## luarcosk packages
   && /usr/local/openresty/luajit/bin/luarocks install lua-http-parser \
+  && mkdir -p /usr/local/openresty/addon-generated/sites-enabled \
+  && mkdir -p /usr/local/openresty/htpasswd \
+  && printf "monitoring:$($OPENSSL_BIN passwd -apr1 monitoring)\n" > /usr/local/openresty/htpasswd/monitoring.htpasswd \
   && echo "======== VERSION ==========" \
   && /usr/bin/openresty -V 2>&1 | tee /tmp/VERSION \
   && cat /tmp/VERSION \
@@ -225,7 +228,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-get purge -y wget build-essential unzip git \
   && apt-get autoremove -y \
   && apt-get clean \
-  && mkdir -p /usr/local/openresty/addon-generated/sites-enabled \
   && rm -rf /usr/share/doc \
   && rm -rf /usr/share/man \
   && rm -rf /usr/share/locale \

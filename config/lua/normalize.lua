@@ -1,7 +1,7 @@
 local _M = { _VERSION = '0.0.1' }
 
 function _M.parse(
-  request_ip,
+  remote_addr,
   geo_country_code,
   http_user_agent,
   http_host,
@@ -34,7 +34,7 @@ function _M.parse(
   }
 
   -- ip classification
-  parsed_data.ip_class = utils.ip_class(request_ip)
+  parsed_data.ip_class = utils.ip_class(remote_addr)
 
   -- countries helper
   parsed_data.geo_country_currency = locales.get_country_currency(country_code)
