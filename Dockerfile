@@ -156,7 +156,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cd $LUA_RESTY_URL_PATH \
   && cp -rf resty/* /tmp/builder/resty/ \
   && cd /tmp \
-  && wget -q -O minify.tgz 'https://github.com/tdewolff/minify/releases/download/v2.9.10/minify_linux_amd64.tar.gz' \
+  && wget -q -O minify.tgz 'https://github.com/tdewolff/minify/releases/download/v2.9.13/minify_linux_amd64.tar.gz' \
   && tar -xf minify.tgz \
   && cd /tmp/builder \
   && export SENTRY_VERSION=$(curl -s https://api.github.com/repos/getsentry/sentry-javascript/releases/latest | jq -r '.assets[].browser_download_url' | grep sentry-browser | grep -o -P '(?<=download\/).*(?=\/)') \
