@@ -11,7 +11,6 @@ ngx.var.foreign_referer_host        = parsed.foreign_referer_host
 
 ngx.var.agent_all                   = parsed.agent_all
 ngx.var.agent_category              = parsed.agent_category
-ngx.var.agent_hash                  = parsed.agent_hash
 ngx.var.agent_name                  = parsed.agent_name
 ngx.var.agent_os                    = parsed.agent_os
 ngx.var.agent_os_version            = parsed.agent_os_version
@@ -21,6 +20,7 @@ ngx.var.agent_version               = parsed.agent_version
 ngx.var.agent_version_major         = parsed.agent_version_major
 ngx.var.agent_is_modern             = parsed.agent_is_modern
 ngx.var.agent_is_modern_or_crawler  = parsed.agent_is_modern_or_crawler
+ngx.var.user_agent_hash             = parsed.user_agent_hash
 
 ngx.var.geo_country_currency        = parsed.geo_country_currency
 ngx.var.geo_country_flag            = parsed.geo_country_flag

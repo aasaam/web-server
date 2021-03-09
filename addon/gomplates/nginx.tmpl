@@ -17,10 +17,10 @@ events {
 {{ $syslogServer := env.Getenv "ASM_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5140" }}
 {{ $errorLogLevel := env.Getenv "ASM_MAIN_LOG_LEVEL" "warn" }}
 
-{{ if eq $errorLogLevel "file" }}
+{{ if eq $logMethod "file" }}
 error_log /log/nginx.main.error.log {{ $errorLogLevel }};
-{{ else if eq  $errorLogLevel "syslog" }}
-error_log syslog:server={{ $syslogServer }},tag=nginx_error_main {{ $errorLogLevel }};
+{{ else if eq  $logMethod "syslog" }}
+error_log syslog:server={{ $syslogServer }},tag=nginx_error_main,nohostname {{ $errorLogLevel }};
 {{ else }}
 error_log /dev/stdout {{ $errorLogLevel }};
 {{ end -}}
@@ -33,7 +33,7 @@ http {
 {{ if eq $logMethod "file" }}
   error_log /log/nginx.main.error.log {{ $errorLogLevel }};
 {{ else if eq  $logMethod "syslog" }}
-  error_log syslog:server={{ $syslogServer }},tag=nginx_error_http {{ $errorLogLevel }};
+  error_log syslog:server={{ $syslogServer }},tag=nginx_error_http,nohostname {{ $errorLogLevel }};
 {{ else }}
   error_log /dev/stdout {{ $errorLogLevel }};
 {{ end -}}
@@ -90,7 +90,6 @@ http {
     '"request_id":"$request_id",'
     '"client_uid":"$uid_got$uid_set",'
     '"client_new":"$uid_set",'
-    '"client_reset":"$uid_reset",'
     '"client_cn":"$ssl_client_s_dn_cn",'
     '"user_id":"$user_id",'
     '"waf_mode":"$waf_mode",'
@@ -105,8 +104,8 @@ http {
     '"agent_os_version":"$agent_os_version_major",'
     '"agent_category":"$agent_category",'
     '"agent_vendor":"$agent_vendor",'
-    '"agent_hash":"$agent_hash",'
     '"agent_all":"$agent_all",'
+    '"user_agent_hash":"$user_agent_hash",'
 
     '"scheme":"$scheme",'
     '"method":"$request_method",'
@@ -142,7 +141,7 @@ http {
 {{ if eq $logMethod "file" }}
   access_log /log/nginx.access.ndjson jsonlog;
 {{ else if eq  $logMethod "syslog" }}
-  access_log syslog:server={{ $syslogServer }},tag=nginx_access_log jsonlog;
+  access_log syslog:server={{ $syslogServer }},tag=nginx_access_log,nohostname jsonlog;
 {{ else }}
   access_log /dev/stdout jsonlog;
 {{ end -}}

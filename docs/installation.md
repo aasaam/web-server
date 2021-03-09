@@ -2,12 +2,20 @@
 
 Before installation you require the linux that install `docker.com` and `docker-compose`.
 
-## dhparam
+## Diffie-Hellman parameters
 
 Generate dhparam, if you have multiple node sync them cross across all nodes.
 
 ```bash
 openssl dhparam -out tmp/dhparam.pem 2048
+```
+
+## Monitoring basic auth
+
+Generate monitoring htpasswd, replace `[user]` and `[password]` with your secure/specified credential.
+
+```bash
+printf "[user]:$(openssl passwd -apr1 [password])\n" > tmp/monitoring.htpasswd
 ```
 
 ## Configuration
@@ -39,6 +47,7 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 | ASM_LOG_METHOD                                    | `syslog`                                  |
 | ASM_LOG_SYSLOG_SERVER_ADDR                        | `127.0.0.1:5140`                          |
 | ASM_MAIN_LOG_LEVEL                                | `warn`                                    |
+| ASM_MULTI_ACCEPT                                  | `on`                                      |
 | ASM_NODE_ID                                       | `0`                                       |
 | ASM_OPEN_FILE_CACHE_ERRORS                        | `on`                                      |
 | ASM_OPEN_FILE_CACHE_INACTIVE                      | `10m`                                     |

@@ -30,6 +30,7 @@ services:
       ASM_LOG_METHOD: ${ASM_LOG_METHOD:-syslog}
       ASM_LOG_SYSLOG_SERVER_ADDR: ${ASM_LOG_SYSLOG_SERVER_ADDR:-127.0.0.1:5140}
       ASM_MAIN_LOG_LEVEL: ${ASM_MAIN_LOG_LEVEL:-warn}
+      ASM_MULTI_ACCEPT: ${ASM_MULTI_ACCEPT:-on}
       ASM_NODE_ID: ${ASM_NODE_ID:-0}
       ASM_OPEN_FILE_CACHE_ERRORS: ${ASM_OPEN_FILE_CACHE_ERRORS:-on}
       ASM_OPEN_FILE_CACHE_INACTIVE: ${ASM_OPEN_FILE_CACHE_INACTIVE:-10m}
@@ -89,7 +90,8 @@ services:
     volumes:
       # - ./tmp/log:/log # for file log method
       - ./addon:/usr/local/openresty/nginx/addon:ro
-      - ./tmp/dhparams.pem:/usr/local/openresty/nginx/defaults/selfsigned/dhparam.pem:ro
+      - ./tmp/dhparam.pem:/usr/local/openresty/nginx/defaults/selfsigned/dhparam.pem:ro
+      - ./tmp/monitoring.htpasswd:/usr/local/openresty/htpasswd/monitoring.htpasswd:ro
       # - ./tmp/cache:/cache # use tmpfs or high speed storage like SSD, NVMe
     tmpfs:
       - /cache:rw,nodev,nosuid,noexec,noatime,size=${ASM_CACHE_SIZE_MB:-1024}m

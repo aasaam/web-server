@@ -26,7 +26,7 @@ function _M.md5(s)
     local ok = md5:update(s)
     if ok then
       local digest = md5:final()
-      return string.sub(str.to_hex(digest), 0, 8)
+      return string.sub(str.to_hex(digest), 0, 16)
     end
   end
   return ''

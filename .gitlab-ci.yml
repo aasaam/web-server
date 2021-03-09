@@ -20,7 +20,10 @@ build:
   stage: build
   script:
     # build
-    - docker build -f Dockerfile -t aasaam/web-server .
+    - |
+      export BUILD_TIME=$(date +%s)
+      sed -i "s/BUILD_TIME_VARIABLE/$BUILD_TIME/g" Dockerfile
+      docker build -f Dockerfile -t aasaam/web-server .
     # push
     - |
       docker push aasaam/web-server

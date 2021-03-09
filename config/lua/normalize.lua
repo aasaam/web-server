@@ -18,7 +18,6 @@ function _M.parse(
 
     agent_all='',
     agent_category='',
-    agent_hash='',
     agent_name='',
     agent_os_version_major='',
     agent_os_version='',
@@ -26,6 +25,7 @@ function _M.parse(
     agent_vendor='',
     agent_version_major='',
     agent_version='',
+    user_agent_hash='',
 
     geo_country_currency='',
     geo_country_flag='',
@@ -69,7 +69,7 @@ function _M.parse(
   ))
 
   -- hash
-  parsed_data.agent_hash = utils.md5(parsed_data.agent_all)
+  parsed_data.user_agent_hash = utils.md5(user_agent)
 
   -- modern
   parsed_data.agent_is_modern = browsers.is_modern(
