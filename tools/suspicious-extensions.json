@@ -1,12 +1,10 @@
-#!/usr/bin/env python3
-
-suspicious_list = [
+[
   {
     "category": "ios",
     "extensions": [
       "hqx",
-      "ipa",
-    ],
+      "ipa"
+    ]
   },
   {
     "category": "android",
@@ -16,14 +14,14 @@ suspicious_list = [
       "apkm",
       "apks",
       "obb",
-      "xapk",
-    ],
+      "xapk"
+    ]
   },
   {
     "category": "windows phone",
     "extensions": [
-      "xap",
-    ],
+      "xap"
+    ]
   },
   {
     "category": "security",
@@ -46,21 +44,21 @@ suspicious_list = [
       "pvr",
       "pvs",
       "spc",
-      "yara",
-    ],
+      "yara"
+    ]
   },
   {
     "category": "apache xmlbeans",
     "extensions": [
-      "xsb",
-    ],
+      "xsb"
+    ]
   },
   {
-    "category": "apache ",
+    "category": "apache",
     "extensions": [
       "htaccess",
-      "htpasswd",
-    ],
+      "htpasswd"
+    ]
   },
   {
     "category": "configuration",
@@ -71,8 +69,8 @@ suspicious_list = [
       "toml",
       "xml",
       "yaml",
-      "yml",
-    ],
+      "yml"
+    ]
   },
   {
     "category": "windows",
@@ -170,8 +168,8 @@ suspicious_list = [
       "wsh",
       "xgs",
       "xnk",
-      "xwb",
-    ],
+      "xwb"
+    ]
   },
   {
     "category": "linux",
@@ -189,8 +187,8 @@ suspicious_list = [
       "so",
       "ssh",
       "tcsh",
-      "zsh",
-    ],
+      "zsh"
+    ]
   },
   {
     "category": "php",
@@ -204,14 +202,14 @@ suspicious_list = [
       "php7",
       "php8",
       "phtml",
-      "twig",
-    ],
+      "twig"
+    ]
   },
   {
     "category": "basic",
     "extensions": [
-      "bas",
-    ],
+      "bas"
+    ]
   },
   {
     "category": "asp",
@@ -271,8 +269,8 @@ suspicious_list = [
       "webinfo",
       "xact",
       "xaml",
-      "xbap",
-    ],
+      "xbap"
+    ]
   },
   {
     "category": "java",
@@ -282,14 +280,14 @@ suspicious_list = [
       "ear",
       "jad",
       "jar",
-      "war",
-    ],
+      "war"
+    ]
   },
   {
     "category": "turing",
     "extensions": [
-      "t",
-    ],
+      "t"
+    ]
   },
   {
     "category": "python",
@@ -299,22 +297,22 @@ suspicious_list = [
       "pyc",
       "pyd",
       "pyo",
-      "pyw",
-    ],
+      "pyw"
+    ]
   },
   {
     "category": "perl",
     "extensions": [
       "pl",
       "pm",
-      "pod",
-    ],
+      "pod"
+    ]
   },
   {
     "category": "ruby",
     "extensions": [
-      "rb",
-    ],
+      "rb"
+    ]
   },
   {
     "category": "modern documents",
@@ -331,8 +329,8 @@ suspicious_list = [
       "xlam",
       "xlsm",
       "xlsx",
-      "xltm",
-    ],
+      "xltm"
+    ]
   },
   {
     "category": "documents pdf",
@@ -340,8 +338,8 @@ suspicious_list = [
       "eps",
       "msg",
       "pdf",
-      "ps",
-    ],
+      "ps"
+    ]
   },
   {
     "category": "legacy documents",
@@ -349,8 +347,8 @@ suspicious_list = [
       "doc",
       "ppt",
       "xls",
-      "xlx",
-    ],
+      "xlx"
+    ]
   },
   {
     "category": "web asset",
@@ -376,7 +374,7 @@ suspicious_list = [
       "webapp",
       "webmanifest",
       "woff",
-      "woff2",
-    ],
-  },
+      "woff2"
+    ]
+  }
 ]

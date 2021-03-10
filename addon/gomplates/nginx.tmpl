@@ -12,13 +12,13 @@ events {
   multi_accept {{ env.Getenv "ASM_MULTI_ACCEPT" "on" }};
 }
 
-{{ $logMethod := env.Getenv "ASM_LOG_METHOD" "syslog" }}
+{{ $logMethod := env.Getenv "ASM_LOG_METHOD" "file" }}
 {{ $nodeID := env.Getenv "ASM_NODE_ID" "0" }}
 {{ $syslogServer := env.Getenv "ASM_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5140" }}
-{{ $errorLogLevel := env.Getenv "ASM_MAIN_LOG_LEVEL" "warn" }}
+{{ $errorLogLevel := env.Getenv "ASM_ERROR_LOG_LEVEL" "warn" }}
 
 {{ if eq $logMethod "file" }}
-error_log /log/nginx.main.error.log {{ $errorLogLevel }};
+error_log /log/nginx.in.main.error.log {{ $errorLogLevel }};
 {{ else if eq  $logMethod "syslog" }}
 error_log syslog:server={{ $syslogServer }},tag=nginx_error_main,nohostname {{ $errorLogLevel }};
 {{ else }}
@@ -31,7 +31,7 @@ http {
   resolver_timeout {{ env.Getenv "ASM_RESOLVER_TIMEOUT" "30s" }};
 
 {{ if eq $logMethod "file" }}
-  error_log /log/nginx.main.error.log {{ $errorLogLevel }};
+  error_log /log/nginx.in.http.error.log {{ $errorLogLevel }};
 {{ else if eq  $logMethod "syslog" }}
   error_log syslog:server={{ $syslogServer }},tag=nginx_error_http,nohostname {{ $errorLogLevel }};
 {{ else }}
@@ -139,7 +139,7 @@ http {
     '"upstream_cache_status":"$upstream_cache_status"}';
 
 {{ if eq $logMethod "file" }}
-  access_log /log/nginx.access.ndjson jsonlog;
+  access_log /log/nginx.in.access.log jsonlog;
 {{ else if eq  $logMethod "syslog" }}
   access_log syslog:server={{ $syslogServer }},tag=nginx_access_log,nohostname jsonlog;
 {{ else }}
