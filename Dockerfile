@@ -33,7 +33,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && gunzip /tmp/ip-to-asn-lite.gz \
   ## nchan
   && cd /tmp \
-  && wget -q -O nchan.tgz https://github.com/slact/nchan/archive/v1.2.7.tar.gz \
+  && wget -q -O nchan.tgz https://github.com/slact/nchan/archive/refs/tags/v1.2.8.tar.gz \
   && tar -xf nchan.tgz \
   && export NGINX_MODULE_NCHAN=`realpath nchan-1.*/` \
   ## naxsi
@@ -43,7 +43,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && export NGINX_MODULE_NAXI=`realpath naxsi-1.*/naxsi_src` \
   ## nginx-vod-module
   && cd /tmp \
-  && wget -q -O nginx-vod-module.tgz https://github.com/kaltura/nginx-vod-module/archive/1.27.tar.gz \
+  && wget -q -O nginx-vod-module.tgz https://github.com/kaltura/nginx-vod-module/archive/refs/tags/1.28.tar.gz \
   && tar -xf nginx-vod-module.tgz \
   && export NGINX_MODULE_VOD=`realpath nginx-vod-module-1*` \
   ## page speed
@@ -157,7 +157,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cd $LUA_RESTY_URL_PATH \
   && cp -rf resty/* /tmp/builder/resty/ \
   && cd /tmp \
-  && wget -q -O minify.tgz 'https://github.com/tdewolff/minify/releases/download/v2.9.13/minify_linux_amd64.tar.gz' \
+  && wget -q -O minify.tgz 'https://github.com/tdewolff/minify/releases/download/v2.9.17/minify_linux_amd64.tar.gz' \
   && tar -xf minify.tgz \
   && cd /tmp/builder \
   && export SENTRY_VERSION=$(curl -s https://api.github.com/repos/getsentry/sentry-javascript/releases/latest | jq -r '.assets[].browser_download_url' | grep sentry-browser | grep -o -P '(?<=download\/).*(?=\/)') \
@@ -209,7 +209,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cp /tmp/builder/*.mmdb /GeoIP2/ \
   # luarocks
   && cd /tmp/ \
-  && wget -q  -O luarocks.tgz https://luarocks.org/releases/luarocks-3.5.0.tar.gz \
+  && wget -q  -O luarocks.tgz https://luarocks.org/releases/luarocks-3.7.0.tar.gz \
   && tar -xf luarocks.tgz \
   && cd luarocks-3* \
   && ./configure --prefix=/usr/local/openresty/luajit \
