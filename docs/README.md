@@ -21,11 +21,13 @@ Nginx is powerful and with OpenResty you gain more advantage; However by just ad
 
 ## Thanks
 
-- We using free version of [DB-IP](https://db-ip.com/) for embedded db of MaxMind GeoIP2 database. Of course you can use [commercial version](https://db-ip.com/db/).
+- We using free version of [DB-IP](https://db-ip.com/) for embedded db of MaxMind GeoIP2 database. Of course you can use [commercial version](https://db-ip.com/db/) for more accurate data.
 
 <div>
   <p align="center">
-    <img alt="aasaam software development group" width="64" src="https://raw.githubusercontent.com/aasaam/information/master/logo/aasaam.svg">
+    <a href="https://aasaam.com" title="aasaam software development group">
+      <img alt="aasaam software development group" width="64" src="https://raw.githubusercontent.com/aasaam/information/master/logo/aasaam.svg">
+    </a>
     <br />
     aasaam software development group
   </p>
