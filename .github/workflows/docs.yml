@@ -20,15 +20,6 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
           repository: aasaam/web-server
 
-      - name: push README to Quay.io
-        uses: christian-korneck/update-container-description-action@v1
-        env:
-          DOCKER_APIKEY: ${{ secrets.QUAY_HUB_TOKEN }}
-        with:
-          destination_container_repo: quay.io/aasaam/web-server
-          provider: quay
-          readme_file: "README.md"
-
       - name: Build GitHub Page
         run: |
           cd docs

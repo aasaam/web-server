@@ -12,9 +12,7 @@ variables:
 
 before_script:
   - docker login --username=$DOCKER_HUB_USER --password=$DOCKER_HUB_PASS
-  - docker login --username=$QUAY_HUB_USER --password=$QUAY_HUB_PASS quay.io
   - docker login --username=$GITHUB_HUB_USER --password=$GITHUB_HUB_PASS docker.pkg.github.com
-  - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 build:
   stage: build
@@ -27,11 +25,7 @@ build:
     # push
     - |
       docker push aasaam/web-server
-      docker image tag aasaam/web-server quay.io/aasaam/web-server
-      docker push quay.io/aasaam/web-server
       docker image tag aasaam/web-server docker.pkg.github.com/aasaam/web-server/web-server
       docker push docker.pkg.github.com/aasaam/web-server/web-server
-      docker image tag aasaam/web-server $CI_REGISTRY/aasaam/web-server:latest
-      docker push $CI_REGISTRY/aasaam/web-server:latest
     # remove image
     - docker rmi aasaam/web-server

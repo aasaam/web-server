@@ -31,22 +31,18 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && wget -q -O /tmp/ip-to-asn-lite.gz $(/tmp/geoip-finder.py /tmp/ip-to-asn-lite.html) \
   && gunzip /tmp/ip-to-city-lite.gz \
   && gunzip /tmp/ip-to-asn-lite.gz \
-  ## nchan
   && cd /tmp \
-  && wget -q -O nchan.tgz https://github.com/slact/nchan/archive/refs/tags/v1.2.8.tar.gz \
+  && wget -q -O nchan.tgz https://github.com/slact/nchan/archive/refs/tags/v1.2.15.tar.gz \
   && tar -xf nchan.tgz \
   && export NGINX_MODULE_NCHAN=`realpath nchan-1.*/` \
-  ## naxsi
   && cd /tmp \
-  && wget -q -O naxsi.tgz https://github.com/nbs-system/naxsi/archive/1.3.tar.gz \
+  && wget -q -O naxsi.tgz https://github.com/nbs-system/naxsi/archive/refs/tags/1.3.tar.gz \
   && tar -xf naxsi.tgz \
   && export NGINX_MODULE_NAXI=`realpath naxsi-1.*/naxsi_src` \
-  ## nginx-vod-module
   && cd /tmp \
-  && wget -q -O nginx-vod-module.tgz https://github.com/kaltura/nginx-vod-module/archive/refs/tags/1.28.tar.gz \
+  && wget -q -O nginx-vod-module.tgz https://github.com/kaltura/nginx-vod-module/archive/refs/tags/1.29.tar.gz \
   && tar -xf nginx-vod-module.tgz \
   && export NGINX_MODULE_VOD=`realpath nginx-vod-module-1*` \
-  ## page speed
   && cd /tmp \
   && export NPS_VERSION=1.13.35.2-stable \
   && wget -q -c https://github.com/apache/incubator-pagespeed-ngx/archive/v${NPS_VERSION}.zip \
@@ -61,30 +57,24 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && wget -q -c ${psol_url} \
   && tar -xzvf $(basename ${psol_url}) \
   && export NGINX_MODULE_PS=`realpath "$nps_dir"` \
-  ## geoip2
   && cd /tmp \
   && wget -q -O ngx_http_geoip2_module.tgz https://github.com/leev/ngx_http_geoip2_module/archive/3.3.tar.gz \
   && tar -xf ngx_http_geoip2_module.tgz \
   && export NGINX_MODULE_GEOIP2=`realpath /tmp/ngx_http_geoip2_module-*` \
-  ## brotli
   && cd /tmp \
   && git clone https://github.com/google/ngx_brotli /tmp/ngx_brotli \
   && cd /tmp/ngx_brotli \
   && git submodule update --init \
   && export NGINX_MODULE_BROTLI=`realpath /tmp/ngx_brotl*` \
-  ## nginx-module-sts
   && cd /tmp \
   && git clone https://github.com/vozlt/nginx-module-sts /tmp/nginx-module-sts \
   && export NGINX_MODULE_STS=`realpath /tmp/nginx-module-sts` \
-  ## nginx-module-stream-sts
   && cd /tmp \
   && git clone https://github.com/vozlt/nginx-module-stream-sts /tmp/nginx-module-stream-sts \
   && export NGINX_MODULE_STREAM_STS=`realpath /tmp/nginx-module-stream-sts` \
-  ## nginx-module-vts
   && cd /tmp \
   && git clone https://github.com/vozlt/nginx-module-vts /tmp/nginx-module-vts \
   && export NGINX_MODULE_VTS=`realpath /tmp/nginx-module-vts` \
-  ## nginx-ntlm-module
   && cd /tmp \
   && git clone https://github.com/gabihodoroaga/nginx-ntlm-module /tmp/nginx-ntlm-module \
   && export NGINX_MODULE_NTLM=`realpath /tmp/nginx-ntlm-module` \
@@ -110,6 +100,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cp $DEB_DEV_TO_INSTALL /tmp/builder/openresty-zlib-dev.deb \
   && dpkg -i /tmp/builder/openresty-zlib.deb \
   && dpkg -i /tmp/builder/openresty-zlib-dev.deb \
+  && sed -i 's#https://ftp.pcre.org/pub/pcre/pcre-$(PCRE_VER).tar.bz2#https://kumisystems.dl.sourceforge.net/project/pcre/pcre/$(PCRE_VER)/pcre-$(PCRE_VER).tar.bz2#g' Makefile \
   && make pcre-build \
   && export DEB_TO_INSTALL=`realpath openresty-pcre_8.*deb` \
   && export DEB_DEV_TO_INSTALL=`realpath openresty-pcre-dev_8.*.deb` \
@@ -129,6 +120,10 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && dpkg -i /tmp/builder/openresty-openssl.deb \
   && dpkg -i /tmp/builder/openresty-openssl-dev.deb \
   && make openresty-build \
+  && echo "======== DEBUG ==========" \
+  && ls -la \
+  && find /tmp -type f -name "*.deb" \
+  && echo "======== /DEBUG ==========" \
   && export DEB_TO_INSTALL=`realpath openresty_1*focal1_amd64.deb` \
   && cp $DEB_TO_INSTALL /tmp/builder/openresty.deb \
   && export DEB_TO_INSTALL=`realpath openresty-resty_1*focal1_all.deb` \
@@ -145,19 +140,19 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && wget -q -O /tmp/icons.tgz https://github.com/aasaam/brand-icons/archive/master.tar.gz \
   && tar -xf /tmp/icons.tgz \
   && mv brand-icons-master/svg /tmp/builder/error-pages/ \
-  && wget -q -O dl_woothee.tgz https://github.com/woothee/lua-resty-woothee/archive/v1.11.0-1.tar.gz \
+  && wget -q -O dl_woothee.tgz https://github.com/woothee/lua-resty-woothee/archive/refs/tags/v1.12.0-1.tar.gz \
   && tar -xf dl_woothee.tgz \
   && export WOOTHEE_PATH=`realpath /tmp/lua-resty-woothee-1*/lib` \
   && cd $WOOTHEE_PATH \
   && cp -rf resty/* /tmp/builder/resty/ \
   && cd /tmp \
-  && wget -q -O lua_resty_url.tgz https://github.com/3scale/lua-resty-url/archive/v0.3.5.tar.gz \
+  && wget -q -O lua_resty_url.tgz https://github.com/3scale/lua-resty-url/archive/refs/tags/v0.3.5.tar.gz \
   && tar -xf lua_resty_url.tgz \
   && export LUA_RESTY_URL_PATH=`realpath /tmp/lua-resty-url*/src/` \
   && cd $LUA_RESTY_URL_PATH \
   && cp -rf resty/* /tmp/builder/resty/ \
   && cd /tmp \
-  && wget -q -O minify.tgz 'https://github.com/tdewolff/minify/releases/download/v2.9.21/minify_linux_amd64.tar.gz' \
+  && wget -q -O minify.tgz 'https://github.com/tdewolff/minify/releases/download/v2.9.29/minify_linux_amd64.tar.gz' \
   && tar -xf minify.tgz \
   && cd /tmp/builder \
   && export SENTRY_VERSION=$(curl -s https://api.github.com/repos/getsentry/sentry-javascript/releases/latest | jq -r '.assets[].browser_download_url' | grep sentry-browser | grep -o -P '(?<=download\/).*(?=\/)') \
@@ -209,7 +204,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cp /tmp/builder/*.mmdb /GeoIP2/ \
   # luarocks
   && cd /tmp/ \
-  && wget -q  -O luarocks.tgz https://luarocks.org/releases/luarocks-3.7.0.tar.gz \
+  && wget -q  -O luarocks.tgz https://luarocks.org/releases/luarocks-3.8.0.tar.gz \
   && tar -xf luarocks.tgz \
   && cd luarocks-3* \
   && ./configure --prefix=/usr/local/openresty/luajit \
