@@ -52,6 +52,10 @@ If you mount `/log` to `/tmp/aasaam-web-server/log` then add logrotate config su
 }
 ```
 
+### Nginx Log Parser
+
+For production better to use [nginx-error-log-parser](https://github.com/aasaam/nginx-error-log-parser) and use [nginx syslog](http://nginx.org/en/docs/syslog.html).
+
 ## Configuration
 
 You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-compose use it and inject to container.
