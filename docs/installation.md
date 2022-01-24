@@ -52,7 +52,7 @@ If you mount `/log` to `/tmp/aasaam-web-server/log` then add logrotate config su
 }
 ```
 
-### Nginx Log Parser
+### Nginx (Error)Log Parser
 
 For production better to use [nginx-error-log-parser](https://github.com/aasaam/nginx-error-log-parser) and use [nginx syslog](http://nginx.org/en/docs/syslog.html).
 
