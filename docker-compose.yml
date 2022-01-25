@@ -7,6 +7,9 @@ services:
     image: aasaam/web-server
     network_mode: host
     environment:
+      ASM_SUPPORT_EMAIL: ${ASM_SUPPORT_EMAIL:-info@aasaam.tld}
+      ASM_SUPPORT_TEL: ${ASM_SUPPORT_TEL:-+982100000000}
+      ASM_SUPPORT_URL: ${ASM_SUPPORT_URL:-http://aasaam.tld/support}
       ASM_LOG_METHOD: ${ASM_LOG_METHOD:-file}
       ASM_NODE_ID: ${ASM_NODE_ID:-0}
       ASM_ORGANIZATION_TITLE: ${ASM_ORGANIZATION_TITLE:-aasaam software development group}

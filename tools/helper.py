@@ -137,7 +137,7 @@ elif args.action == "env":
     print("\n".join(lines))
 
 elif args.action == "server-public-cloud-arvancloud-allow":
-  p = subprocess.Popen(['curl', '-Ls', 'https://www.arvancloud.com/en/ips.txt'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  p = subprocess.Popen(['curl', '-Ls', '-H', 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:96.0) Gecko/20100101 Firefox/96.0', 'https://www.arvancloud.com/en/ips.txt'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
   out, err = p.communicate()
   cidrs = out.decode("utf-8").strip().split("\n")
   allows = [

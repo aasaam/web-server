@@ -62,7 +62,10 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 
 | Name | Default | Description |
 | --- | --- | --- |
-| ⚙️ **aasaam/web-server** | | |
+ ⚙️ **aasaam/web-server** | | |
+| ASM_SUPPORT_EMAIL | `info@aasaam.tld` | Support email address |
+| ASM_SUPPORT_TEL | `+982100000000` | Support telephone |
+| ASM_SUPPORT_URL | `http://aasaam.tld/support` | Support URL |
 | ASM_LOG_METHOD | `file` | Log method could be `file` or `syslog` otherwise will be docker /dev/stdout |
 | ASM_NODE_ID | `0` | Node Identifier for scaling and monitoring |
 | ASM_ORGANIZATION_TITLE | `aasaam software development group` | English title of organization that deployed web server |
@@ -129,7 +132,7 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 | ASM_PROXY_CACHE_PATH_KEYS_ZONE | `32m` | [proxy_cache_path](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path) |
 | ASM_PROXY_CACHE_PATH_KEYS_MAX_SIZE_MB | `512` | [proxy_cache_path](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path) |
 | ASM_PROXY_CACHE_PATH_KEYS_INACTIVE | `60m` | [proxy_cache_path](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path) |
-| ASM_PROXY_CACHE_KEY | `$scheme$request_method$host$request_uri` | [proxy_cache_path](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_path) |
+| ASM_PROXY_CACHE_KEY | `$scheme$request_method$host$request_uri` | [proxy_cache_key](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_key) |
 | ASM_PROXY_CACHE_METHODS | `GET HEAD` | [proxy_cache_methods](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_cache_methods) |
 | ASM_PROXY_BUFFERS | `32` | [proxy_buffers](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffers) |
 | ASM_PROXY_BUFFERS_SIZE | `128k` | [proxy_buffer_size](http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size) |

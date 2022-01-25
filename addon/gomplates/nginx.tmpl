@@ -52,6 +52,11 @@ http {
 
   map $host $organization_title { default '{{ env.Getenv "ASM_ORGANIZATION_TITLE" "aasaam software development group" }}'; }
   map $host $organization_brand_icon { default '{{ env.Getenv "ASM_ORGANIZATION_BRAND_ICON" "ir_aasaam" }}'; }
+
+  map $host $support_email { default '{{ env.Getenv "ASM_SUPPORT_EMAIL" "info@aasaam.tld" }}'; }
+  map $host $support_tel { default '{{ env.Getenv "ASM_SUPPORT_TEL" "+982100000000" }}'; }
+  map $host $support_url { default '{{ env.Getenv "ASM_SUPPORT_URL" "http://aasaam.tld/support" }}'; }
+
   map $host $node_id { default '{{ $nodeID }}'; }
   include /usr/local/openresty/nginx/defaults/http_init_variables.conf;
 
