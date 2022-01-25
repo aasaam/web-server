@@ -4,7 +4,7 @@ version: '3'
 services:
   aasaam-web-server:
     container_name: aasaam-web-server
-    image: aasaam/web-server
+    image: ghcr.io/aasaam/web-server
     network_mode: host
     environment:
       ASM_SUPPORT_EMAIL: ${ASM_SUPPORT_EMAIL:-info@aasaam.tld}
