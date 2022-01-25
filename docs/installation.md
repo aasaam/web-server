@@ -62,10 +62,10 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 
 | Name | Default | Description |
 | --- | --- | --- |
- ⚙️ **aasaam/web-server** | | |
-| ASM_SUPPORT_EMAIL | `info@aasaam.tld` | Support email address |
-| ASM_SUPPORT_TEL | `+982100000000` | Support telephone |
-| ASM_SUPPORT_URL | `http://aasaam.tld/support` | Support URL |
+| ⚙️ **aasaam/web-server** | | |
+| ASM_SUPPORT_EMAIL |  | Support email address (e.g. `support@example.tld`) |
+| ASM_SUPPORT_TEL |  | Support telephone (e.g. `+982100000000`) |
+| ASM_SUPPORT_URL |  | Support URL (e.g. `http://support.example.tld`) |
 | ASM_LOG_METHOD | `file` | Log method could be `file` or `syslog` otherwise will be docker /dev/stdout |
 | ASM_NODE_ID | `0` | Node Identifier for scaling and monitoring |
 | ASM_ORGANIZATION_TITLE | `aasaam software development group` | English title of organization that deployed web server |

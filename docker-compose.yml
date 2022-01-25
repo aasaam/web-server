@@ -7,9 +7,9 @@ services:
     image: ghcr.io/aasaam/web-server
     network_mode: host
     environment:
-      ASM_SUPPORT_EMAIL: ${ASM_SUPPORT_EMAIL:-info@aasaam.tld}
-      ASM_SUPPORT_TEL: ${ASM_SUPPORT_TEL:-+982100000000}
-      ASM_SUPPORT_URL: ${ASM_SUPPORT_URL:-http://aasaam.tld/support}
+      ASM_SUPPORT_EMAIL: ${ASM_SUPPORT_EMAIL}
+      ASM_SUPPORT_TEL: ${ASM_SUPPORT_TEL}
+      ASM_SUPPORT_URL: ${ASM_SUPPORT_URL}
       ASM_LOG_METHOD: ${ASM_LOG_METHOD:-file}
       ASM_NODE_ID: ${ASM_NODE_ID:-0}
       ASM_ORGANIZATION_TITLE: ${ASM_ORGANIZATION_TITLE:-aasaam software development group}
@@ -93,8 +93,8 @@ services:
     volumes:
       - /tmp/aasaam-web-server/log:/log
       - ./addon:/usr/local/openresty/nginx/addon:ro
-      - ./tmp/dhparam.pem:/usr/local/openresty/nginx/defaults/selfsigned/dhparam.pem:ro
-      - ./tmp/monitoring.htpasswd:/usr/local/openresty/htpasswd/monitoring.htpasswd:ro
+      # - ./tmp/dhparam.pem:/usr/local/openresty/nginx/defaults/selfsigned/dhparam.pem:ro
+      # - ./tmp/monitoring.htpasswd:/usr/local/openresty/htpasswd/monitoring.htpasswd:ro
       # - ./tmp/cache:/cache # use tmpfs or high speed storage like SSD, NVMe
     tmpfs:
       - /cache:rw,nodev,nosuid,noexec,noatime,size=${ASM_CACHE_SIZE_MB:-1024}m

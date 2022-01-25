@@ -85,22 +85,36 @@ elif args.action == "mimetypes":
   print(json.dumps(found_extensions, indent=2, sort_keys=True))
 
 elif args.action == "env":
-  template_markdown = """| {name} | `{default}` | {description} |"""
-  template_docker_compose = """      {name}: ${{{name}:-{default}}}"""
+  template_markdown = """| {name} | {default} | {description} |"""
+  template_docker_compose = """      {name}: ${{{name}{default}}}"""
   template_env_file = """# {name}={default}"""
 
   # env
   nginx_conf_template = open(helper_path + "/../addon/gomplates/nginx.tmpl", 'r').read()
   env = open(helper_path + "/env.json", 'r').read()
   env_data = json.loads(env)
-  ma = re.findall('env.Getenv "([^"]+)" "([^"]+)"', nginx_conf_template, re.DOTALL)
+  ma = re.findall(r'env.Getenv ([^}]+)', nginx_conf_template, re.MULTILINE)
+
+  regex_match_with_default = r"\"([^\"]+)\" \"([^\"]+)\""
+  regex_match_empty = r"\"([^\"]+)\" \"\""
+
   config_env_default = {}
   if ma:
     for m in ma:
-      name = m[0]
-      default = m[1]
+      with_default_match = re.search(regex_match_with_default, m)
+      empty_match = re.search(regex_match_empty, m)
+      name = ""
+      default = ""
+      if with_default_match:
+        name = with_default_match.group(1)
+        default = with_default_match.group(2)
+      elif empty_match:
+        name = empty_match.group(1)
+        default = ""
+
       config_env_default[name] = default
-      if name not in env_data:
+
+      if name not in env_data or name == "":
         raise Exception('Env not found in JSON: '+ name)
 
   result = []
@@ -123,8 +137,16 @@ elif args.action == "env":
   for e in result:
     if e['module'] not in lines_markdown:
       lines_markdown[e['module']] = []
-    lines_markdown[e['module']].append(template_markdown.format(name=e['name'], default=e['default'], description=e['description']))
-    lines_docker_compose.append(template_docker_compose.format(name=e['name'], default=e['default'], description=e['description']))
+    default_markdown = "`" + e['default'] + "`"
+    default_compose = ":-" + e['default'] + ""
+
+    if e['default'] == "":
+      default_markdown = ""
+      default_compose = ""
+
+    lines_markdown[e['module']].append(template_markdown.format(name=e['name'], default=default_markdown, description=e['description']))
+
+    lines_docker_compose.append(template_docker_compose.format(name=e['name'], default=default_compose, description=e['description']))
     lines_env_file.append(template_env_file.format(name=e['name'], default=e['default'], description=e['description']))
 
   print("\n".join(lines_docker_compose))
