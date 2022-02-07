@@ -32,10 +32,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && gunzip /tmp/ip-to-city-lite.gz \
   && gunzip /tmp/ip-to-asn-lite.gz \
   && cd /tmp \
-  && wget -q -O nchan.tgz https://github.com/slact/nchan/archive/refs/tags/v1.2.15.tar.gz \
-  && tar -xf nchan.tgz \
-  && export NGINX_MODULE_NCHAN=`realpath nchan-1.*/` \
-  && cd /tmp \
   && wget -q -O naxsi.tgz https://github.com/nbs-system/naxsi/archive/refs/tags/1.3.tar.gz \
   && tar -xf naxsi.tgz \
   && export NGINX_MODULE_NAXI=`realpath naxsi-1.*/naxsi_src` \
@@ -92,7 +88,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && grep -v "debsigs" Makefile > temp && cat temp > Makefile \
   && sed -i 's#OPTS=#OPTS=-b -uc -us#g' Makefile \
   && sed -i 's#tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty#tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty \&\& /tmp/patch-source.py `realpath openresty/bundle/nginx-1*/` #g' Makefile \
-  && sed -i "s#--with-threads#--with-threads --with-ld-opt=\"-Wl,-rpath,$PHP_LIB\" --add-module=$NGINX_MODULE_NTLM --add-module=$NGINX_MODULE_NCHAN --add-module=$NGINX_MODULE_VOD --add-module=$NGINX_MODULE_STS --add-module=$NGINX_MODULE_STREAM_STS --add-module=$NGINX_MODULE_VTS --add-module=$NGINX_MODULE_BROTLI --add-module=$NGINX_MODULE_NAXI --add-module=$NGINX_MODULE_PS --add-module=$NGINX_MODULE_GEOIP2#g" openresty/debian/rules \
+  && sed -i "s#--with-threads#--with-threads --with-ld-opt=\"-Wl,-rpath,$PHP_LIB\" --add-module=$NGINX_MODULE_NTLM --add-module=$NGINX_MODULE_VOD --add-module=$NGINX_MODULE_STS --add-module=$NGINX_MODULE_STREAM_STS --add-module=$NGINX_MODULE_VTS --add-module=$NGINX_MODULE_BROTLI --add-module=$NGINX_MODULE_NAXI --add-module=$NGINX_MODULE_PS --add-module=$NGINX_MODULE_GEOIP2#g" openresty/debian/rules \
   && make zlib-build \
   && export DEB_TO_INSTALL=`realpath openresty-zlib_1.*.deb` \
   && export DEB_DEV_TO_INSTALL=`realpath openresty-zlib-dev_1.*.deb` \
@@ -158,9 +154,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && export SENTRY_VERSION=$(curl -s https://api.github.com/repos/getsentry/sentry-javascript/releases/latest | jq -r '.assets[].browser_download_url' | grep sentry-browser | grep -o -P '(?<=download\/).*(?=\/)') \
   && export SENTRY_URL="https://browser.sentry-cdn.com/$SENTRY_VERSION/bundle.js" \
   && wget -q -O /tmp/sentry.js $SENTRY_URL \
-  && wget -q -O /tmp/nchan.js 'https://cdn.jsdelivr.net/gh/slact/nchan.js/NchanSubscriber.js' \
   && /tmp/minify /tmp/sentry.js > /tmp/builder/sentry.js \
-  && /tmp/minify /tmp/nchan.js > /tmp/builder/nchan.js \
   && wget -q -O /tmp/builder/favicon.ico https://raw.githubusercontent.com/aasaam/information/master/logo/icons/favicon.ico \
   && wget -q -O /tmp/builder/humans.txt https://raw.githubusercontent.com/aasaam/information/master/info/humans.txt \
   && cd /tmp \
@@ -198,7 +192,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cp /tmp/builder/favicon.ico /usr/local/openresty/nginx/favicon.ico \
   && cp /tmp/builder/humans.txt /usr/local/openresty/nginx/humans.txt \
   && cp /tmp/builder/sentry.js /usr/local/openresty/nginx/sentry.js \
-  && cp /tmp/builder/nchan.js /usr/local/openresty/nginx/nchan.js \
   # geoip
   && mkdir /GeoIP2 \
   && cp /tmp/builder/*.mmdb /GeoIP2/ \

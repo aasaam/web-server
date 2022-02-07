@@ -93,7 +93,8 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 | ASM_ACCEPT_MUTEX_DELAY | `500ms` | [accept_mutex_delay](http://nginx.org/en/docs/ngx_core_module.html#accept_mutex_delay) |
 | ASM_ACCEPT_MUTEX | `off` | [accept_mutex](http://nginx.org/en/docs/ngx_core_module.html#accept_mutex) |
 | ASM_MULTI_ACCEPT | `on` | [multi_accept](http://nginx.org/en/docs/ngx_core_module.html#multi_accept) |
-| ASM_LOG_SYSLOG_SERVER_ADDR | `127.0.0.1:5140` | Syslog server that listen UDP **RFC 3164**; [Nginx Logging to syslog](http://nginx.org/en/docs/syslog.html), [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
+| ASM_ERROR_LOG_SYSLOG_SERVER_ADDR | `127.0.0.1:5140` | Syslog server that listen UDP **RFC 3164**; [Nginx Logging to syslog](http://nginx.org/en/docs/syslog.html), [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
+| ASM_ACCESS_LOG_SYSLOG_SERVER_ADDR | `127.0.0.1:5141` | Syslog server that listen UDP **RFC 3164**; [Nginx Logging to syslog](http://nginx.org/en/docs/syslog.html), [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
 | ASM_ERROR_LOG_LEVEL | `warn` | Can be one of the following: `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert` or `emerg`, [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
 | ⚙️ **ngx_http_core_module** | | |
 | ASM_RESOLVER_ADDR | `127.0.0.1` | [resolver](http://nginx.org/en/docs/http/ngx_http_core_module.html#resolver) |

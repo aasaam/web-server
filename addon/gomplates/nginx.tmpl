@@ -14,13 +14,14 @@ events {
 
 {{ $logMethod := env.Getenv "ASM_LOG_METHOD" "file" }}
 {{ $nodeID := env.Getenv "ASM_NODE_ID" "0" }}
-{{ $syslogServer := env.Getenv "ASM_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5140" }}
+{{ $syslogErrorServer := env.Getenv "ASM_ERROR_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5140" }}
+{{ $syslogAccessServer := env.Getenv "ASM_ACCESS_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5141" }}
 {{ $errorLogLevel := env.Getenv "ASM_ERROR_LOG_LEVEL" "warn" }}
 
 {{ if eq $logMethod "file" }}
 error_log /log/nginx.in.main.error.log {{ $errorLogLevel }};
 {{ else if eq  $logMethod "syslog" }}
-error_log syslog:server={{ $syslogServer }},tag=nginx_error_main,nohostname {{ $errorLogLevel }};
+error_log syslog:server={{ $syslogErrorServer }},tag=nginx_error_main,nohostname {{ $errorLogLevel }};
 {{ else }}
 error_log /dev/stdout {{ $errorLogLevel }};
 {{ end -}}
@@ -33,7 +34,7 @@ http {
 {{ if eq $logMethod "file" }}
   error_log /log/nginx.in.http.error.log {{ $errorLogLevel }};
 {{ else if eq  $logMethod "syslog" }}
-  error_log syslog:server={{ $syslogServer }},tag=nginx_error_http,nohostname {{ $errorLogLevel }};
+  error_log syslog:server={{ $syslogErrorServer }},tag=nginx_error_http,nohostname {{ $errorLogLevel }};
 {{ else }}
   error_log /dev/stdout {{ $errorLogLevel }};
 {{ end -}}
@@ -146,7 +147,7 @@ http {
 {{ if eq $logMethod "file" }}
   access_log /log/nginx.in.access.log jsonlog;
 {{ else if eq  $logMethod "syslog" }}
-  access_log syslog:server={{ $syslogServer }},tag=nginx_access_log,nohostname jsonlog;
+  access_log syslog:server={{ $syslogAccessServer }},tag=nginx_access_log,nohostname jsonlog;
 {{ else }}
   access_log /dev/stdout jsonlog;
 {{ end -}}
