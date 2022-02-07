@@ -39,9 +39,9 @@ server {
   # Modern browser check #
   ########################
   # > A: Only latest version of Firefox and Chrome is acceptable as modern browsers
-  # set $agent_check_is_modern 'on';
+  # set $agent_check_is_modern '1';
   # > B: or also accept the crawlers
-  # set $agent_is_modern_or_crawler 'on';
+  # set $agent_is_modern_or_crawler '1';
 
   ################
   # Auth Request #
@@ -53,10 +53,9 @@ server {
   # Auth Request: Protection #
   ############################
   # set $protection_enable '1';
-  # > If OTP:
-  # set $protection_config_challenge 'otp';
-  # set $protection_config_otp_secret 'XXXXXXXXXXXXXXXX';
-  # set $protection_config_otp_time '30';
+  # > If TOTP:
+  # set $protection_config_challenge 'totp';
+  # set $protection_config_totp_secret 'XXXXXXXXXXXXXXXX';
 
   # > If JS:
   # set $protection_config_challenge 'js';
@@ -140,17 +139,6 @@ server {
 
   # > catch console.* to sentry for front debugging if upstream not implemented
   # include /usr/local/openresty/nginx/defaults/server_sentry.conf;
-
-  #################
-  # Refresh Token #
-  #################
-  # > this will send GET request to this endpoint and cookie will be update
-  # set $auto_refresh_token_uri '/path/to/refresh/token';
-  # > how long to intervally send request to
-  # set $auto_refresh_token_interval '10000';
-
-  # > catch console.* to sentry for front debugging if upstream not implemented
-  # include /usr/local/openresty/nginx/defaults/server_auto_refresh_token.conf;
 
   #############
   # PageSpeed #

@@ -35,8 +35,10 @@ types {
   image/apng                            apng;
   image/bmp                             bmp;
   image/gif                             gif;
-  image/heif                            avif heif heic hif;
-  image/heif-sequence                   avifs heifs heics;
+  image/avif                            avif;
+  image/avif-sequence                   avifs;
+  image/heif                            heif heic hif;
+  image/heif-sequence                   heifs heics;
   image/jpeg                            jpeg jpg;
   image/jxr                             jxr hdp wdp;
   image/png                             png;

@@ -32,24 +32,15 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && gunzip /tmp/ip-to-city-lite.gz \
   && gunzip /tmp/ip-to-asn-lite.gz \
   && cd /tmp \
-  && wget -q -O nchan.tgz https://github.com/slact/nchan/archive/refs/tags/v1.2.15.tar.gz \
-  && tar -xf nchan.tgz \
-  && export NGINX_MODULE_NCHAN=`realpath nchan-1.*/` \
-  && cd /tmp \
   && wget -q -O naxsi.tgz https://github.com/nbs-system/naxsi/archive/refs/tags/1.3.tar.gz \
   && tar -xf naxsi.tgz \
   && export NGINX_MODULE_NAXI=`realpath naxsi-1.*/naxsi_src` \
-  && cd /tmp \
-  && wget -q -O nginx-vod-module.tgz https://github.com/kaltura/nginx-vod-module/archive/refs/tags/1.29.tar.gz \
-  && tar -xf nginx-vod-module.tgz \
-  && export NGINX_MODULE_VOD=`realpath nginx-vod-module-1*` \
   && cd /tmp \
   && export NPS_VERSION=1.13.35.2-stable \
   && wget -q -c https://github.com/apache/incubator-pagespeed-ngx/archive/v${NPS_VERSION}.zip \
   && unzip v${NPS_VERSION}.zip \
   && export nps_dir=`realpath *pagespeed-ngx*` \
   && cd $nps_dir \
-  && export NPS_RELEASE_NUMBER=$NPS_VERSION/beta/ \
   && export NPS_RELEASE_NUMBER=$NPS_VERSION/stable/ \
   && export psol_url="https://dl.google.com/dl/page-speed/psol/$NPS_RELEASE_NUMBER.tar.gz" \
   && ls -laF scripts/ \
@@ -66,18 +57,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cd /tmp/ngx_brotli \
   && git submodule update --init \
   && export NGINX_MODULE_BROTLI=`realpath /tmp/ngx_brotl*` \
-  && cd /tmp \
-  && git clone https://github.com/vozlt/nginx-module-sts /tmp/nginx-module-sts \
-  && export NGINX_MODULE_STS=`realpath /tmp/nginx-module-sts` \
-  && cd /tmp \
-  && git clone https://github.com/vozlt/nginx-module-stream-sts /tmp/nginx-module-stream-sts \
-  && export NGINX_MODULE_STREAM_STS=`realpath /tmp/nginx-module-stream-sts` \
-  && cd /tmp \
-  && git clone https://github.com/vozlt/nginx-module-vts /tmp/nginx-module-vts \
-  && export NGINX_MODULE_VTS=`realpath /tmp/nginx-module-vts` \
-  && cd /tmp \
-  && git clone https://github.com/gabihodoroaga/nginx-ntlm-module /tmp/nginx-ntlm-module \
-  && export NGINX_MODULE_NTLM=`realpath /tmp/nginx-ntlm-module` \
   ## openresty download
   && cd /tmp \
   && wget -q -O openresty.tgz https://github.com/openresty/openresty-packaging/archive/master.tar.gz \
@@ -92,7 +71,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && grep -v "debsigs" Makefile > temp && cat temp > Makefile \
   && sed -i 's#OPTS=#OPTS=-b -uc -us#g' Makefile \
   && sed -i 's#tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty#tar xf openresty_$(OR_VER).orig.tar.gz --strip-components=1 -C openresty \&\& /tmp/patch-source.py `realpath openresty/bundle/nginx-1*/` #g' Makefile \
-  && sed -i "s#--with-threads#--with-threads --with-ld-opt=\"-Wl,-rpath,$PHP_LIB\" --add-module=$NGINX_MODULE_NTLM --add-module=$NGINX_MODULE_NCHAN --add-module=$NGINX_MODULE_VOD --add-module=$NGINX_MODULE_STS --add-module=$NGINX_MODULE_STREAM_STS --add-module=$NGINX_MODULE_VTS --add-module=$NGINX_MODULE_BROTLI --add-module=$NGINX_MODULE_NAXI --add-module=$NGINX_MODULE_PS --add-module=$NGINX_MODULE_GEOIP2#g" openresty/debian/rules \
+  && sed -i "s#--with-threads#--with-threads --with-ld-opt=\"-Wl,-rpath,$PHP_LIB\" --add-module=$NGINX_MODULE_STS --add-module=$NGINX_MODULE_BROTLI --add-module=$NGINX_MODULE_NAXI --add-module=$NGINX_MODULE_PS --add-module=$NGINX_MODULE_GEOIP2#g" openresty/debian/rules \
   && make zlib-build \
   && export DEB_TO_INSTALL=`realpath openresty-zlib_1.*.deb` \
   && export DEB_DEV_TO_INSTALL=`realpath openresty-zlib-dev_1.*.deb` \
@@ -151,18 +130,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && export LUA_RESTY_URL_PATH=`realpath /tmp/lua-resty-url*/src/` \
   && cd $LUA_RESTY_URL_PATH \
   && cp -rf resty/* /tmp/builder/resty/ \
-  && cd /tmp \
-  && wget -q -O minify.tgz 'https://github.com/tdewolff/minify/releases/download/v2.9.29/minify_linux_amd64.tar.gz' \
-  && tar -xf minify.tgz \
-  && cd /tmp/builder \
-  && export SENTRY_VERSION=$(curl -s https://api.github.com/repos/getsentry/sentry-javascript/releases/latest | jq -r '.assets[].browser_download_url' | grep sentry-browser | grep -o -P '(?<=download\/).*(?=\/)') \
-  && export SENTRY_URL="https://browser.sentry-cdn.com/$SENTRY_VERSION/bundle.js" \
-  && wget -q -O /tmp/sentry.js $SENTRY_URL \
-  && wget -q -O /tmp/nchan.js 'https://cdn.jsdelivr.net/gh/slact/nchan.js/NchanSubscriber.js' \
-  && /tmp/minify /tmp/sentry.js > /tmp/builder/sentry.js \
-  && /tmp/minify /tmp/nchan.js > /tmp/builder/nchan.js \
   && wget -q -O /tmp/builder/favicon.ico https://raw.githubusercontent.com/aasaam/information/master/logo/icons/favicon.ico \
-  && wget -q -O /tmp/builder/humans.txt https://raw.githubusercontent.com/aasaam/information/master/info/humans.txt \
   && cd /tmp \
   && tar -czf builder.tgz builder
 
@@ -180,7 +148,7 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F44B38CE3DB1BF64B61DBD28DE1997DCDE742AFA \
   && echo 'deb http://ppa.launchpad.net/maxmind/ppa/ubuntu focal main' > /etc/apt/sources.list.d/maxmind.list \
   && apt-get update -y \
-  && apt-get install --no-install-recommends -y gettext-base libmaxminddb0 perl libfile-spec-perl libtime-hires-perl curl ca-certificates wget build-essential unzip git \
+  && apt-get install --no-install-recommends -y libmaxminddb0 \
   && cd /tmp/ \
   && tar -xf builder.tgz \
   && dpkg -i /tmp/builder/openresty-zlib.deb \
@@ -196,24 +164,9 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && mkdir -p /usr/local/openresty/nginx/addon \
   && export OPENSSL_BIN=`find /usr/local/openresty -type f -executable -name openssl` \
   && cp /tmp/builder/favicon.ico /usr/local/openresty/nginx/favicon.ico \
-  && cp /tmp/builder/humans.txt /usr/local/openresty/nginx/humans.txt \
-  && cp /tmp/builder/sentry.js /usr/local/openresty/nginx/sentry.js \
-  && cp /tmp/builder/nchan.js /usr/local/openresty/nginx/nchan.js \
   # geoip
   && mkdir /GeoIP2 \
   && cp /tmp/builder/*.mmdb /GeoIP2/ \
-  # luarocks
-  && cd /tmp/ \
-  && wget -q  -O luarocks.tgz https://luarocks.org/releases/luarocks-3.8.0.tar.gz \
-  && tar -xf luarocks.tgz \
-  && cd luarocks-3* \
-  && ./configure --prefix=/usr/local/openresty/luajit \
-    --with-lua=/usr/local/openresty/luajit/ \
-    --lua-suffix=jit \
-    --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1 \
-  && make && make install \
-  ## luarcosk packages
-  && /usr/local/openresty/luajit/bin/luarocks install lua-http-parser \
   && mkdir -p /usr/local/openresty/addon-generated/sites-enabled \
   && mkdir -p /usr/local/openresty/htpasswd \
   && printf "monitoring:$($OPENSSL_BIN passwd -apr1 monitoring)\n" > /usr/local/openresty/htpasswd/monitoring.htpasswd \
@@ -221,13 +174,13 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && /usr/bin/openresty -V 2>&1 | tee /tmp/VERSION \
   && cat /tmp/VERSION \
   && echo "======== /VERSION ==========" \
-  && apt-get purge -y wget build-essential unzip git \
   && apt-get autoremove -y \
   && apt-get clean \
   && rm -rf /usr/share/doc \
   && rm -rf /usr/share/man \
   && rm -rf /usr/share/locale \
   && rm -rf /root/.op* \
+  && cd / \
   && rm -r /var/lib/apt/lists/* && rm -rf /tmp && mkdir /tmp && chmod 777 /tmp && truncate -s 0 /var/log/*.log \
   && find /usr/local/openresty/nginx/error-pages -type f -print0 | xargs -0 chmod 0644 \
   && find /usr/local/openresty/lualib -type d -print0 | xargs -0 chmod 0755 \
@@ -236,8 +189,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
 
 # defaults config
 COPY config/defaults /usr/local/openresty/nginx/defaults
-COPY config/security.txt /usr/local/openresty/nginx/security.txt
-COPY config/robots.txt /usr/local/openresty/nginx/robots.txt
 
 # lua scripts
 COPY config/lua/access_normal.lua /usr/local/openresty/lualib/access_normal.lua

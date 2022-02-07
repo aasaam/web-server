@@ -1,11 +1,12 @@
 user www-data www-data;
 worker_processes {{ env.Getenv "ASM_WORKER_PROCESSES" "auto" }};
 worker_rlimit_nofile {{ env.Getenv "ASM_WORKER_RLIMIT_NOFILE" "20480" }};
-worker_priority {{ env.Getenv "ASM_WORKER_PRIORITY" "0" }};
+worker_priority {{ env.Getenv "ASM_WORKER_PRIORITY" "-10" }};
 thread_pool default threads={{ env.Getenv "ASM_THREAD_POOL_THREADS" "32" }} max_queue={{ env.Getenv "ASM_THREAD_POOL_MAX_QUEUE" "65536" }};
 
 events {
   worker_connections {{ env.Getenv "ASM_WORKER_CONNECTIONS" "8192" }};
+  worker_aio_requests {{ env.Getenv "ASM_WORKER_AIO_REQUESTS" "32" }};
   accept_mutex_delay {{ env.Getenv "ASM_ACCEPT_MUTEX_DELAY" "500ms" }};
   accept_mutex {{ env.Getenv "ASM_ACCEPT_MUTEX" "off" }};
   use epoll;
@@ -14,13 +15,14 @@ events {
 
 {{ $logMethod := env.Getenv "ASM_LOG_METHOD" "file" }}
 {{ $nodeID := env.Getenv "ASM_NODE_ID" "0" }}
-{{ $syslogServer := env.Getenv "ASM_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5140" }}
+{{ $syslogErrorServer := env.Getenv "ASM_ERROR_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5140" }}
+{{ $syslogAccessServer := env.Getenv "ASM_ACCESS_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5141" }}
 {{ $errorLogLevel := env.Getenv "ASM_ERROR_LOG_LEVEL" "warn" }}
 
 {{ if eq $logMethod "file" }}
 error_log /log/nginx.in.main.error.log {{ $errorLogLevel }};
 {{ else if eq  $logMethod "syslog" }}
-error_log syslog:server={{ $syslogServer }},tag=nginx_error_main,nohostname {{ $errorLogLevel }};
+error_log syslog:server={{ $syslogErrorServer }},tag=nginx_error_main,nohostname {{ $errorLogLevel }};
 {{ else }}
 error_log /dev/stdout {{ $errorLogLevel }};
 {{ end -}}
@@ -28,12 +30,12 @@ error_log /dev/stdout {{ $errorLogLevel }};
 http {
 
   resolver {{ env.Getenv "ASM_RESOLVER_ADDR" "127.0.0.1" }} valid={{ env.Getenv "ASM_RESOLVER_VALID" "10m" }};
-  resolver_timeout {{ env.Getenv "ASM_RESOLVER_TIMEOUT" "30s" }};
+  resolver_timeout {{ env.Getenv "ASM_RESOLVER_TIMEOUT" "5s" }};
 
 {{ if eq $logMethod "file" }}
   error_log /log/nginx.in.http.error.log {{ $errorLogLevel }};
 {{ else if eq  $logMethod "syslog" }}
-  error_log syslog:server={{ $syslogServer }},tag=nginx_error_http,nohostname {{ $errorLogLevel }};
+  error_log syslog:server={{ $syslogErrorServer }},tag=nginx_error_http,nohostname {{ $errorLogLevel }};
 {{ else }}
   error_log /dev/stdout {{ $errorLogLevel }};
 {{ end -}}
@@ -50,6 +52,9 @@ http {
   default_type application/octet-stream;
   include /usr/local/openresty/nginx/defaults/mime.types;
 
+  #########################
+  # Runtime configuration #
+  #########################
   map $host $organization_title { default '{{ env.Getenv "ASM_ORGANIZATION_TITLE" "aasaam software development group" }}'; }
   map $host $organization_brand_icon { default '{{ env.Getenv "ASM_ORGANIZATION_BRAND_ICON" "ir_aasaam" }}'; }
 
@@ -57,7 +62,9 @@ http {
   map $host $support_tel { default '{{ env.Getenv "ASM_SUPPORT_TEL" "" }}'; }
   map $host $support_url { default '{{ env.Getenv "ASM_SUPPORT_URL" "" }}'; }
 
-  map $host $node_id { default '{{ $nodeID }}'; }
+  map $host $protection_port { default '{{ env.Getenv "ASM_PROTECTION_PORT" "9121" }}'; }
+  map $host $acme_http_host_port { default '{{ env.Getenv "ASM_PROTECTION_PORT" "http://192.168.1.1:8080" }}'; }
+
   include /usr/local/openresty/nginx/defaults/http_init_variables.conf;
 
   userid v1;
@@ -65,10 +72,6 @@ http {
   userid_path {{ env.Getenv "ASM_USERID_PATH" "/" }};
   userid_flags {{ env.Getenv "ASM_USERID_FLAGS" "httponly samesite=lax" }};
   userid_expires {{ env.Getenv "ASM_USERID_EXPIRES" "365d" }};
-
-  stream_server_traffic_status_zone;
-  vhost_traffic_status_zone;
-  vhost_traffic_status_zone shared:vhost_traffic_status:{{ env.Getenv "ASM_VHOST_TRAFFIC_STATUS" "16m" }};
 
   geoip2 /GeoIP2/City.mmdb {
     $geo_continent_code source=$remote_addr continent code;
@@ -99,9 +102,8 @@ http {
     '"user_id":"$user_id",'
     '"waf_mode":"$waf_mode",'
 
-    '"protection_mode":"$protection_config_challenge",'
-    '"protection_challenge":"$sent_http_x_protection_challenge",'
-    '"protection_acl":"$auth_response_protection_acl",'
+    '"protection_enable":"$protection_enable",'
+    '"protection_config_challenge":"$protection_config_challenge",'
 
     '"agent_name":"$agent_name",'
     '"agent_version":"$agent_version_major",'
@@ -146,7 +148,7 @@ http {
 {{ if eq $logMethod "file" }}
   access_log /log/nginx.in.access.log jsonlog;
 {{ else if eq  $logMethod "syslog" }}
-  access_log syslog:server={{ $syslogServer }},tag=nginx_access_log,nohostname jsonlog;
+  access_log syslog:server={{ $syslogAccessServer }},tag=nginx_access_log,nohostname jsonlog;
 {{ else }}
   access_log /dev/stdout jsonlog;
 {{ end -}}
@@ -279,8 +281,13 @@ http {
 
   http2_push_preload {{ env.Getenv "ASM_HTTP2_PUSH_PRELOAD" "on" }};
 
+  # default headers
   more_set_headers "Server: aasaam";
   more_set_headers "X-Aasaam-Node-ID: {{ $nodeID }}";
+
+  # remove security headers
+  more_clear_headers 'X-Powered-By';
+  more_clear_headers 'X-Varnish';
 
   #############
   # pagespeed #
@@ -358,8 +365,4 @@ http {
 
   include /usr/local/openresty/nginx/addon/sites-enabled/*.conf;
   include /usr/local/openresty/addon-generated/sites-enabled/*.conf;
-}
-
-stream {
-  server_traffic_status_zone shared:stream_server_traffic_status:{{ env.Getenv "ASM_SERVER_TRAFFIC_STATUS_ZONE" "16m" }};
 }

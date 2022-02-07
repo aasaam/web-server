@@ -1,6 +1,0 @@
-# like official nginx docker you can use env variable using `envsubst` for replacement during runtime
-server {
-  listen ${LISTEN_PORT};
-
-  server_name ${SERVER_NAME};
-}

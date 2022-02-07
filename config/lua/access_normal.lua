@@ -6,6 +6,8 @@ local parsed = normalize.parse(
   ngx.var.http_referer
 )
 
+ngx.var.client_ip_ua_hash           = parsed.client_ip_ua_hash
+
 ngx.var.ip_class                    = parsed.ip_class
 ngx.var.foreign_referer_host        = parsed.foreign_referer_host
 
@@ -28,9 +30,9 @@ ngx.var.geo_default_lang            = parsed.geo_default_lang
 ngx.var.geo_default_lang_direction  = parsed.geo_default_lang_direction
 
 if string.match(ngx.var.request_uri, "^%/%.well%-known.*") == nil then
-  if ngx.var.agent_check_is_modern == "on" and ngx.var.agent_is_modern == "no" then
+  if ngx.var.agent_check_is_modern == "1" and ngx.var.agent_is_modern == "0" then
     ngx.redirect("/.well-known/aasaam/status/437")
-  elseif ngx.var.agent_check_is_modern_or_crawler == "on" and ngx.var.agent_is_modern_or_crawler == "no" then
+  elseif ngx.var.agent_check_is_modern_or_crawler == "1" and ngx.var.agent_is_modern_or_crawler == "0" then
     ngx.redirect("/.well-known/aasaam/status/437")
   end
 end

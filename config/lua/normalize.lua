@@ -14,6 +14,7 @@ function _M.parse(
 
   local parsed_data = {
     ip_class='',
+    client_ip_ua_hash='',
     foreign_referer_host='',
 
     agent_all='',
@@ -35,6 +36,13 @@ function _M.parse(
 
   -- ip classification
   parsed_data.ip_class = utils.ip_class(remote_addr)
+
+  -- client ip user agent hash
+  parsed_data.client_ip_ua_hash = utils.md5(string.format(
+    "%s:%s",
+    remote_addr,
+    http_user_agent,
+  ))
 
   -- countries helper
   parsed_data.geo_country_currency = locales.get_country_currency(country_code)

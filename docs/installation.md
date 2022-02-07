@@ -32,28 +32,6 @@ printf "[user]:$(openssl passwd -apr1 [password])\n" > tmp/monitoring.htpasswd
 
 ## Log rotation
 
-For prevent fill your storage via log files you must config the [logrotate](https://linux.die.net/man/8/logrotate) with your special log path in host.
-
-If you mount `/log` to `/tmp/aasaam-web-server/log` then add logrotate config such as following example:
-
-```txt
-# /etc/logrotate.d/aasaam-web-server
-/tmp/aasaam-web-server/log/nginx.in.*.log {
-  hourly
-  missingok
-  rotate 4
-  su root root
-  notifempty
-  nomail
-  sharedscripts
-  postrotate
-    docker exec -it aasaam-web-server openresty -s reopen
-  endscript
-}
-```
-
-### Nginx (Error)Log Parser
-
 For production better to use [nginx-error-log-parser](https://github.com/aasaam/nginx-error-log-parser) and use [nginx syslog](http://nginx.org/en/docs/syslog.html).
 
 ## Configuration
@@ -93,7 +71,8 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 | ASM_ACCEPT_MUTEX_DELAY | `500ms` | [accept_mutex_delay](http://nginx.org/en/docs/ngx_core_module.html#accept_mutex_delay) |
 | ASM_ACCEPT_MUTEX | `off` | [accept_mutex](http://nginx.org/en/docs/ngx_core_module.html#accept_mutex) |
 | ASM_MULTI_ACCEPT | `on` | [multi_accept](http://nginx.org/en/docs/ngx_core_module.html#multi_accept) |
-| ASM_LOG_SYSLOG_SERVER_ADDR | `127.0.0.1:5140` | Syslog server that listen UDP **RFC 3164**; [Nginx Logging to syslog](http://nginx.org/en/docs/syslog.html), [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
+| ASM_ERROR_LOG_SYSLOG_SERVER_ADDR | `127.0.0.1:5140` | Syslog server that listen UDP **RFC 3164**; [Nginx Logging to syslog](http://nginx.org/en/docs/syslog.html), [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
+| ASM_ACCESS_LOG_SYSLOG_SERVER_ADDR | `127.0.0.1:5141` | Syslog server that listen UDP **RFC 3164**; [Nginx Logging to syslog](http://nginx.org/en/docs/syslog.html), [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
 | ASM_ERROR_LOG_LEVEL | `warn` | Can be one of the following: `debug`, `info`, `notice`, `warn`, `error`, `crit`, `alert` or `emerg`, [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
 | ⚙️ **ngx_http_core_module** | | |
 | ASM_RESOLVER_ADDR | `127.0.0.1` | [resolver](http://nginx.org/en/docs/http/ngx_http_core_module.html#resolver) |

@@ -25,13 +25,8 @@ Additional licenses available on:
   openresty: https://github.com/openresty/openresty
   incubator-pagespeed-ngx: https://github.com/apache/incubator-pagespeed-ngx
   naxsi: https://github.com/nbs-system/naxsi
-  nchan: https://github.com/slact/nchan
-  nginx-module-stream-sts: https://github.com/vozlt/nginx-module-stream-sts
-  nginx-module-sts: https://github.com/vozlt/nginx-module-sts
-  nginx-module-vts: https://github.com/vozlt/nginx-module-vts
-  nginx-ntlm-module: https://github.com/gabihodoroaga/nginx-ntlm-module
-  nginx-vod-module: https://github.com/kaltura/nginx-vod-module
   ngx_brotli: https://github.com/google/ngx_brotli
   ngx_http_geoip2_module: https://github.com/leev/ngx_http_geoip2_module
   lua-resty-woothee: https://github.com/woothee/lua-resty-woothee
   gomplate: https://github.com/hairyhenderson/gomplate
+  db-ip.com: https://db-ip.com/db/lite.php

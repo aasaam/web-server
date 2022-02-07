@@ -9,6 +9,7 @@
     <a href="https://github.com/aasaam/web-server/actions/workflows/build.yml" target="_blank"><img src="https://github.com/aasaam/web-server/actions/workflows/build.yml/badge.svg" alt="build" /></a>
     <a href="https://hub.docker.com/r/aasaam/web-server" target="_blank"><img src="https://img.shields.io/docker/image-size/aasaam/web-server?label=docker%20image" alt="docker" /></a>
     <a href="https://aasaam.github.io/web-server/" target="_blank"><img src="https://github.com/aasaam/web-server/actions/workflows/docs.yml/badge.svg" alt="docs" /></a>
+    <a href="https://db-ip.com/" target="_blank"><img src="https://img.shields.io/badge/IP%20Geolocation-DB--IP-55d4da" alt="docs" /></a>
   </p>
 </div>
 
@@ -20,7 +21,7 @@ Nginx is powerful and with OpenResty you gain more advantage; However by just ad
 
 ## Thanks
 
-- We using free version of [DB-IP](https://db-ip.com/) for embedded db of MaxMind GeoIP2 database. Of course you can use [commercial version](https://db-ip.com/db/) for more accurate data.
+- For OSS we using free version of [DB-IP](https://db-ip.com/) for embedded db of MaxMind GeoIP2 database. Of course you can use [commercial version](https://db-ip.com/db/) for more accurate data.
 
 <div>
   <p align="center">
