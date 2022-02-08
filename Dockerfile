@@ -164,11 +164,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && mkdir -p /usr/local/openresty/nginx/addon \
   && export OPENSSL_BIN=`find /usr/local/openresty -type f -executable -name openssl` \
   && cp /tmp/builder/favicon.ico /usr/local/openresty/nginx/favicon.ico \
-<<<<<<< HEAD
-=======
-  && cp /tmp/builder/humans.txt /usr/local/openresty/nginx/humans.txt \
-  && cp /tmp/builder/sentry.js /usr/local/openresty/nginx/sentry.js \
->>>>>>> f4b94ba80c8c33235600138a0d17a32c685cdf27
   # geoip
   && mkdir /GeoIP2 \
   && cp /tmp/builder/*.mmdb /GeoIP2/ \
