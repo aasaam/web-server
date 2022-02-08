@@ -73,7 +73,7 @@ http {
   userid_flags {{ env.Getenv "ASM_USERID_FLAGS" "httponly samesite=lax" }};
   userid_expires {{ env.Getenv "ASM_USERID_EXPIRES" "365d" }};
 
-  geoip2 /GeoIP2/City.mmdb {
+  geoip2 /GeoIP2/dbip-city-lite.mmdb {
     $geo_continent_code source=$remote_addr continent code;
     $geo_continent_name source=$remote_addr continent names en;
     $geo_country_code source=$remote_addr country iso_code;
@@ -86,7 +86,7 @@ http {
     $geo_accuracy_radius source=$remote_addr location longitude;
   }
 
-  geoip2 /GeoIP2/ASN.mmdb {
+  geoip2 /GeoIP2/dbip-asn-lite.mmdb {
     $geo_isp_number source=$remote_addr autonomous_system_number;
     $geo_isp source=$remote_addr autonomous_system_organization;
   }
