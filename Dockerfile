@@ -20,8 +20,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && apt-get update -y \
   && apt-get install -y build-essential bzr-builddeb ca-certificates curl dh-make dh-systemd gnupg gnupg2 jq gzip \
     libmaxminddb0 libmaxminddb-dev mmdb-bin libpcre3 libpcre3-dev libtemplate-perl lsb-release make perl python sudo systemtap-sdt-dev unzip uuid-dev wget zlib1g-dev \
-  && echo "BUILD_TIME_VARIABLE" \
-  ## python patch
   && cd /tmp \
   && chmod +x /tmp/patch-source.py \
   && chmod +x /tmp/geoip-finder.py \
@@ -36,16 +34,19 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && tar -xf naxsi.tgz \
   && export NGINX_MODULE_NAXI=`realpath naxsi-1.*/naxsi_src` \
   && cd /tmp \
+  && echo $NGINX_MODULE_NAXI \
+  && curl ifconfig.me \
   && export NPS_VERSION=1.13.35.2-stable \
   && wget -q -c https://github.com/apache/incubator-pagespeed-ngx/archive/v${NPS_VERSION}.zip \
   && unzip v${NPS_VERSION}.zip \
   && export nps_dir=`realpath *pagespeed-ngx*` \
   && cd $nps_dir \
+  && export NPS_RELEASE_NUMBER=$NPS_VERSION/beta/ \
   && export NPS_RELEASE_NUMBER=$NPS_VERSION/stable/ \
   && export psol_url="https://dl.google.com/dl/page-speed/psol/$NPS_RELEASE_NUMBER.tar.gz" \
   && ls -laF scripts/ \
   && [ -e scripts/format_binary_url.sh ] && psol_url=$(scripts/format_binary_url.sh PSOL_BINARY_URL) \
-  && wget -q -c ${psol_url} \
+  && wget -c ${psol_url} \
   && tar -xzvf $(basename ${psol_url}) \
   && export NGINX_MODULE_PS=`realpath "$nps_dir"` \
   && cd /tmp \
@@ -57,7 +58,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cd /tmp/ngx_brotli \
   && git submodule update --init \
   && export NGINX_MODULE_BROTLI=`realpath /tmp/ngx_brotl*` \
-  ## openresty download
   && cd /tmp \
   && wget -q -O openresty.tgz https://github.com/openresty/openresty-packaging/archive/master.tar.gz \
   && tar -xf openresty.tgz \
@@ -79,7 +79,6 @@ RUN export DEBIAN_FRONTEND=noninteractive ; \
   && cp $DEB_DEV_TO_INSTALL /tmp/builder/openresty-zlib-dev.deb \
   && dpkg -i /tmp/builder/openresty-zlib.deb \
   && dpkg -i /tmp/builder/openresty-zlib-dev.deb \
-  && sed -i 's#https://ftp.pcre.org/pub/pcre/pcre-$(PCRE_VER).tar.bz2#https://kumisystems.dl.sourceforge.net/project/pcre/pcre/$(PCRE_VER)/pcre-$(PCRE_VER).tar.bz2#g' Makefile \
   && make pcre-build \
   && export DEB_TO_INSTALL=`realpath openresty-pcre_8.*deb` \
   && export DEB_DEV_TO_INSTALL=`realpath openresty-pcre-dev_8.*.deb` \
