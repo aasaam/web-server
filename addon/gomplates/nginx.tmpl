@@ -52,9 +52,6 @@ http {
   default_type application/octet-stream;
   include /usr/local/openresty/nginx/defaults/mime.types;
 
-  #########################
-  # Runtime configuration #
-  #########################
   map $host $organization_title { default '{{ env.Getenv "ASM_ORGANIZATION_TITLE" "aasaam software development group" }}'; }
   map $host $organization_brand_icon { default '{{ env.Getenv "ASM_ORGANIZATION_BRAND_ICON" "ir_aasaam" }}'; }
 
@@ -63,7 +60,7 @@ http {
   map $host $support_url { default '{{ env.Getenv "ASM_SUPPORT_URL" "" }}'; }
 
   map $host $protection_port { default '{{ env.Getenv "ASM_PROTECTION_PORT" "9121" }}'; }
-  map $host $acme_http_host_port { default '{{ env.Getenv "ASM_PROTECTION_PORT" "http://192.168.1.1:8080" }}'; }
+  map $host $acme_http_host_port { default '{{ env.Getenv "ASM_ACME_HTTP_HOST_PORT" "http://192.168.1.128:28080" }}'; }
 
   include /usr/local/openresty/nginx/defaults/http_init_variables.conf;
 
@@ -99,7 +96,7 @@ http {
     '"client_uid":"$uid_got$uid_set",'
     '"client_new":"$uid_set",'
     '"client_cn":"$ssl_client_s_dn_cn",'
-    '"user_id":"$user_id",'
+    '"username":"$username",'
     '"waf_mode":"$waf_mode",'
 
     '"protection_enable":"$protection_enable",'
@@ -154,8 +151,8 @@ http {
 {{ end -}}
 
   server_tokens {{ env.Getenv "ASM_SERVER_TOKENS" "off" }};
-  client_max_body_size {{ env.Getenv "ASM_CLIENT_MAX_BODY_SIZE" "10M" }};
-  client_body_buffer_size {{ env.Getenv "ASM_CLIENT_MAX_BODY_SIZE" "10M" }};
+  client_max_body_size {{ env.Getenv "ASM_CLIENT_MAX_BODY_SIZE" "16m" }};
+  client_body_buffer_size {{ env.Getenv "ASM_CLIENT_MAX_BODY_SIZE" "16m" }};
   client_body_timeout {{ env.Getenv "ASM_CLIENT_BODY_TIMEOUT" "15" }};
   keepalive_requests {{ env.Getenv "ASM_KEEPALIVE_REQUESTS" "1024" }};
   keepalive_timeout {{ env.Getenv "ASM_KEEPALIVE_TIMEOUT" "10" }};
@@ -297,8 +294,8 @@ http {
   pagespeed HttpCacheCompressionLevel {{ env.Getenv "ASM_PAGESPEED_HTTP_CACHE_COMPRESSION_LEVEL" "0" }};
   pagespeed FetchWithGzip {{ env.Getenv "ASM_PAGESPEED_FETCH_WITH_GZIP" "on" }};
   pagespeed Statistics {{ env.Getenv "ASM_PAGESPEED_STATISTICS" "on" }};
-  pagespeed StatisticsLogging {{ env.Getenv "ASM_PAGESPEED_STATISTICS_LOGGING" "off" }};
-  pagespeed StatisticsLoggingIntervalMs {{ env.Getenv "ASM_PAGESPEED_STATISTICS_LOGGING_INTERVAL_MS" "60000" }};
+  pagespeed StatisticsLogging {{ env.Getenv "ASM_PAGESPEED_STATISTICS_LOGGING" "on" }};
+  pagespeed StatisticsLoggingIntervalMs {{ env.Getenv "ASM_PAGESPEED_STATISTICS_LOGGING_INTERVAL_MS" "30000" }};
   pagespeed StatisticsLoggingMaxFileSizeKb {{ env.Getenv "ASM_PAGESPEED_STATISTICS_LOGGING_MAX_FILE_SIZE_KB" "8192" }};
   pagespeed MessageBufferSize {{ env.Getenv "ASM_PAGESPEED_MESSAGE_BUFFER_SIZE" "100000" }};
   pagespeed FileCacheSizeKb {{ env.Getenv "ASM_PAGESPEED_FILE_CACHE_SIZE_KB" "102400" }};
@@ -363,6 +360,7 @@ http {
     }
   }
 
+  include /usr/local/openresty/nginx/addon/sites-includes/*.conf;
   include /usr/local/openresty/nginx/addon/sites-enabled/*.conf;
   include /usr/local/openresty/addon-generated/sites-enabled/*.conf;
 }

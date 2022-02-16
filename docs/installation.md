@@ -44,6 +44,8 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 | ASM_SUPPORT_EMAIL |  | Support email address (e.g. `support@example.tld`) |
 | ASM_SUPPORT_TEL |  | Support telephone (e.g. `+982100000000`) |
 | ASM_SUPPORT_URL |  | Support URL (e.g. `http://support.example.tld`) |
+| ASM_PROTECTION_PORT | `9121` | [Nginx Protection](https://github.com/aasaam/nginx-protection) |
+| ASM_ACME_HTTP_HOST_PORT | `http://192.168.1.128:28080` | [letsencrypt](https://letsencrypt.org/docs/challenge-types/#http-01-challenge) |
 | ASM_LOG_METHOD | `file` | Log method could be `file` or `syslog` otherwise will be docker /dev/stdout |
 | ASM_NODE_ID | `0` | Node Identifier for scaling and monitoring |
 | ASM_ORGANIZATION_TITLE | `aasaam software development group` | English title of organization that deployed web server |
@@ -52,10 +54,6 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 | ASM_HTTP_PORTS | `80` | Comma separated all exposed ports for HTTP, eg: `80` or `80,8080`. This will generate for you default hosts |
 | ASM_HTTPS_PORTS | `443` | Comma separated all exposed ports for HTTPS, eg: `443` or `443,8443`. This will generate for you default hosts with self sign |
 | ASM_SSL_PROFILE | `intermediate` | TLS profile could be `modern`, `intermediate` or `legacy`. One profile for each node deployment |
-| ⚙️ **nginx_module_sts** | | |
-| ASM_SERVER_TRAFFIC_STATUS_ZONE | `16m` | [server_traffic_status_zone](https://github.com/vozlt/nginx-module-sts#server_traffic_status_zone) |
-| ⚙️ **nginx_module_vts** | | |
-| ASM_VHOST_TRAFFIC_STATUS | `16m` | [vhost_traffic_status_zone](https://github.com/vozlt/nginx-module-vts#vhost_traffic_status_zone) |
 | ⚙️ **ngx_brotli** | | |
 | ASM_BROTLI | `on` | [brotli](https://github.com/google/ngx_brotli#brotli) |
 | ASM_BROTLI_STATIC | `on` | [brotli_static](https://github.com/google/ngx_brotli#brotli_static) |
@@ -67,9 +65,10 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 | ASM_WORKER_PRIORITY | `0` | [worker_priority](http://nginx.org/en/docs/ngx_core_module.html#worker_priority) |
 | ASM_THREAD_POOL_THREADS | `32` | [thread_pool](http://nginx.org/en/docs/ngx_core_module.html#thread_pool) |
 | ASM_THREAD_POOL_MAX_QUEUE | `65536` | [thread_pool](http://nginx.org/en/docs/ngx_core_module.html#thread_pool) |
-| ASM_WORKER_CONNECTIONS | `8192` | [worker_connections](http://nginx.org/en/docs/ngx_core_module.html#worker_connections) |
-| ASM_ACCEPT_MUTEX_DELAY | `500ms` | [accept_mutex_delay](http://nginx.org/en/docs/ngx_core_module.html#accept_mutex_delay) |
+| ASM_WORKER_CONNECTIONS | `32` | [worker_aio_requests](http://nginx.org/en/docs/ngx_core_module.html#worker_aio_requests) |
 | ASM_ACCEPT_MUTEX | `off` | [accept_mutex](http://nginx.org/en/docs/ngx_core_module.html#accept_mutex) |
+| ASM_ACCEPT_MUTEX_DELAY | `500ms` | [accept_mutex_delay](http://nginx.org/en/docs/ngx_core_module.html#accept_mutex_delay) |
+| ASM_WORKER_AIO_REQUESTS | `8192` | [worker_connections](http://nginx.org/en/docs/ngx_core_module.html#worker_connections) |
 | ASM_MULTI_ACCEPT | `on` | [multi_accept](http://nginx.org/en/docs/ngx_core_module.html#multi_accept) |
 | ASM_ERROR_LOG_SYSLOG_SERVER_ADDR | `127.0.0.1:5140` | Syslog server that listen UDP **RFC 3164**; [Nginx Logging to syslog](http://nginx.org/en/docs/syslog.html), [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
 | ASM_ACCESS_LOG_SYSLOG_SERVER_ADDR | `127.0.0.1:5141` | Syslog server that listen UDP **RFC 3164**; [Nginx Logging to syslog](http://nginx.org/en/docs/syslog.html), [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
@@ -85,7 +84,7 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 | ASM_OPEN_FILE_CACHE_MIN_USES | `2` | [open_file_cache_min_uses](http://nginx.org/en/docs/http/ngx_http_core_module.html#open_file_cache_min_uses) |
 | ASM_OPEN_FILE_CACHE_ERRORS | `on` | [open_file_cache_errors](http://nginx.org/en/docs/http/ngx_http_core_module.html#open_file_cache_errors) |
 | ASM_SERVER_TOKENS | `off` | [server_tokens](http://nginx.org/en/docs/http/ngx_http_core_module.html#server_tokens) |
-| ASM_CLIENT_MAX_BODY_SIZE | `10M` | [client_max_body_size](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size) |
+| ASM_CLIENT_MAX_BODY_SIZE | `16m` | [client_max_body_size](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_max_body_size) |
 | ASM_CLIENT_BODY_TIMEOUT | `15` | [client_body_timeout](http://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_timeout) |
 | ASM_KEEPALIVE_REQUESTS | `1024` | [keepalive_requests](http://nginx.org/en/docs/http/ngx_http_core_module.html#keepalive_requests) |
 | ASM_KEEPALIVE_TIMEOUT | `10` | [keepalive_timeout](http://nginx.org/en/docs/http/ngx_http_core_module.html#keepalive_timeout) |
@@ -129,8 +128,8 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 | ASM_PAGESPEED_HTTP_CACHE_COMPRESSION_LEVEL | `0` | [Configuring HTTPCache Compression for PageSpeed](https://www.modpagespeed.com/doc/system#gzip_cache) |
 | ASM_PAGESPEED_FETCH_WITH_GZIP | `on` | [Fetching Resources using Gzip](https://www.modpagespeed.com/doc/system#fetch_with_gzip) |
 | ASM_PAGESPEED_STATISTICS | `on` | [Shared Memory Statistics](https://www.modpagespeed.com/doc/system#fetch_with_gzip) |
-| ASM_PAGESPEED_STATISTICS_LOGGING | `off` | [StatisticsLogging](https://www.modpagespeed.com/doc/console#configuring) |
-| ASM_PAGESPEED_STATISTICS_LOGGING_INTERVAL_MS | `60000` | [StatisticsLoggingIntervalMs](https://www.modpagespeed.com/doc/console#configuring) |
+| ASM_PAGESPEED_STATISTICS_LOGGING | `on` | [StatisticsLogging](https://www.modpagespeed.com/doc/console#configuring) |
+| ASM_PAGESPEED_STATISTICS_LOGGING_INTERVAL_MS | `30000` | [StatisticsLoggingIntervalMs](https://www.modpagespeed.com/doc/console#configuring) |
 | ASM_PAGESPEED_STATISTICS_LOGGING_MAX_FILE_SIZE_KB | `8192` | [StatisticsLoggingMaxFileSizeKb](https://www.modpagespeed.com/doc/console#configuring) |
 | ASM_PAGESPEED_MESSAGE_BUFFER_SIZE | `100000` | [Message Buffer Size](https://www.modpagespeed.com/doc/admin#message-buffer-size) |
 | ASM_PAGESPEED_FILE_CACHE_SIZE_KB | `102400` | [Configuring the File Cache](https://www.modpagespeed.com/doc/system#file_cache) |

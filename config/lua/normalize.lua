@@ -41,7 +41,7 @@ function _M.parse(
   parsed_data.client_ip_ua_hash = utils.md5(string.format(
     "%s:%s",
     remote_addr,
-    http_user_agent,
+    http_user_agent
   ))
 
   -- countries helper
