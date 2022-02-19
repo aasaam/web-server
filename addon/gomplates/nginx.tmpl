@@ -348,7 +348,7 @@ http {
     include /usr/local/openresty/nginx/defaults/server_include_defaults.conf;
     include /usr/local/openresty/nginx/defaults/server_include_aasaam_service.conf;
 
-    include /usr/local/openresty/nginx/defaults/server_http2_{{ env.Getenv "ASM_SSL_PROFILE" "intermediate" }}.conf;
+    include /usr/local/openresty/nginx/defaults/server_http2_default.conf;
 
     ssl_certificate /usr/local/openresty/nginx/defaults/selfsigned/cert.pem;
     ssl_certificate_key /usr/local/openresty/nginx/defaults/selfsigned/cert-key.pem;

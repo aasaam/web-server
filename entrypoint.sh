@@ -11,6 +11,13 @@ NGINX_DOT_CONF_GOMPLATE=/usr/local/openresty/nginx/addon/gomplates/nginx.tmpl
 GOMPLATE_TEMPLATES=$(find $GOMPLATE_PATH -type f -name "*.tmpl")
 GOMPLATE_CONFIGS=$(find $GOMPLATE_PATH -type f -name "*.toml")
 
+SSL_PROFILE="intermediate"
+if [[ ! -z "$ASM_SSL_PROFILE" ]]; then
+  SSL_PROFILE=$ASM_SSL_PROFILE
+fi
+echo "SSL profile '$SSL_PROFILE' will used for tls layer"
+cp /usr/local/openresty/nginx/defaults/server_http2_$SSL_PROFILE.conf /usr/local/openresty/nginx/defaults/server_http2_default.conf
+
 if [ -f "$NGINX_DOT_CONF_GOMPLATE" ]; then
   echo "Using gomplate for $NGINX_DOT_CONF_GOMPLATE"
   gomplate -f $NGINX_DOT_CONF_GOMPLATE > $NGINX_DOT_CONF_PATH
