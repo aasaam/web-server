@@ -149,7 +149,7 @@ RUN cd /tmp \
 
 FROM ubuntu:focal
 
-COPY --from=aasaam/db-ip-lite-docker /*.mmdb /tmp/
+COPY --from=aasaam/maxmind-lite-docker /*.mmdb /tmp/
 COPY --from=builder /tmp/builder.tgz /tmp/builder.tgz
 COPY --from=hairyhenderson/gomplate /gomplate /bin/gomplate
 COPY entrypoint.sh /entrypoint.sh

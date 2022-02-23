@@ -29,4 +29,4 @@ Additional licenses available on:
   ngx_http_geoip2_module: https://github.com/leev/ngx_http_geoip2_module
   lua-resty-woothee: https://github.com/woothee/lua-resty-woothee
   gomplate: https://github.com/hairyhenderson/gomplate
-  db-ip.com: https://db-ip.com/db/lite.php
+  maxmind geolite2: https://www.maxmind.com/en/geolite2/eula
