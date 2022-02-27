@@ -89,6 +89,7 @@ http {
   }
 
   log_format jsonlog escape=json '{"time":"$time_iso8601",'
+    '"host_id":"$host_id",'
     '"node":"{{ $nodeID }}",'
     '"ip":"$remote_addr",'
     '"ip_class":"$ip_class",'
