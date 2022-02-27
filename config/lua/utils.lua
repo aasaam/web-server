@@ -1,6 +1,6 @@
 local _M = { _VERSION = '0.0.1' }
 
-function _M.ip_class(ip)
+function _M.ip_net(ip)
   local sec = string.match(ip, '^172.(%d+).%d+%.%d+$')
   if sec then
     local secnum = tonumber(sec)

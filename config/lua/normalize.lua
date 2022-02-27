@@ -13,7 +13,7 @@ function _M.parse(
   local user_agent = http_user_agent or ''
 
   local parsed_data = {
-    ip_class='',
+    ip_net='',
     client_ip_ua_hash='',
     foreign_referer_host='',
 
@@ -34,8 +34,8 @@ function _M.parse(
     geo_default_lang='',
   }
 
-  -- ip classification
-  parsed_data.ip_class = utils.ip_class(remote_addr)
+  -- ip network
+  parsed_data.ip_net = utils.ip_net(remote_addr)
 
   -- client ip user agent hash
   parsed_data.client_ip_ua_hash = utils.md5(string.format(

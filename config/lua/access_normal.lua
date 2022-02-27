@@ -8,7 +8,7 @@ local parsed = normalize.parse(
 
 ngx.var.client_ip_ua_hash           = parsed.client_ip_ua_hash
 
-ngx.var.ip_class                    = parsed.ip_class
+ngx.var.ip_net                      = parsed.ip_net
 ngx.var.foreign_referer_host        = parsed.foreign_referer_host
 
 ngx.var.agent_all                   = parsed.agent_all
