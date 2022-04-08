@@ -4,7 +4,7 @@ version: '3'
 services:
   aasaam-web-server:
     container_name: aasaam-web-server
-    image: ghcr.io/aasaam/web-server
+    image: ghcr.io/aasaam/web-server:latest
     network_mode: host
     environment:
       ASM_SUPPORT_EMAIL: ${ASM_SUPPORT_EMAIL}
@@ -98,6 +98,18 @@ services:
       # - ./tmp/dhparam.pem:/usr/local/openresty/nginx/defaults/selfsigned/dhparam.pem:ro
       # - ./tmp/monitoring.htpasswd:/usr/local/openresty/htpasswd/monitoring.htpasswd:ro
       # - ./tmp/cache:/cache # use tmpfs or high speed storage like SSD, NVMe
+      # debug mode
+      # - ./config/defaults:/usr/local/openresty/nginx/defaults
     tmpfs:
       - /cache:rw,nodev,nosuid,noexec,noatime,size=${ASM_CACHE_SIZE_MB:-1024}m
     restart: unless-stopped
+  nginx-protection:
+    container_name: nginx-protection
+    image: ghcr.io/aasaam/nginx-protection:latest
+    network_mode: host
+    command: run --aasaam-web-server --token-secret c3TxUExv+mHcRQ4yOlE6dmW5jvjKhUSmf815NLz0ntM= --client-secret qF/bOhSUzSZKvyOr9sQ7axjNyMCiXEl2tY3HR8jf9JM=
+  protection-rest-captcha-test:
+    container_name: protection-rest-captcha-test
+    image: ghcr.io/aasaam/rest-captcha:latest
+    network_mode: host
+    command: run -test-image -return-value
