@@ -7,6 +7,9 @@ ADDON_OUTPUT=/usr/local/openresty/addon-generated/sites-enabled
 NGINX_DOT_CONF_PATH=/usr/local/openresty/nginx/conf/nginx.conf
 GOMPLATE_PATH=/usr/local/openresty/nginx/addon/gomplates/sites-enabled
 
+# ensure gomplates sites-enabled created
+mkdir -p /usr/local/openresty/nginx/addon/gomplates/sites-enabled
+
 NGINX_DOT_CONF_GOMPLATE=/usr/local/openresty/nginx/addon/gomplates/nginx.tmpl
 GOMPLATE_TEMPLATES=$(find $GOMPLATE_PATH -type f -name "*.tmpl")
 GOMPLATE_CONFIGS=$(find $GOMPLATE_PATH -type f -name "*.toml")
