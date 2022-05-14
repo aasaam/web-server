@@ -37,8 +37,10 @@ types {
   image/gif                             gif;
   image/avif                            avif;
   image/avif-sequence                   avifs;
-  image/heif                            heif heic hif;
-  image/heif-sequence                   heifs heics;
+  image/heic                            heic;
+  image/heic-sequence                   heics;
+  image/heif                            heif hif;
+  image/heif-sequence                   heifs;
   image/jpeg                            jpeg jpg;
   image/jxr                             jxr hdp wdp;
   image/png                             png;
@@ -48,7 +50,6 @@ types {
   image/webp                            webp;
   image/x-icon                          cur ico;
   image/x-jng                           jng;
-  image/x-jng                           mng;
 
   # multimedia:audio
   audio/flac                            flac;
@@ -56,10 +57,12 @@ types {
   audio/mp2t                            tsa;
   audio/mp4                             aac f4a f4b m4a;
   audio/mpeg                            mp3;
-  audio/ogg                             oga ogg opus;
+  audio/ogg                             oga opus;
   audio/x-matroska                      mka;
   audio/x-realaudio                     ra;
   audio/x-wav                           wav;
+
+  application/ogg                       ogg;
 
   # multimedia:video
   video/3gpp                            3gp 3gpp;
