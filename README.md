@@ -21,7 +21,17 @@ Nginx is powerful and with OpenResty you gain more advantage; However by just ad
 
 ## Thanks
 
-- For OSS we using free version of [maxmind](https://www.maxmind.com/) for embedded db of MaxMind GeoIP2 database. Of course you can use [commercial version](https://www.maxmind.com) for more accurate data.
+- [Nginx](https://nginx.org)
+- [OpenResty](https://openresty.org/)
+- [gomplate](https://github.com/hairyhenderson/gomplate)
+- [maxmind](https://www.maxmind.com/)
+- [NAXSI](https://github.com/nbs-system/naxsi)
+- [ngx_brotli](https://github.com/google/ngx_brotli)
+- [ngx_http_geoip2_module](https://github.com/leev/ngx_http_geoip2_module)
+- [PageSpeed](https://github.com/apache/incubator-pagespeed-ngx)
+- [Woothee lua resty](https://github.com/woothee/lua-resty-woothee)
+
+For OSS we using free version of [maxmind](https://www.maxmind.com/) for embedded db of MaxMind GeoIP2 database. Of course you can use [commercial version](https://www.maxmind.com/en/solutions/geoip2-enterprise-product-suite/enterprise-database) for more accurate data.
 
 <div>
   <p align="center">

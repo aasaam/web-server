@@ -20,6 +20,22 @@ function _M.ip_net(ip)
   return '0'
 end
 
+function _M.to_boolean(inp)
+  if inp == nil then
+    false
+  end
+  if type(inp) == "string" then
+    local s = string.lower(inp)
+    if s == '1' or s == 'yes' or s == 'true' or s == 'on' then
+      return true
+    end
+  end
+  if type(inp) == "number" and inp == 1 then
+    return true
+  end
+  return false
+end
+
 function _M.md5(s)
   local md5 = resty_md5:new()
   if md5 then

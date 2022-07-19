@@ -70,7 +70,7 @@ RUN cd /tmp \
 
 # modules/geoip2
 RUN cd /tmp \
-  && wget -q -O ngx_http_geoip2_module.tgz https://github.com/leev/ngx_http_geoip2_module/archive/3.3.tar.gz \
+  && wget -q -O ngx_http_geoip2_module.tgz https://github.com/leev/ngx_http_geoip2_module/archive/refs/tags/3.4.tar.gz \
   && tar -xf ngx_http_geoip2_module.tgz \
   && export NGINX_MODULE_GEOIP2=`realpath /tmp/ngx_http_geoip2_module-*` \
   && mv $NGINX_MODULE_GEOIP2 /tmp/modules/geoip2

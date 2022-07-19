@@ -2,17 +2,14 @@ user www-data www-data;
 worker_processes {{ env.Getenv "ASM_WORKER_PROCESSES" "auto" }};
 worker_rlimit_nofile {{ env.Getenv "ASM_WORKER_RLIMIT_NOFILE" "20480" }};
 worker_priority {{ env.Getenv "ASM_WORKER_PRIORITY" "-10" }};
-thread_pool default threads={{ env.Getenv "ASM_THREAD_POOL_THREADS" "32" }} max_queue={{ env.Getenv "ASM_THREAD_POOL_MAX_QUEUE" "65536" }};
 
 events {
   worker_connections {{ env.Getenv "ASM_WORKER_CONNECTIONS" "8192" }};
-  worker_aio_requests {{ env.Getenv "ASM_WORKER_AIO_REQUESTS" "32" }};
-  accept_mutex_delay {{ env.Getenv "ASM_ACCEPT_MUTEX_DELAY" "500ms" }};
-  accept_mutex {{ env.Getenv "ASM_ACCEPT_MUTEX" "off" }};
-  use epoll;
   multi_accept {{ env.Getenv "ASM_MULTI_ACCEPT" "on" }};
+  use epoll;
 }
 
+{{ $accessLogProfile := env.Getenv "ASM_ACCESS_LOG_PROFILE" "jsonlog" }}
 {{ $logMethod := env.Getenv "ASM_LOG_METHOD" "file" }}
 {{ $nodeID := env.Getenv "ASM_NODE_ID" "0" }}
 {{ $syslogErrorServer := env.Getenv "ASM_ERROR_LOG_SYSLOG_SERVER_ADDR" "127.0.0.1:5140" }}
@@ -144,12 +141,42 @@ http {
     '"upstream_response_time":"$upstream_response_time",'
     '"upstream_cache_status":"$upstream_cache_status"}';
 
+  log_format jsonlog_internal escape=json '{"time":"$time_iso8601",'
+    '"node_id":"{{ $nodeID }}",'
+    '"ip":"$remote_addr",'
+    '"request_id":"$request_id",'
+
+    '"scheme":"$scheme",'
+    '"method":"$request_method",'
+    '"http2":"$http2",'
+    '"user_agent":"$http_user_agent",'
+    '"ssl_version":"$ssl_protocol",'
+    '"host":"$http_host",'
+    '"request_uri":"$request_uri",'
+    '"request_length":"$request_length",'
+    '"status":"$status",'
+    '"bytes_sent":"$bytes_sent",'
+    '"body_bytes_sent":"$body_bytes_sent",'
+    '"referer":"$http_referer",'
+    '"foreign_referer_host":"$foreign_referer_host",'
+    '"request_time":"$request_time",'
+
+    '"upstream_bytes_received":"$upstream_bytes_received",'
+    '"upstream_bytes_sent":"$upstream_bytes_sent",'
+    '"upstream_connect_time":"$upstream_connect_time",'
+    '"upstream_header_time":"$upstream_header_time",'
+    '"upstream_response_length":"$upstream_response_length",'
+    '"upstream_response_time":"$upstream_response_time",'
+    '"upstream_cache_status":"$upstream_cache_status"}';
+
 {{ if eq $logMethod "file" }}
-  access_log /log/nginx.in.access.log jsonlog;
+  access_log /log/nginx.in.access.log {{ $accessLogProfile }};
 {{ else if eq  $logMethod "syslog" }}
-  access_log syslog:server={{ $syslogAccessServer }},tag=nginx_access_log,nohostname jsonlog;
+  access_log syslog:server={{ $syslogAccessServer }},tag=nginx_access_log,nohostname {{ $accessLogProfile }};
+{{ else if eq  $logMethod "off" }}
+  access_log off;
 {{ else }}
-  access_log /dev/stdout jsonlog;
+  access_log /dev/stdout {{ $accessLogProfile }};
 {{ end -}}
 
   server_tokens {{ env.Getenv "ASM_SERVER_TOKENS" "off" }};
@@ -201,19 +228,30 @@ http {
     application/manifest+json
     application/x-ndjson
     application/rss+xml
+    application/vnd.api+json
     application/vnd.apple.mpegurl
     application/vnd.ms-fontobject
+    application/x-font-opentype
+    application/x-font-truetype
+    application/x-font-ttf
+    application/xhtml+xml
     application/x-javascript
     application/xml
+    application/x-ndjson
+    font/eot
     font/opentype
+    font/otf
     font/truetype
     font/ttf
+    font/woff
     image/gif
     image/jpeg
     image/png
     image/svg+xml
+    image/vnd.microsoft.icon
     image/x-icon
     text/css
+    text/html
     text/javascript
     text/plain
     text/x-component
@@ -235,24 +273,34 @@ http {
     application/manifest+json
     application/x-ndjson
     application/rss+xml
+    application/vnd.api+json
     application/vnd.apple.mpegurl
     application/vnd.ms-fontobject
+    application/x-font-opentype
+    application/x-font-truetype
+    application/x-font-ttf
+    application/xhtml+xml
     application/x-javascript
     application/xml
+    application/x-ndjson
+    font/eot
     font/opentype
+    font/otf
     font/truetype
     font/ttf
+    font/woff
     image/gif
     image/jpeg
     image/png
     image/svg+xml
+    image/vnd.microsoft.icon
     image/x-icon
     text/css
+    text/html
     text/javascript
     text/plain
     text/x-component
     text/xml;
-
 
   #
   # Total cache size {{ env.Getenv "ASM_CACHE_SIZE_MB" "1024" }}

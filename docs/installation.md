@@ -63,12 +63,7 @@ You can use [.env](https://docs.docker.com/compose/env-file/) file that docker-c
 | ASM_WORKER_PROCESSES | `auto` | [worker_processes](http://nginx.org/en/docs/ngx_core_module.html#worker_processes) |
 | ASM_WORKER_RLIMIT_NOFILE | `20480` | [worker_rlimit_nofile](http://nginx.org/en/docs/ngx_core_module.html#worker_rlimit_nofile) |
 | ASM_WORKER_PRIORITY | `0` | [worker_priority](http://nginx.org/en/docs/ngx_core_module.html#worker_priority) |
-| ASM_THREAD_POOL_THREADS | `32` | [thread_pool](http://nginx.org/en/docs/ngx_core_module.html#thread_pool) |
-| ASM_THREAD_POOL_MAX_QUEUE | `65536` | [thread_pool](http://nginx.org/en/docs/ngx_core_module.html#thread_pool) |
 | ASM_WORKER_CONNECTIONS | `32` | [worker_aio_requests](http://nginx.org/en/docs/ngx_core_module.html#worker_aio_requests) |
-| ASM_ACCEPT_MUTEX | `off` | [accept_mutex](http://nginx.org/en/docs/ngx_core_module.html#accept_mutex) |
-| ASM_ACCEPT_MUTEX_DELAY | `500ms` | [accept_mutex_delay](http://nginx.org/en/docs/ngx_core_module.html#accept_mutex_delay) |
-| ASM_WORKER_AIO_REQUESTS | `8192` | [worker_connections](http://nginx.org/en/docs/ngx_core_module.html#worker_connections) |
 | ASM_MULTI_ACCEPT | `on` | [multi_accept](http://nginx.org/en/docs/ngx_core_module.html#multi_accept) |
 | ASM_ERROR_LOG_SYSLOG_SERVER_ADDR | `127.0.0.1:5140` | Syslog server that listen UDP **RFC 3164**; [Nginx Logging to syslog](http://nginx.org/en/docs/syslog.html), [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
 | ASM_ACCESS_LOG_SYSLOG_SERVER_ADDR | `127.0.0.1:5141` | Syslog server that listen UDP **RFC 3164**; [Nginx Logging to syslog](http://nginx.org/en/docs/syslog.html), [error_log](https://nginx.org/en/docs/ngx_core_module.html#error_log) |
